@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="inventory"
+            type="com.example.morkborgcharactersheet.database.Inventory" />
+
+        <variable
+            name="clickListener"
+            type="com.example.morkborgcharactersheet.charactersheet.AttackListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(inventory)}">
+
+        <TextView
+            android:id="@+id/attack_name_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/white_on_black"
+            android:text="The Knife"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dice_icon"
+            app:layout_constraintStart_toEndOf="@+id/attack_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/attack_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sword" />
+
+        <ImageView
+            android:id="@+id/dice_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/uses_one_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dice" />
+
+        <TextView
+            android:id="@+id/dice_value_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/design_default_color_background"
+            android:fontFamily="@font/white_on_black"
+            android:text="D6"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/dice_icon"
+            app:layout_constraintEnd_toEndOf="@+id/dice_icon"
+            app:layout_constraintStart_toStartOf="@+id/dice_icon"
+            app:layout_constraintTop_toTopOf="@+id/dice_icon" />
+
+        <ImageView
+            android:id="@+id/uses_one_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            android:layout_marginEnd="4dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/uses_two_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dot" />
+
+        <ImageView
+            android:id="@+id/uses_two_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/uses_three_plus_icon"
+            app:layout_constraintEnd_toEndOf="@+id/uses_one_icon"
+            app:layout_constraintTop_toBottomOf="@+id/uses_one_icon"
+            app:srcCompat="@drawable/dot" />
+
+        <ImageView
+            android:id="@+id/uses_three_plus_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/uses_one_icon"
+            app:layout_constraintTop_toBottomOf="@+id/uses_two_icon"
+            app:srcCompat="@drawable/plus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

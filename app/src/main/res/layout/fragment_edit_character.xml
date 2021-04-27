@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.example.morkborgcharactersheet.models.AbilityType"/>
+
+        <variable
+            name="viewModel"
+            type="com.example.morkborgcharactersheet.editcharacter.EditCharacterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/character_portrait"-->
+<!--            android:layout_width="@dimen/portrait_size"-->
+<!--            android:layout_height="@dimen/portrait_size"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:srcCompat="@tools:sample/avatars" />-->
+
+        <EditText
+            android:id="@+id/character_name_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:fontFamily="@font/the_dark"
+            android:hint="@string/name_string"
+            android:inputType="textPersonName|textCapWords"
+            android:text="@={viewModel.characterName}"
+            app:layout_constraintEnd_toStartOf="@+id/level_up_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/level_up_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewModel.onLevelUp()}"
+            app:layout_constraintBottom_toTopOf="@+id/level_up_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/character_name_edit_text"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/up_arrow" />
+
+        <TextView
+            android:id="@+id/level_up_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/white_on_black"
+            android:text="@string/level_up_string"
+            app:layout_constraintBottom_toBottomOf="@+id/character_name_edit_text"
+            app:layout_constraintEnd_toEndOf="@+id/level_up_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/level_up_icon"
+            app:layout_constraintTop_toBottomOf="@+id/level_up_icon" />
+
+        <ScrollView
+            android:id="@+id/edit_character_description_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_strength_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/character_name_edit_text">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edit_character_description_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nu_century_gothic"
+                    android:gravity="start|top"
+                    android:hint="@string/description_string"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:text="@={viewModel.characterDescription}"
+                    tools:text="@string/laurem_ipsum_long" />
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/edit_roll_strength_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/abandon"
+            android:text="@string/strength_string"
+            android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.STRENGTH)}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_roll_agility_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_strength_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:fontFamily="@font/white_on_black"
+            android:inputType="numberSigned"
+            android:text="@={viewModel.strength}"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/edit_roll_strength_button"
+            app:layout_constraintEnd_toStartOf="@+id/edit_roll_strength_button"
+            tools:text="-4" />
+
+        <Button
+            android:id="@+id/edit_roll_agility_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/abandon"
+            android:text="@string/agility_string"
+            android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.AGILITY)}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_roll_presence_button"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_agility_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:fontFamily="@font/white_on_black"
+            android:inputType="numberSigned"
+            android:text="@={viewModel.agility}"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/edit_roll_agility_button"
+            app:layout_constraintStart_toEndOf="@+id/edit_roll_agility_button" />
+
+        <Button
+            android:id="@+id/edit_roll_presence_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/abandon"
+            android:text="@string/presence_string"
+            android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.PRESENCE)}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_roll_toughness_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_presence_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:fontFamily="@font/white_on_black"
+            android:inputType="numberSigned"
+            android:text="@={viewModel.presence}"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/edit_roll_presence_button"
+            app:layout_constraintEnd_toStartOf="@+id/edit_roll_presence_button" />
+
+        <Button
+            android:id="@+id/edit_roll_toughness_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/abandon"
+            android:text="@string/toughness_string"
+            android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.TOUGHNESS)}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_roll_hp_button"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_toughness_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:fontFamily="@font/white_on_black"
+            android:inputType="numberSigned"
+            android:text="@={viewModel.toughness}"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/edit_roll_toughness_button"
+            app:layout_constraintStart_toEndOf="@+id/edit_roll_toughness_button" />
+
+        <Button
+            android:id="@+id/edit_roll_hp_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/abandon"
+            android:text="@string/hit_points"
+            android:onClick="@{() -> viewModel.onHPRolled()}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_character_save_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_hp_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:fontFamily="@font/white_on_black"
+            android:inputType="number"
+            android:text="@={DataBindingConverter.convertIntToString(viewModel.hp)}"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/edit_roll_hp_button"
+            app:layout_constraintEnd_toStartOf="@+id/edit_roll_hp_button" />
+
+        <Button
+            android:id="@+id/edit_character_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/enchanted_land"
+            android:text="@string/save_string"
+            android:textSize="18sp"
+            android:onClick="@{() -> viewModel.onSave()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/improvement_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="level_up_icon, level_up_label"
+            android:visibility="@{viewModel.newCharacter ? View.GONE : View.VISIBLE}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

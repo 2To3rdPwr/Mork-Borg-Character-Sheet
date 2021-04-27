@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation.xml"
+    app:startDestination="@id/introFragment">
+
+    <fragment
+        android:id="@+id/characterSheetViewPagerFragment"
+        android:name="com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragment"
+        android:label="CharacterSheetViewPagerFragment" >
+        <action
+            android:id="@+id/action_characterSheetViewPagerFragment_to_editInventoryFragment"
+            app:destination="@id/editInventoryFragment" />
+        <argument
+            android:name="characterId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_characterSheetViewPagerFragment_to_introFragment"
+            app:destination="@id/introFragment" />
+        <action
+            android:id="@+id/action_characterSheetViewPagerFragment_to_editCharacterFragment"
+            app:destination="@id/editCharacterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editInventoryFragment"
+        android:name="com.example.morkborgcharactersheet.editinventory.EditInventoryFragment"
+        android:label="EditInventoryFragment" >
+        <argument
+            android:name="characterId"
+            app:argType="long" />
+        <argument
+            android:name="inventoryId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCharacterFragment"
+        android:name="com.example.morkborgcharactersheet.editcharacter.EditCharacterFragment"
+        android:label="EditCharacterFragment" >
+        <action
+            android:id="@+id/action_editCharacterFragment_to_characterSheetViewPagerFragment"
+            app:destination="@id/characterSheetViewPagerFragment"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="characterId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.example.morkborgcharactersheet.intro.IntroFragment"
+        android:label="IntroFragment" >
+        <action
+            android:id="@+id/action_introFragment_to_editCharacterFragment"
+            app:destination="@id/editCharacterFragment" >
+            <argument
+                android:name="characterId"
+                android:defaultValue="-1L" />
+        </action>
+        <action
+            android:id="@+id/action_introFragment_to_characterSheetViewPagerFragment"
+            app:destination="@id/characterSheetViewPagerFragment"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

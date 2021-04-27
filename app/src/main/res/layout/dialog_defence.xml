@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/black">
+
+        <ImageView
+            android:id="@+id/defence_dialog_tohit_icon"
+            android:layout_width="@dimen/rolled_dice_icon_size"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            android:layout_marginStart="8dp"
+            app:tint="@color/mb_pink"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_damage_taken_label"
+            app:srcCompat="@drawable/dice" />
+
+        <ImageView
+            android:id="@+id/defence_dialog_armor_icon"
+            android:layout_width="@dimen/rolled_dice_icon_size"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            android:layout_marginEnd="8dp"
+            app:tint="@color/mb_lighter_pink"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon"
+            app:srcCompat="@drawable/shield" />
+
+        <TextView
+            android:id="@+id/defence_dialog_tohit_rolled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:text="19"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_tohit_icon" />
+
+        <TextView
+            android:id="@+id/defence_dialog_blocked_rolled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:text="-3"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_armor_icon" />
+
+        <TextView
+            android:id="@+id/defence_dialog_tohit_dr_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:padding="8dp"
+            android:text="@string/defence_dialog_tohit_label"
+            android:textColor="@color/mb_pink"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon" />
+
+        <TextView
+            android:id="@+id/defence_dialog_blocked_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:padding="8dp"
+            android:text="@string/defence_dialog_blocked_label"
+            android:textColor="@color/mb_pink"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon" />
+
+        <EditText
+            android:id="@+id/defence_dialog_damage_input_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:fontFamily="@font/cut_the_crap"
+            android:inputType="number"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:selectAllOnFocus="false"
+            android:singleLine="true"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/mb_pink"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon" />
+
+        <TextView
+            android:id="@+id/defence_dialog_damage_taken_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:padding="8dp"
+            android:text="@string/damage_string"
+            android:textColor="@color/mb_pink"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_damage_input_edittext"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_damage_input_edittext"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/defence_dialog_damage_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:tint="@color/mb_pink"
+            app:layout_constraintEnd_toStartOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_damage_taken_label"
+            app:srcCompat="@drawable/explosion" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

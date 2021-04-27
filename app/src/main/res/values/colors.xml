@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mb_yellow">#FFE800</color>
+    <color name="mb_darker_yellow">#edc305</color>
+    <color name="mb_pink">#CE073C</color>
+    <color name="mb_lighter_pink">#ff5c87</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

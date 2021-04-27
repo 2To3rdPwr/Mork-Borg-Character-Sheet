@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="characterSheetViewModel"
+            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".charactersheet.CharacterSheetFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attacks_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="@id/health_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/health_image"
+            app:layout_constraintTop_toTopOf="@id/health_image" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/powers_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/strength_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/powers_text" />
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/the_dark"
+            android:text="@{characterSheetViewModel.character.characterName.toString(), default=`Tommy Swiftfingers`}"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toStartOf="@+id/character_sheet_edit_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/strength_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/cut_the_crap"
+            android:onClick="@{() -> characterSheetViewModel.onAbilityButtonPressed(@integer/strength)}"
+            android:text="@{characterSheetViewModel.strengthButtonText, default=`Strength 5`}"
+            app:layout_constraintBottom_toTopOf="@+id/presence_button"
+            app:layout_constraintEnd_toStartOf="@+id/dice_roll_image"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/agility_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/cut_the_crap"
+            android:onClick="@{() -> characterSheetViewModel.onAbilityButtonPressed(@integer/agility)}"
+            android:text="@{characterSheetViewModel.agilityButtonText, default=`Agility 4`}"
+            app:layout_constraintBottom_toTopOf="@+id/toughness_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dice_roll_image" />
+
+        <Button
+            android:id="@+id/presence_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/cut_the_crap"
+            android:onClick="@{() -> characterSheetViewModel.onAbilityButtonPressed(@integer/presence)}"
+            android:text="@{characterSheetViewModel.presenceButtonText, default=`Presence 9`}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/strength_button"
+            app:layout_constraintStart_toStartOf="@+id/strength_button" />
+
+        <Button
+            android:id="@+id/toughness_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/cut_the_crap"
+            android:onClick="@{() -> characterSheetViewModel.onAbilityButtonPressed(@integer/toughness)}"
+            android:text="@{characterSheetViewModel.toughnessButtonText, default=`Toughness 4`}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/agility_button"
+            app:layout_constraintStart_toStartOf="@+id/agility_button" />
+
+        <TextView
+            android:id="@+id/powers_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/finished_sympathy"
+            android:text="@{characterSheetViewModel.powersString}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/powers_list"
+            app:layout_constraintTop_toBottomOf="@+id/attacks_list"
+            tools:fontFamily="@font/finished_sympathy"
+            tools:text="3"
+            tools:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/health_image"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/health_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> characterSheetViewModel.onDefenceClicked()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_text"
+            app:srcCompat="@drawable/skull" />
+
+        <TextView
+            android:id="@+id/current_hp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:fontFamily="@font/dark_college"
+            android:text="@{characterSheetViewModel.currentHPString}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/max_hp_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/health_image"
+            app:layout_constraintTop_toTopOf="@+id/health_image"
+            tools:fontFamily="@font/dark_college"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/max_hp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:textSize="24sp"
+            android:text="@{characterSheetViewModel.maxHPString}"
+            app:layout_constraintEnd_toEndOf="@+id/health_image"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/current_hp_text"
+            app:layout_constraintTop_toTopOf="@+id/current_hp_text"
+            tools:fontFamily="@font/dark_college"
+            tools:text="5" />
+
+        <ImageView
+            android:id="@+id/dice_roll_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="@{() -> characterSheetViewModel.onAbilityButtonPressed(0)}"
+            app:layout_constraintBottom_toTopOf="@+id/toughness_button"
+            app:layout_constraintEnd_toStartOf="@+id/agility_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/strength_button"
+            app:layout_constraintTop_toBottomOf="@+id/agility_button"
+            app:srcCompat="@drawable/dice" />
+
+        <TextView
+            android:id="@+id/character_sheet_powers_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/finished_sympathy"
+            android:text="@string/powers_string"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/powers_text"
+            app:layout_constraintEnd_toStartOf="@+id/powers_text"
+            app:layout_constraintTop_toTopOf="@+id/powers_text" />
+
+        <ImageView
+            android:id="@+id/character_sheet_edit_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> characterSheetViewModel.onCharacterEdit()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/name_text"
+            app:srcCompat="@drawable/pencil" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

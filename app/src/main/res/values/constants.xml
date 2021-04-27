@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="no_type">0</integer>
+
+    <!-- Ability Types -->
+    <integer name="strength">1</integer>
+    <integer name="agility">2</integer>
+    <integer name="presence">3</integer>
+    <integer name="toughness">4</integer>
+
+    <!-- Inventory Item Types -->
+    <integer name="melee">1</integer>
+    <integer name="ranged">2</integer>
+    <integer name="armor">3</integer>
+    <integer name="white_power">4</integer>
+    <integer name="black_power">5</integer>
+</resources>

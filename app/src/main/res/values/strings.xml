@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">Mork Borg Character Sheet</string>
+    <string name="omens_string">Omens</string>
+    <string name="to_hit_string">To Hit</string>
+    <string name="damage_string">Damage</string>
+    <string name="power_pres_dr_text">DR 12</string>
+    <string name="defence_dialog_tohit_label">DR 12</string>
+    <string name="defence_dialog_blocked_label">Blocked</string>
+    <string name="silver_string">Silver</string>
+    <string name="short_rest_string">Short Rest</string>
+    <string name="long_rest_string">Long Rest</string>
+    <string name="level_up_string">Improve</string>
+    <string name="strength_string">Strength</string>
+    <string name="agility_string">Agility</string>
+    <string name="presence_string">Presence</string>
+    <string name="toughness_string">Toughness</string>
+    <string name="rolled_character_button_text">Resign yourself to Fate</string>
+    <string name="manual_character_button_text">Decide for yourself</string>
+    <string name="roll_string">Roll</string>
+    <string name="reusable_string">Limited Uses</string>
+    <string name="refillable_string">Refillable</string>
+    <string name="static_string">Static Amount</string>
+    <string name="rolled_uses_string">Rolled Amount</string>
+    <string name="limited_uses_string">Limited Uses</string>
+    <string name="attack_string">Attack</string>
+    <string name="power_string">Power</string>
+    <string name="armor_string">Armor</string>
+    <string name="other_string">Other</string>
+    <string name="new_item_2_roll_dectription_tip">You can embed up to two dice rolls into the description of this item with ${D1} and ${D2}</string>
+    <string name="new_item_1_roll_description_tip">You can embed a dice roll into the description with ${D1}</string>
+    <string name="type_string">Type</string>
+    <string name="ability_used_string">Ability Used</string>
+    <string name="save_string">Save</string>
+    <string name="new_inventory_string">Add New</string>
+    <string name="shield_string">Shield</string>
+    <string name="armor_tier_string">Armor Tier</string>
+    <string name="light_armor_string">Light Armor</string>
+    <string name="medium_armor_string">Medium Armor</string>
+    <string name="heavy_armor_string">Heavy Armor</string>
+    <string name="infinite_uses_string">Infinite Uses</string>
+    <string name="non_refillable_string">Non Refillable</string>
+    <string name="max_uses_string">Max Uses</string>
+    <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
+    <string name="name_string">Character Name</string>
+    <string name="description_string">Description</string>
+    <string name="auto_character_string">Let Fate Decide</string>
+    <string name="manual_character_string">I\'ll do it myself</string>
+    <string name="powers_string">Powers:</string>
+    <string name="hit_points">Hit Points</string>
+    <string-array name="abilities_array">
+        <item>None</item>
+        <item>Strength</item>
+        <item>Agility</item>
+        <item>Presence</item>
+        <item>Toughness</item>
+    </string-array>
+    <string-array name="dice_values_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>20</item>
+    </string-array>
+</resources>

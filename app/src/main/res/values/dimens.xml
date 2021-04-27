@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_size">38dp</dimen>
+    <dimen name="uses_icon_size">8dp</dimen>
+    <dimen name="health_height">144dp</dimen>
+    <dimen name="rolled_dice_icon_size">64dp</dimen>
+    <dimen name="rolled_dice_font_size">24sp</dimen>
+    <dimen name="portrait_size">100dp</dimen>
+</resources>

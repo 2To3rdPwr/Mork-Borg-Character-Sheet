@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="inventory"
+            type="com.example.morkborgcharactersheet.database.Inventory" />
+
+        <variable
+            name="clickListener"
+            type="com.example.morkborgcharactersheet.inventory.EquipmentListener" />
+
+        <variable
+            name="buttonTypeEnum"
+            type="com.example.morkborgcharactersheet.inventory.EquipmentAdapter.EquiptmentRecyclerViewButton" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/equipment_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginBottom="8dp"
+            app:srcCompat="@drawable/sword" />
+
+        <ImageView
+            android:id="@+id/inventory_uses_one_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/equipment_icon"
+            app:layout_constraintTop_toTopOf="@+id/equipment_icon"
+            app:srcCompat="@drawable/dot" />
+
+        <ImageView
+            android:id="@+id/inventory_uses_two_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            app:layout_constraintBottom_toTopOf="@+id/inventory_uses_three_icon"
+            app:layout_constraintEnd_toEndOf="@+id/inventory_uses_one_icon"
+            app:layout_constraintTop_toBottomOf="@+id/inventory_uses_one_icon"
+            app:srcCompat="@drawable/dot" />
+
+        <ImageView
+            android:id="@+id/inventory_uses_three_icon"
+            android:layout_width="@dimen/uses_icon_size"
+            android:layout_height="@dimen/uses_icon_size"
+            app:layout_constraintBottom_toBottomOf="@+id/equipment_icon"
+            app:layout_constraintEnd_toEndOf="@+id/inventory_uses_two_icon"
+            app:srcCompat="@drawable/dot" />
+
+        <TextView
+            android:id="@+id/equipment_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/abandon"
+            android:text="@{inventory.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/equipment_icon"
+            app:layout_constraintEnd_toStartOf="@+id/using_check_box"
+            app:layout_constraintStart_toEndOf="@+id/equipment_icon"
+            app:layout_constraintTop_toTopOf="@+id/equipment_icon"
+            tools:text="Big Sword" />
+
+        <CheckBox
+            android:id="@+id/using_check_box"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginTop="8dp"
+            android:checked="@{inventory.equipped}"
+            android:onClick="@{() -> clickListener.onClick(inventory, buttonTypeEnum.EQUIP)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/equipment_expandable_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="equipment_description_scrollable,edit_equipment_icon,delete_equipment_icon,reload_equipment_icon" />
+
+        <ScrollView
+            android:id="@+id/equipment_description_scrollable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="86dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_icon">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/equipment_description_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nu_century_gothic"
+                    tools:text="@string/laurem_ipsum_long" />
+            </LinearLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/reload_equipment_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{() -> clickListener.onClick(inventory, buttonTypeEnum.RELOAD)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_equipment_icon"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_description_scrollable"
+            app:srcCompat="@drawable/refresh" />
+
+        <ImageView
+            android:id="@+id/edit_equipment_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="@{() -> clickListener.onClick(inventory, buttonTypeEnum.EDIT)}"
+            app:layout_constraintEnd_toStartOf="@+id/delete_equipment_icon"
+            app:layout_constraintTop_toTopOf="@+id/reload_equipment_icon"
+            app:srcCompat="@drawable/pencil" />
+
+        <ImageView
+            android:id="@+id/delete_equipment_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="@{() -> clickListener.onClick(inventory, buttonTypeEnum.DELETE)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/reload_equipment_icon"
+            app:srcCompat="@drawable/close" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

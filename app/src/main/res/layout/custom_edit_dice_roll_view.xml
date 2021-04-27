@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data class=".databinding.LiveDataBinding">
+        <import type="android.view.View" />
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.example.morkborgcharactersheet.models.DiceValue" />
+        <import type="com.example.morkborgcharactersheet.models.AbilityType" />
+
+        <variable
+            name="diceAmount"
+            type="Integer" />
+        <variable
+            name="diceValue"
+            type="DiceValue" />
+        <variable
+            name="diceBonus"
+            type="String" />
+        <variable
+            name="abilityType"
+            type="AbilityType" />
+        <variable
+            name="visible"
+            type="Boolean" />
+    </data>
+    <LinearLayout
+        android:id="@+id/custom_dice_roller_linear_layout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="@{visible ? View.VISIBLE : View.GONE}">
+
+        <EditText
+            android:id="@+id/custom_dice_roller_dice_amount_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="2"
+            android:fontFamily="@font/dark_college"
+            android:gravity="right"
+            android:inputType="number"
+            android:text="@={DataBindingConverter.convertIntToString(diceAmount)}"
+            android:textSize="18sp"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/custom_dice_roller_d_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:text="D"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/custom_dice_roller_dice_value_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/dice_values_array"
+            android:selectedItemPosition="@{DataBindingConverter.convertDiceValueToSpinnerPosition(diceValue)}" />
+
+        <TextView
+            android:id="@+id/custom_dice_roller_plus_1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="+"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/custom_dice_roller_dice_bonus_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="2"
+            android:fontFamily="@font/dark_college"
+            android:inputType="numberSigned"
+            android:text="@={diceBonus}"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/custom_dice_roller_plus_2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="24sp" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/custom_dice_roller_ability_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/abilities_array"
+            android:selectedItemPosition="@{DataBindingConverter.convertAbilityTypeToSpinnerPosition(abilityType)}" />
+    </LinearLayout>
+</layout>
