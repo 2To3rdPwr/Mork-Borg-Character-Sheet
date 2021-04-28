@@ -37,6 +37,9 @@ interface CharacterDatabaseDAO {
     @Query("SELECT * FROM characters WHERE characterId = :characterId")
     fun getCharacter(characterId: Long): Character?
 
+    @Query("SELECT name FROM characters WHERE characterId = :characterId")
+    fun getCharactersName(characterId: Long): String?
+
     @Query("UPDATE characters SET hp_current = :newHp WHERE characterId = :characterId")
     fun setCharactersHP(characterId: Long, newHp: Int)
 
