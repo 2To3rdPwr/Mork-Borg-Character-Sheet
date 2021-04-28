@@ -52,7 +52,6 @@ class InventoryFragment(var characterId: Long) : Fragment() {
          * Observers for events
          */
         inventoryViewModel.newInventoryEvent.observe(viewLifecycleOwner, Observer { event ->
-            Log.i("Event", event.toString())
             if(event) {
                 findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(inventoryViewModel.characterId, inventoryViewModel.currentItem.value?:-1L))
                 inventoryViewModel.onNewInventoryEventDone()

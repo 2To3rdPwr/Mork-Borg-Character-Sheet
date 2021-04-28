@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_characterSheetViewPagerFragment_to_editCharacterFragment"
             app:destination="@id/editCharacterFragment" />
+        <action
+            android:id="@+id/action_characterSheetViewPagerFragment_self"
+            app:destination="@id/characterSheetViewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/editInventoryFragment"

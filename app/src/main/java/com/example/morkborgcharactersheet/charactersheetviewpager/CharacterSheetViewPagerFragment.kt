@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnAttach
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -31,11 +32,18 @@ class CharacterSheetViewPagerFragment : Fragment() {
         viewPagerAdapter = ViewPagerAdapter(this, characterId)
         viewPager = view.findViewById(R.id.view_pager)
         viewPager.adapter = viewPagerAdapter
+        viewPager.doOnAttach {
+            viewPager.setCurrentItem(1, false)
+        }
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             // TODO: Use string resources / characterName
-            tab.text = if(position == 0) "Character" else "Inventory"
+            tab.text = when (position) {
+                0 -> "Select"
+                1 -> "Character"
+                else -> "Inventory"
+            }
         }.attach()
     }
 }

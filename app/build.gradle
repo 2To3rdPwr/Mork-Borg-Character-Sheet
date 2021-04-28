@@ -20,6 +20,9 @@ android {
                                       "$projectDir/schemas".toString()]
             }
         }
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
     }
     buildTypes {
         release {

@@ -35,7 +35,6 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     val newInventoryEvent: LiveData<Boolean>
         get() = _newInventoryEvent
     fun onNewInventoryEventDone() {
-        Log.i("Navigating", "NewInventoryEventCompleted")
         _newInventoryEvent.value = false
     }
 
@@ -44,7 +43,6 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
      */
 
     fun onNewInventoryEvent() {
-        Log.i("Navigating", "NewInventoryEvent")
         _newInventoryEvent.value = true
     }
 

@@ -69,8 +69,8 @@ interface CharacterDatabaseDAO {
     @Query("UPDATE inventory SET equipped = CASE WHEN inventoryId = :inventoryId THEN 1 ELSE 0 END WHERE character_id = :characterId AND type = 2")
     fun equipArmor(characterId: Long, inventoryId: Long)
 
-    @Query("SELECT characterId, name FROM characters")
-    fun getCharacterList(): LiveData<List<ListedCharacter>>
+    @Query("SELECT characterId, name FROM characters WHERE characterId != :characterId")
+    fun getCharacterList(characterId: Long): LiveData<List<ListedCharacter>>
 
     @Query("SELECT CASE WHEN :abilityType = 1 THEN strength WHEN :abilityType = 2 THEN agility WHEN :abilityType = 3 THEN presence WHEN :abilityType = 4 THEN toughness ELSE 0 END FROM characters WHERE characterId = :characterId LIMIT 1")
     fun getAbilityScoreForCharacter(characterId: Long, abilityType: Int): Int

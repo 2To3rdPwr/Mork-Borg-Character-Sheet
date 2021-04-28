@@ -40,6 +40,7 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Invent
     class ViewHolder private constructor(val binding: ListItemInventoryBinding): RecyclerView.ViewHolder(binding.root) {
         var expandDescription = false
 
+        // TODO: All these bindings should be done between the model and the xml directly
         fun bind(clickListener: EquipmentListener, item: Inventory) {
             binding.inventory = item
 
@@ -131,6 +132,7 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Invent
                 val binding = ListItemInventoryBinding.inflate(layoutInflater, parent, false)
                 var viewHolder = ViewHolder(binding)
 
+                // TODO: Replace this with bindings to model values
                 viewHolder.itemView.equipment_name.setOnClickListener {
                     viewHolder.expandDescription = !viewHolder.expandDescription
                     viewHolder.itemView.equipment_expandable_group.visibility =
