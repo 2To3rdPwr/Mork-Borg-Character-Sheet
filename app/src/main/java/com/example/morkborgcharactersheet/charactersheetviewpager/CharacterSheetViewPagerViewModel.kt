@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CharacterSheetViewPagerViewModel (val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
+class CharacterSheetViewPagerViewModel(val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
     private val _characterName = MutableLiveData<String>("")
     val characterName: LiveData<String>

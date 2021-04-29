@@ -67,7 +67,6 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
             val newCharacter = Character(characterName = charName, description = charDescription, silver = Dice(2, DiceValue.D6).roll() * 10,
                 currentHP = hp, maxHP = hp, omens = Dice(diceValue = DiceValue.D2).roll(), powers = powers,
                 strength = rollAbility(), presence = charPresence, agility = rollAbility(), toughness = charToughness)
-            Log.i("New:", newCharacter.toString())
             _newCharacterId.value = saveNewCharacter(newCharacter)
             //TODO: Inventory for character
             _autoGenerateEvent.value = true

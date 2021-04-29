@@ -82,7 +82,7 @@ interface CharacterDatabaseDAO {
     fun setSilver(characterId: Long, amount: Int)
 
     @Query("SELECT characterId FROM characters ORDER BY last_used DESC LIMIT 1")
-    fun getMostRecentCharacterId(): Int
+    fun getMostRecentCharacterId(): Long?
 
     @Query("UPDATE characters SET last_used = CURRENT_TIMESTAMP WHERE characterId = :characterId")
     fun timestampCharacter(characterId: Long)

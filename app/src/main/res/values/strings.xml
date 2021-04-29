@@ -49,6 +49,7 @@
     <string name="hit_points">Hit Points</string>
     <string name="character_select_string">Characters</string>
     <string name="inventory">Inventory</string>
+    <string name="liscense">"MÖRK BORG is copyright Ockult Örtmästare Games and Stockholm Kartell. "</string>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>
