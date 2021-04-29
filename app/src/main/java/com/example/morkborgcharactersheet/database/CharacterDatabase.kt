@@ -6,18 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Character::class, Inventory::class], version = 1, exportSchema = true)
+@Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 2, exportSchema = true)
 @TypeConverters(com.example.morkborgcharactersheet.util.DatabaseConverter::class)
 abstract class CharacterDatabase : RoomDatabase() {
     /** Connect to database using DAO */
     abstract val characterDatabaseDAO: CharacterDatabaseDAO
 
-    /**
-     * Define a companion object, this allows us to add functions on the SleepDatabase class.
-     *
-     * For example, clients can call `CharacterpDatabase.getInstance(context)` to instantiate
-     * a new CharacterDatabase.
-     */
     companion object {
         /**
          * INSTANCE lets us return database via getInstance without reinitializing it every time
