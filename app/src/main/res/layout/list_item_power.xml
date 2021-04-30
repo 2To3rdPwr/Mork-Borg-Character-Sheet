@@ -7,7 +7,7 @@
     <data>
         <variable
             name="inventory"
-            type="com.example.morkborgcharactersheet.database.Inventory" />
+            type="com.example.morkborgcharactersheet.models.Equipment" />
 
         <variable
             name="clickListener"
@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/enchanted_land"
-            android:text="Fireball"
+            android:text="@{inventory.name}"
+            tools:text="Fireball"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/power_icon"

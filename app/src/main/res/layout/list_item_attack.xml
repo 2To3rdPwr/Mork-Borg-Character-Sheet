@@ -5,10 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="inventory"
-            type="com.example.morkborgcharactersheet.database.Inventory" />
-
+            type="com.example.morkborgcharactersheet.models.Equipment" />
         <variable
             name="clickListener"
             type="com.example.morkborgcharactersheet.charactersheet.AttackListener" />
@@ -26,7 +27,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/white_on_black"
-            android:text="The Knife"
+            tools:text="The Knife"
+            android:text="@{inventory.name}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dice_icon"
@@ -64,7 +66,8 @@
             android:layout_height="wrap_content"
             android:background="@color/design_default_color_background"
             android:fontFamily="@font/white_on_black"
-            android:text="D6"
+            tools:text="D6"
+            android:text="@{inventory.dice1.toString()}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/dice_icon"
             app:layout_constraintEnd_toEndOf="@+id/dice_icon"
@@ -76,7 +79,7 @@
             android:layout_width="@dimen/uses_icon_size"
             android:layout_height="@dimen/uses_icon_size"
             android:layout_marginEnd="4dp"
-            android:visibility="visible"
+            android:visibility="@{inventory.uses > 0 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/uses_two_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +89,7 @@
             android:id="@+id/uses_two_icon"
             android:layout_width="@dimen/uses_icon_size"
             android:layout_height="@dimen/uses_icon_size"
-            android:visibility="visible"
+            android:visibility="@{inventory.uses > 1 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/uses_three_plus_icon"
             app:layout_constraintEnd_toEndOf="@+id/uses_one_icon"
             app:layout_constraintTop_toBottomOf="@+id/uses_one_icon"
@@ -96,11 +99,11 @@
             android:id="@+id/uses_three_plus_icon"
             android:layout_width="@dimen/uses_icon_size"
             android:layout_height="@dimen/uses_icon_size"
-            android:visibility="visible"
+            android:visibility="@{inventory.uses > 2 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/uses_one_icon"
             app:layout_constraintTop_toBottomOf="@+id/uses_two_icon"
-            app:srcCompat="@drawable/plus" />
+            app:src="@{inventory.uses == 3 ? @drawable/dot : @drawable/plus}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

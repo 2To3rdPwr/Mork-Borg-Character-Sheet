@@ -85,6 +85,7 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
             }
         })
 
+        // TODO: Refactor dialogs. Ideally we can just pass them an Equipment and whatever rolled values they need and be done with it.
         characterSheetViewModel.showAttackEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 popAttackResultDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.rolledValue2.value!!)
@@ -100,7 +101,7 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
 
         characterSheetViewModel.showPowerEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                popPowerResultDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.recentInventory!!.name, characterSheetViewModel.powerDescriptionText!!)
+                popPowerResultDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.recentEquipment!!.name, characterSheetViewModel.powerDescriptionText?:"")
                 characterSheetViewModel.onShowPowerEventDone()
             }
         })

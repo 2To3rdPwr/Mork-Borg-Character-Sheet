@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.database.Inventory
 import com.example.morkborgcharactersheet.databinding.ListItemPowerBinding
+import com.example.morkborgcharactersheet.models.Equipment
 
-class PowerAdapter(val clickListener: PowerListener): ListAdapter<Inventory, PowerAdapter.ViewHolder>(PowerDiffCallback()) {
+class PowerAdapter(val clickListener: PowerListener): ListAdapter<Equipment, PowerAdapter.ViewHolder>(PowerDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -21,12 +22,11 @@ class PowerAdapter(val clickListener: PowerListener): ListAdapter<Inventory, Pow
     }
 
     class ViewHolder private constructor(val binding: ListItemPowerBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(clickListener: PowerListener, item: Inventory) {
+        fun bind(clickListener: PowerListener, item: Equipment) {
             binding.inventory = item
 
-            binding.powerNameText.text = item.name
-
             // TODO: Power icon saved as separate inventory value
+            // TODO: Move into XML
             binding.powerIcon.setImageResource(R.drawable.ancient_scroll_2)
 
             binding.clickListener = clickListener
@@ -45,16 +45,16 @@ class PowerAdapter(val clickListener: PowerListener): ListAdapter<Inventory, Pow
 }
 
 // Click listener
-class PowerListener(val clickListener: (power: Inventory) -> Unit) {
-    fun onClick(power: Inventory) = clickListener(power)
+class PowerListener(val clickListener: (power: Equipment) -> Unit) {
+    fun onClick(power: Equipment) = clickListener(power)
 }
 
-class PowerDiffCallback : DiffUtil.ItemCallback<Inventory>() {
-    override fun areItemsTheSame(oldItem: Inventory, newItem: Inventory): Boolean {
+class PowerDiffCallback : DiffUtil.ItemCallback<Equipment>() {
+    override fun areItemsTheSame(oldItem: Equipment, newItem: Equipment): Boolean {
         return oldItem.inventoryId == newItem.inventoryId
     }
 
-    override fun areContentsTheSame(oldItem: Inventory, newItem: Inventory): Boolean {
+    override fun areContentsTheSame(oldItem: Equipment, newItem: Equipment): Boolean {
         return oldItem == newItem
     }
 }

@@ -52,8 +52,11 @@ interface CharacterDatabaseDAO {
     @Query("SELECT * FROM inventory WHERE character_id = :characterId")
     fun getInventoryForCharacter(characterId: Long): LiveData<List<Inventory>>
 
+    @Query("SELECT * FROM inventory WHERE character_id = :characterId")
+    fun getEquipment(characterId: Long): List<Inventory>
+
     @Query("SELECT * FROM inventory WHERE character_id = :characterId AND type = 1 AND equipped = 1")
-    fun getEquippedWeapons(characterId: Long): LiveData<List<Inventory>>
+    fun getEquippedWeapons(characterId: Long): List<Inventory>
 
     @Query("SELECT * FROM inventory WHERE character_id = :characterId AND type = 4 AND equipped = 1")
     fun getEquippedPowers(characterId: Long): LiveData<List<Inventory>>

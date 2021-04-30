@@ -73,7 +73,7 @@ data class Inventory (
     var dice1Amount: Int = 1,
 
     @ColumnInfo(name = "dice1_value")
-    var dice1Value: Int = 0,
+    var dice1Value: Int = 2,
 
     @ColumnInfo(name = "dice1_bonus")
     var dice1Bonus: Int = 0,
@@ -85,7 +85,7 @@ data class Inventory (
     var dice2Amount: Int = 1,
 
     @ColumnInfo(name = "dice2_value")
-    var dice2Value: Int = 0,
+    var dice2Value: Int = 2,
 
     @ColumnInfo(name = "dice2_bonus")
     var dice2Bonus: Int = 0,
@@ -117,7 +117,7 @@ data class Inventory (
     var refillDiceAmount: Int = 0,
 
     @ColumnInfo(name = "refill_dice_value")
-    var refillDiceValue: Int = 0,
+    var refillDiceValue: Int = 2,
 
     @ColumnInfo(name = "refill_dice_bonus")
     var refillDiceBonus: Int = 0,

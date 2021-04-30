@@ -8,9 +8,11 @@ import com.example.morkborgcharactersheet.database.*
 import com.example.morkborgcharactersheet.models.ItemType.*
 import com.example.morkborgcharactersheet.models.AbilityType
 import com.example.morkborgcharactersheet.models.AbilityType.*
-import com.example.morkborgcharactersheet.util.DatabaseConverter
+import com.example.morkborgcharactersheet.models.Dice
+import com.example.morkborgcharactersheet.models.DiceValue
+import com.example.morkborgcharactersheet.models.Equipment
 import kotlinx.coroutines.*
-import java.util.Date
+import java.lang.IllegalArgumentException
 import kotlin.random.Random
 import kotlin.math.min
 
@@ -26,14 +28,23 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
      * Live Data and MutableLiveData
      */
     private val _character = MutableLiveData<Character?>()
-
     val character: LiveData<Character?>
         get() = _character
 
     // TODO: Initialize these properly
     // TODO: Armor Tiers
-    val attacks = database.getEquippedWeapons(characterId)
-    val powers = database.getEquippedPowers(characterId)
+    private val _attacks = MutableLiveData<List<Equipment>>()
+    val attacks: LiveData<List<Equipment>>
+        get() = _attacks
+
+    private val _powers = MutableLiveData<List<Equipment>>()
+    val powers: LiveData<List<Equipment>>
+        get() = _powers
+
+    private val _armor = MutableLiveData<Equipment>()
+
+    private val _shield = MutableLiveData<Equipment>()
+
     val armor = database.getEquippedArmor(characterId)
     val shield = database.getEquippedShield(characterId)
 
@@ -57,6 +68,10 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private var _recentInventory: Inventory? = null
     val recentInventory: Inventory?
         get() = _recentInventory
+
+    private var _recentEquipment: Equipment? = null
+    val recentEquipment: Equipment?
+        get() = _recentEquipment
 
     // Power descriptions may vary, and sometimes have dice results embedded directly in their text.
     private var _powerDescriptionText: String? = null
@@ -145,7 +160,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _showRollResultEvent.value = true
     }
 
-    fun onAttackClicked(attack: Inventory) {
+    fun onAttackClicked(attack: Equipment) {
         viewModelScope.launch {
             // Can't shoot a bow with no arrows
             if (attack.uses == 0) {
@@ -153,22 +168,22 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                 return@launch
             }
 
-            _rolledValue.value = abilityRoll(AbilityType.get(attack.ability)!!)
-            _rolledValue2.value = abilityRoll(AbilityType.get(attack.dice1Ability)!!, attack.dice1Amount, attack.dice1Value, attack.dice1Bonus)
+            _rolledValue.value = abilityRoll(attack.weaponAbility!!)
+            _rolledValue2.value = abilityRoll(attack.dice1)
 
-            _recentInventory = attack
+            _recentEquipment = attack
 
             _showAttackEvent.value = true
 
             // Decrement attack's uses, if applicable
             if(attack.uses > 0) {
                 attack.uses --
-                updateInventory(attack)
+                updateInventory(attack.getInventory())
             }
         }
     }
 
-    fun onPowerClicked(power: Inventory) {
+    fun onPowerClicked(power: Equipment) {
         // Ensure this character has enough uses of powers left for the day
         if (character.value!!.powers <= 0) {
             // TODO: Pop a toast for user feedback?
@@ -179,20 +194,21 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         // Presence test to see if power fires off or fails.
         _rolledValue.value = abilityRoll(PRESENCE)
         // Other rolled values are determined on a power-by-power basis
-        _rolledValue2.value = if (power.dice1Value != 0) abilityRoll(AbilityType.get(power.dice1Ability)!!, power.dice1Amount, power.dice1Value, power.dice1Bonus) else 0
-        _rolledValue3.value = if (power.dice2Value != 0) abilityRoll(AbilityType.get(power.dice2Ability)!!, power.dice2Amount, power.dice2Value, power.dice2Bonus) else 0
+        val roll1 = abilityRoll(power.dice1)
+        val roll2 = abilityRoll(power.dice2)
 
-        // TODO: inject rolled values into powerDescriptionText
-        _powerDescriptionText = power.description
+        _rolledValue2.value = roll1
+        _rolledValue3.value = roll2
+        _powerDescriptionText = power.description.replace("\${D1}", roll1.toString()).replace("\${D2}", roll2.toString())
 
-        _recentInventory = power
+        _recentEquipment = power
 
         _showPowerEvent.value = true
     }
 
     fun onPowerComplete(feedback: Boolean) {
         if (feedback) {
-            val feedbackDamage = roll(diceValue = 2)
+            val feedbackDamage = Dice(diceValue = DiceValue.D2).roll()
             takeDamage(feedbackDamage)
         }
         _character.value!!.powers --
@@ -249,10 +265,38 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
     }
 
+    private suspend fun getEquipment(): List<Inventory> {
+        return withContext(Dispatchers.IO) {
+            database.getEquipment(characterId)
+        }
+    }
+
     fun loadCharacter() {
         viewModelScope.launch {
-            var myCharacter = getCharacter(characterId)
+            val myCharacter: Character? = getCharacter(characterId)
+                    ?: throw IllegalArgumentException("Invalid characterId")
             _character.value = myCharacter
+
+            val myInventory = getEquipment()
+            val myEquipment = myInventory.map { inventory ->
+                Equipment(inventory, null)
+            }
+
+            _attacks.value = myEquipment.filter { equipment ->
+                equipment.equipped && equipment.type == WEAPON
+            }
+
+            _powers.value = myEquipment.filter { equipment ->
+                equipment.equipped && equipment.type == POWER
+            }
+
+            _armor.value = myEquipment.find { equipment ->
+                equipment.equipped && equipment.type == ARMOR
+            }
+
+            _shield.value = myEquipment.find { equipment ->
+                equipment.equipped && equipment.type == SHIELD
+            }
         }
     }
 
@@ -265,6 +309,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
      * Utility Functions
      */
     // Used for general dice rolls
+    // TODO: Deprecated: Replace with Dice's roll() function
     private fun roll(amount: Int = 1, diceValue: Int, bonus: Int = 0): Int {
         var total = 0
         for(i in 1 .. amount) {
@@ -276,6 +321,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     // Used for dice rolls modified by ability scores
+    // TODO: Deprecated: Replace with Dice's roll() function
     private fun abilityRoll(ability: AbilityType, diceAmount: Int = 1, diceValue: Int = 20, diceBonus: Int = 0): Int {
         val abilityScore = when (ability) {
             STRENGTH -> character.value!!.strength
@@ -285,6 +331,17 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             else -> 0
         }
         return roll(diceAmount, diceValue, diceBonus + abilityScore)
+    }
+
+    private fun abilityRoll(dice: Dice): Int {
+        val abilityScore = when (dice.ability) {
+            STRENGTH -> character.value!!.strength
+            AGILITY -> character.value!!.agility
+            PRESENCE -> character.value!!.presence
+            TOUGHNESS -> character.value!!.toughness
+            else -> 0
+        }
+        return dice.roll(abilityScore)
     }
 
     private fun takeDamage(damage: Int) {
