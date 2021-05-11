@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_inventory.view.*
 class InventoryFragment(var characterId: Long) : Fragment() {
     private lateinit var inventoryViewModel: InventoryViewModel
     private lateinit var binding: FragmentInventoryBinding
-    // TODO: Save changes to DB on stop
+    // TODO: Save changes to DB on stop (uses etc)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
@@ -42,9 +42,11 @@ class InventoryFragment(var characterId: Long) : Fragment() {
         })
         binding.inventoryList.adapter = equipmentAdapter
 
-        inventoryViewModel.inventory.observe(viewLifecycleOwner, Observer {
+        inventoryViewModel.expandableEquipmentList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 equipmentAdapter.submitList(it)
+                // Sad I have to hit it with brute force like this ;_;
+                equipmentAdapter.notifyDataSetChanged()
             }
         })
 
@@ -59,6 +61,11 @@ class InventoryFragment(var characterId: Long) : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        inventoryViewModel.loadInventory()
+        super.onResume()
     }
 
     override fun onStop() {

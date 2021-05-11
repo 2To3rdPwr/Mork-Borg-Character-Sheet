@@ -1,13 +1,16 @@
 package com.example.morkborgcharactersheet.models
 
+import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.database.CharacterInventoryJoin
 import com.example.morkborgcharactersheet.database.Inventory
+import kotlin.random.Random
 
 /**
  * Equipment objects bridge the gap between Inventory and CharacterInventoryJoin
  * Could probably subclass this into the different inventory types TBH
  */
-class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin?) {
+open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin?) {
+    val joinId = Random.nextLong()
     val inventoryId = inventory.inventoryId
     val characterId = inventory.characterId
     var name = inventory.name
@@ -23,6 +26,10 @@ class Equipment(private var inventory: Inventory, private var invJoin: Character
     var uses = inventory.uses
     val refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D2, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
     var broken = false
+    val formattedDescription = formatDescription()
+    // TODO: Set by itemtype
+    // TODO: Later allow user to choose
+    val equipmentImage = R.drawable.shield
 
     fun getInventory(): Inventory {
         inventory.name = name
@@ -30,6 +37,22 @@ class Equipment(private var inventory: Inventory, private var invJoin: Character
         inventory.equipped = equipped
         inventory.uses = uses
         return inventory
+    }
+
+    fun reload(abilityScore: Int) {
+        if (!refillable)
+            throw IllegalArgumentException("This item incapable of reloading")
+
+        uses = Math.max(refillDice.roll(abilityScore), 1)
+    }
+
+    /**
+     * Inserts the string values of our dice into the item's description
+     */
+    private fun formatDescription(): String {
+        val d1 = if (type == ItemType.WEAPON) dice2.toString() else dice1.toString()
+        val d2 = dice2.toString()
+        return description.replace("\${D1}", d1).replace("\${D2}", d2)
     }
 
     override fun equals(other: Any?): Boolean {

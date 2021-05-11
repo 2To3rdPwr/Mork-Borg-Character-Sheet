@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "character_inventory_join", primaryKeys = ["character_id", "inventory_id"])
 data class CharacterInventoryJoin(
+//    @PrimaryKey(autoGenerate = true)
+//    val characterInventoryJoinId: Long = 0L,
+
     @ColumnInfo(name = "character_id")
     val characterId: Long,
 

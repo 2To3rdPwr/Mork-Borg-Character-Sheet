@@ -10,4 +10,10 @@ object DataBindingAdapter {
     fun setImageViewDrawable(imageView: ImageView, res: Drawable) {
         imageView.setImageDrawable(res)
     }
+
+    @BindingAdapter("app:src")
+    @JvmStatic
+    fun setImageViewResource(imageView: ImageView, res: Int) {
+        imageView.setImageResource(res)
+    }
 }
