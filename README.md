@@ -7,3 +7,6 @@ I'm currently looking for art assets to use. Free icons have worked well enough 
 MorkBorgCharacterSheet is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. It is published under the MÖRK BORG Third Party License.
 
 MÖRK BORG is copyright Ockult Örtmästare Games and Stockholm Kartell. 
+
+Fonts found at [DaFont](https://www.dafont.com/)
+Icons found at [FlatIcon](https://www.flaticon.com/)
