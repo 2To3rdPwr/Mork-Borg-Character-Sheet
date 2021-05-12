@@ -36,10 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
-            android:fontFamily="@font/dark_college"
+            android:fontFamily="@font/zombie"
             android:gravity="right"
             android:inputType="number"
             android:text="@={DataBindingConverter.convertIntToString(diceAmount)}"
+            android:textAlignment="center"
             android:textSize="18sp"
             tools:text="1" />
 
@@ -56,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/dice_values_array"
+            android:background="@null"
             android:selectedItemPosition="@{DataBindingConverter.convertDiceValueToSpinnerPosition(diceValue)}" />
 
         <TextView
@@ -71,10 +73,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
-            android:fontFamily="@font/dark_college"
+            android:fontFamily="@font/zombie"
             android:inputType="numberSigned"
             android:text="@={diceBonus}"
-            tools:text="0" />
+            android:textAlignment="center"
+            android:textSize="18sp"
+            tools:text="-3" />
 
         <TextView
             android:id="@+id/custom_dice_roller_plus_2_text"

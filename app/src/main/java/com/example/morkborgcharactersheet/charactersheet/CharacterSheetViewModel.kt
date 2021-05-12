@@ -31,8 +31,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val character: LiveData<Character?>
         get() = _character
 
-    // TODO: Initialize these properly
-    // TODO: Armor Tiers
     private val _attacks = MutableLiveData<List<Equipment>>()
     val attacks: LiveData<List<Equipment>>
         get() = _attacks
@@ -49,7 +47,29 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val shield = database.getEquippedShield(characterId)
 
 
-    // Dice Rolls
+    // Custom ability rolls
+    val customRollerAmount = MutableLiveData<Int>(1)
+    val customRollerValue = MutableLiveData<DiceValue>(DiceValue.D20)
+    val customRollerBonus = MutableLiveData<String>("0")
+    val customRollerAbility = MutableLiveData<AbilityType>(UNTYPED)
+    private val _customRolledValue = MutableLiveData<Int>()
+    val customRolledValue: LiveData<Int>
+        get() = _customRolledValue
+
+    // Attack Dialog
+    private val _attackToHit = MutableLiveData<Int>()
+    val attackToHit: LiveData<Int>
+        get() = _attackToHit
+
+    private val _attackDamage = MutableLiveData<Int>()
+    val attackDamage: LiveData<Int>
+        get() = _attackDamage
+
+    // Defense Dialog
+
+    // Power Dialog
+
+    // Rolls from dialogs
     private val _rolledValue = MutableLiveData<Int>()
     val rolledValue: LiveData<Int>
         get() = _rolledValue
@@ -63,8 +83,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         get() = _rolledValue3
     // End Dice Rolls
 
-    // Lets FE know the relevant inventory item, and used in VM functions when dialogs complete
-    // TODO: LiveData these
     private var _recentInventory: Inventory? = null
     val recentInventory: Inventory?
         get() = _recentInventory
@@ -73,6 +91,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val recentEquipment: Equipment?
         get() = _recentEquipment
 
+    // TODO: Replace with Equipment
     // Power descriptions may vary, and sometimes have dice results embedded directly in their text.
     private var _powerDescriptionText: String? = null
     val powerDescriptionText: String?
@@ -85,41 +104,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         it?.currentHP.toString()
     }
 
-    val maxHPString = Transformations.map(character) {
-        it?.maxHP.toString()
-    }
-
-    // TODO: Move label to FE and use string resource
-    val powersString = Transformations.map(character) {
-        it?.powers.toString()
-    }
-
-    val strengthButtonText = Transformations.map(character) {
-        "Strength " + it?.strength.toString()
-    }
-
-    val agilityButtonText = Transformations.map(character) {
-        "Agility " + it?.agility.toString()
-    }
-
-    val presenceButtonText = Transformations.map(character) {
-        "Presence " + it?.presence.toString()
-    }
-
-    val toughnessButtonText = Transformations.map(character) {
-        "Toughness " + it?.toughness.toString()
-    }
-
     /**
      * Events
      */
-    private val _showRollResultEvent = MutableLiveData<Boolean>()
-    val showRollResultEvent: LiveData<Boolean>
-        get() = _showRollResultEvent
-    fun onShowRollResultEventDone() {
-        _showRollResultEvent.value = false
-    }
 
+    // Pairs with onAttackClicked()
     private val _showAttackEvent = MutableLiveData<Boolean>()
     val showAttackEvent: LiveData<Boolean>
         get() = _showAttackEvent
@@ -144,6 +133,9 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private val _editCharacterEvent = MutableLiveData<Boolean>()
     val editCharacterEvent: LiveData<Boolean>
         get() = _editCharacterEvent
+    fun onCharacterEdit() {
+        _editCharacterEvent.value = true
+    }
     fun oneditCharacterEventDone() {
         _editCharacterEvent.value = false
     }
@@ -151,33 +143,36 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     /**
      * FE functions
      */
-    fun onAbilityButtonPressed(ability: Int) {
-        // TODO: Inform user AGL DR +2/+4 if tier 2/3 armor equipped
-        // TODO: Allow user to input all mods for rolls
-        //          (Use custom roller view)
-        val abilityType = AbilityType.get(ability)!!
-        _rolledValue.value = abilityRoll(abilityType)
-        _showRollResultEvent.value = true
+    // Can't get spinners two-way bound for some reason
+    fun setCustomRollerDiceValue(diceValue: DiceValue) {
+        customRollerValue.value = diceValue
+    }
+
+    fun setCustomRollerAbility(abilityType: AbilityType) {
+        customRollerAbility.value = abilityType
+    }
+
+
+    fun onCustomRoll() {
+        _customRolledValue.value = abilityRoll(Dice(customRollerAmount.value ?: 0, customRollerValue.value!!, customRollerBonus.value?.toInt() ?: 0, customRollerAbility.value!!))
     }
 
     fun onAttackClicked(attack: Equipment) {
-        viewModelScope.launch {
-            // Can't shoot a bow with no arrows
-            if (attack.uses == 0) {
-                // TODO: Pop toast
-                return@launch
-            }
+        // Can't shoot a bow with no arrows
+        if (attack.uses == 0) {
+            // TODO: Pop toast
+            return
+        }
 
-            _rolledValue.value = abilityRoll(attack.weaponAbility!!)
-            _rolledValue2.value = abilityRoll(attack.dice1)
+        _attackToHit.value = abilityRoll(attack.weaponAbility!!)
+        _attackDamage.value = abilityRoll(attack.dice1)
 
-            _recentEquipment = attack
+        _showAttackEvent.value = true
 
-            _showAttackEvent.value = true
-
-            // Decrement attack's uses, if applicable
-            if(attack.uses > 0) {
-                attack.uses --
+        // Decrement attack's uses, if applicable
+        if(attack.uses > 0) {
+            attack.uses --
+            viewModelScope.launch {
                 updateInventory(attack.getInventory())
             }
         }
@@ -186,7 +181,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     fun onPowerClicked(power: Equipment) {
         // Ensure this character has enough uses of powers left for the day
         if (character.value!!.powers <= 0) {
-            // TODO: Pop a toast for user feedback?
+            // TODO: Pop a toast for user feedback
             return
         }
         // TODO: Powers can't be used in tier 2/3 armor or shields. Pop toast for user.
@@ -237,10 +232,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         } else {
             // TODO: Destroy shield
         }
-    }
-
-    fun onCharacterEdit() {
-        _editCharacterEvent.value = true
     }
 
     /**

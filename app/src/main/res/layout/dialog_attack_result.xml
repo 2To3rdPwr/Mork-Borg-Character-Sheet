@@ -1,84 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/attack_dice_icon"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/rolled_dice_icon_size"
-        app:tint="@color/mb_pink"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/attack_damage_icon"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice" />
+    <data>
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
 
-    <ImageView
-        android:id="@+id/attack_damage_icon"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/rolled_dice_icon_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/attack_dice_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/skull"
-        app:tint="@color/mb_pink" />
+        <variable
+            name="viewModel"
+            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-    <TextView
-        android:id="@+id/attack_tohit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:fontFamily="@font/white_on_black"
-        android:textColor="@color/mb_pink"
-        android:textSize="@dimen/rolled_dice_font_size"
-        app:layout_constraintBottom_toBottomOf="@id/attack_dice_icon"
-        app:layout_constraintEnd_toEndOf="@id/attack_dice_icon"
-        app:layout_constraintStart_toStartOf="@id/attack_dice_icon"
-        app:layout_constraintTop_toTopOf="@id/attack_dice_icon" />
+        <ImageView
+            android:id="@+id/attack_dice_icon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            app:tint="@color/mb_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/attack_damage_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dice" />
 
-    <TextView
-        android:id="@+id/attack_damage_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:fontFamily="@font/white_on_black"
-        android:textColor="@color/mb_pink"
-        android:textSize="@dimen/rolled_dice_font_size"
-        app:layout_constraintBottom_toBottomOf="@id/attack_damage_icon"
-        app:layout_constraintEnd_toEndOf="@id/attack_damage_icon"
-        app:layout_constraintStart_toStartOf="@id/attack_damage_icon"
-        app:layout_constraintTop_toTopOf="@+id/attack_damage_icon" />
+        <ImageView
+            android:id="@+id/attack_damage_icon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/attack_dice_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/skull"
+            app:tint="@color/mb_pink" />
 
-    <TextView
-        android:id="@+id/to_hit_label_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/dark_college"
-        android:padding="8dp"
-        android:text="@string/to_hit_string"
-        android:textColor="@color/mb_pink"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/attack_dice_icon"
-        app:layout_constraintEnd_toEndOf="@+id/attack_dice_icon"
-        app:layout_constraintStart_toStartOf="@+id/attack_dice_icon" />
+        <TextView
+            android:id="@+id/attack_tohit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.attackToHit)}"
+            app:layout_constraintBottom_toBottomOf="@id/attack_dice_icon"
+            app:layout_constraintEnd_toEndOf="@id/attack_dice_icon"
+            app:layout_constraintStart_toStartOf="@id/attack_dice_icon"
+            app:layout_constraintTop_toTopOf="@id/attack_dice_icon"
+            tools:text="-3" />
 
-    <TextView
-        android:id="@+id/attack_damage_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/dark_college"
-        android:padding="8dp"
-        android:text="@string/damage_string"
-        android:textColor="@color/mb_pink"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/attack_damage_icon"
-        app:layout_constraintEnd_toEndOf="@+id/attack_damage_icon"
-        app:layout_constraintStart_toEndOf="@+id/attack_dice_icon" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/attack_damage_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.attackDamage)}"
+            app:layout_constraintBottom_toBottomOf="@id/attack_damage_icon"
+            app:layout_constraintEnd_toEndOf="@id/attack_damage_icon"
+            app:layout_constraintStart_toStartOf="@id/attack_damage_icon"
+            app:layout_constraintTop_toTopOf="@+id/attack_damage_icon"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/to_hit_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:padding="8dp"
+            android:text="@string/to_hit_string"
+            android:textColor="@color/mb_pink"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/attack_dice_icon"
+            app:layout_constraintEnd_toEndOf="@+id/attack_dice_icon"
+            app:layout_constraintStart_toStartOf="@+id/attack_dice_icon" />
+
+        <TextView
+            android:id="@+id/attack_damage_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dark_college"
+            android:padding="8dp"
+            android:text="@string/damage_string"
+            android:textColor="@color/mb_pink"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/attack_damage_icon"
+            app:layout_constraintEnd_toEndOf="@+id/attack_damage_icon"
+            app:layout_constraintStart_toEndOf="@+id/attack_dice_icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

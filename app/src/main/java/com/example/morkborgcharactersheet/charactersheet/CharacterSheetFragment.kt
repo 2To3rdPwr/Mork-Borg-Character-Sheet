@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,9 +23,13 @@ import com.example.morkborgcharactersheet.dialogs.AttackResultDialogFragment
 import com.example.morkborgcharactersheet.dialogs.DefenceDialogFragment
 import com.example.morkborgcharactersheet.dialogs.DiceResultDialogFragment
 import com.example.morkborgcharactersheet.dialogs.PowerResultDialogFragment
+import com.example.morkborgcharactersheet.models.AbilityType
+import com.example.morkborgcharactersheet.models.DiceValue
+import com.example.morkborgcharactersheet.util.DataBindingConverter
 
 class CharacterSheetFragment(var characterId: Long) : Fragment(){
-    private lateinit var characterSheetViewModel: CharacterSheetViewModel
+    // Creating a viewmodel without ViewModelProvider allows me to share it with other fragments
+    private val characterSheetViewModel: CharacterSheetViewModel by viewModels(ownerProducer = { this }) { CharacterSheetViewModelFactory(characterId, requireNotNull(this.activity).application) }
     private lateinit var binding: FragmentCharacterSheetBinding
 
     // TODO: Save all data onStop
@@ -35,15 +42,6 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Get a reference to the binding object and inflate the fragment views.
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_character_sheet, container, false)
-
-        val application = requireNotNull(this.activity).application
-
-        // Create an instance of the ViewModel Factory.
-        val dataSource = CharacterDatabase.getInstance(application).characterDatabaseDAO
-        val viewModelFactory = CharacterSheetViewModelFactory(characterId, dataSource)
-
-        // Get a reference to the ViewModel associated with this fragment.
-        characterSheetViewModel = ViewModelProvider(this, viewModelFactory).get(CharacterSheetViewModel::class.java)
 
         // To use the View Model with data binding, you have to explicitly
         // give the binding object a reference to it.
@@ -78,17 +76,30 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
         /**
          * Observers for events
          */
-        characterSheetViewModel.showRollResultEvent.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                popDiceResultDialog(characterSheetViewModel.rolledValue.value!!)
-                characterSheetViewModel.onShowRollResultEventDone()
+        // For some reason I can't get Spinners to two-way bind consistently. Manually binding instead
+        // Damage
+        binding.sheetCustomRoller.customDiceRollerDiceValueSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Can't select nothing
             }
-        })
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                characterSheetViewModel.setCustomRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?: DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
+            }
+        }
+
+        binding.sheetCustomRoller.customDiceRollerAbilitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Can't select nothing
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                characterSheetViewModel.setCustomRollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?: AbilityType.UNTYPED)
+            }
+        }
 
         // TODO: Refactor dialogs. Ideally we can just pass them an Equipment and whatever rolled values they need and be done with it.
         characterSheetViewModel.showAttackEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                popAttackResultDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.rolledValue2.value!!)
+                AttackResultDialogFragment().show(childFragmentManager, "Attack")
 
                 // Force refresh: Sometimes the uses indicators decide not to update.
                 // notifyDataSetChanged() is not ideal, but this is a small list that doesn't *really*
@@ -128,32 +139,8 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
      * TODO: MVVM-ize dialogs
      *      https://proandroiddev.com/dialogs-in-android-mvvm-5d6e1ca53b19
      */
-    // TODO: Move Omens and Arbitrary Dice rolls to the ViewPager fragment
-    private fun popDiceResultDialog(rolledValue: Int) {
-        val newFragment = DiceResultDialogFragment()
-        val bundle = Bundle()
-        bundle.putInt("RESULT", rolledValue)
-        newFragment.arguments = bundle
-
-        newFragment.apply {
-            listener = object : DiceResultDialogFragment.DialogListener {
-                override fun onDiceRollCompleted() {
-                    // Here we have access to variables both here and in Dialog
-                    dismiss()
-                }
-            }
-        }
-        newFragment.show(parentFragmentManager, "Roll")
-    }
-
-    private fun popAttackResultDialog(toHit: Int, damage: Int) {
-        val newFragment = AttackResultDialogFragment()
-        val bundle = Bundle()
-        bundle.putInt("TOHIT", toHit)
-        bundle.putInt("DAMAGE", damage)
-        newFragment.arguments = bundle
-
-        newFragment.show(parentFragmentManager, "Attack")
+    fun getViewModel(): CharacterSheetViewModel {
+        return characterSheetViewModel
     }
 
     private fun popPowerResultDialog(presTest: Int, name: String, description: String) {
