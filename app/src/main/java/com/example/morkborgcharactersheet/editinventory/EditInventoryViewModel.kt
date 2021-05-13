@@ -23,6 +23,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     val itemDescription = MutableLiveData<String>()
     val itemType = MutableLiveData<ItemType>()
 
+    // TODO: Melee vs ranged instead of all four ability types
     val weaponAbilityUsed = MutableLiveData<AbilityType>()
     val armorTier = MutableLiveData<ArmorTier>()
 
@@ -53,17 +54,14 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     val description2RollerAbility = MutableLiveData<AbilityType>()
 
     val dice1InDescriptionVisibility: LiveData<Boolean> = Transformations.map(itemDescription) {
-        it.contains("\${D1}")
+        it.contains("\$D1")
     }
 
     // TODO: MediatorLiveData to enforce ItemType != WEAPON for description2Dice
     val dice2InDescriptionVisibility: LiveData<Boolean> = Transformations.map(itemDescription) {
-        it.contains("\${D2}")
+        it.contains("\$D2")
     }
 
-    private val _toastText = MutableLiveData<String>()
-    val toastText: LiveData<String>
-        get() = _toastText
     /**
      * Events
      */
@@ -119,20 +117,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
 
 
     fun onItemSaved() {
-        // Confirm all applicable values are properly set
-        // TODO: Use string resources for toasts
-        // Not being SUPER thorough with input validation here but that's fine for now
         if (itemName.value == null || itemName.value == "") {
-            _toastText.value = "Must set item name"
-            _showToastEvent.value = true
-        } else if (itemType.value == null) {
-            _toastText.value = "Must set item type"
-            _showToastEvent.value = true
-        } else if (itemType.value == ItemType.WEAPON && (weaponAbilityUsed.value == null || weaponAbilityUsed.value == AbilityType.UNTYPED)) {
-            _toastText.value = "Must set ability used"
-            _showToastEvent.value = true
-        } else if (itemType.value == ItemType.ARMOR && (armorTier.value == null || armorTier.value == ArmorTier.NONE)) {
-            _toastText.value = "Must set armor tier"
             _showToastEvent.value = true
         } else {
             //  Setting values by item type
@@ -162,7 +147,6 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                 newItemDice2Amount = description2RollerAmount.value?:0
                 newItemDice2Value = description2RollerValue.value?.value?:DiceValue.D2.value
                 newItemDice2Bonus = description2RollerBonus.value?.toIntOrNull()?:0
-                Log.i("Ability Set", description2RollerAbility.value.toString())
                 newItemDice2Ability = description2RollerAbility.value?.id?:AbilityType.UNTYPED.id
             }
 
@@ -215,8 +199,6 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                     updateInventory(newItem)
                 }
 
-                Log.i("Saved Item", newItem.toString())
-
                 _saveItemEvent.value = true
             }
         }
@@ -244,12 +226,9 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
         }
     }
 
-    // TODO: Throw error if no inventory pulled?
     private suspend fun getExistingInventory(inventoryId: Long): Inventory? {
         return withContext(Dispatchers.IO){
-            val thisItem = database.getInventory(inventoryId)
-            Log.i("editing", thisItem.toString())
-            thisItem
+            database.getInventory(inventoryId)
         }
     }
 
@@ -257,6 +236,8 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     init {
         // Setting initial values
         itemType.value = ItemType.WEAPON
+        weaponAbilityUsed.value = AbilityType.STRENGTH
+        armorTier.value = ArmorTier.LIGHT
         staticUses.value = 0
 
         damageRollerAmount.value = 1
@@ -320,7 +301,6 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                         description1RollerAmount.value = item.dice1Amount
                         description1RollerValue.value = DiceValue.getByValue(item.dice1Value)
                         description1RollerBonus.value = item.dice1Bonus.toString()
-                        Log.i("AbilityGiven", item.dice1Ability.toString())
                         description1RollerAbility.value = AbilityType.get(item.dice1Ability)
 
                         description2RollerAmount.value = item.dice2Amount

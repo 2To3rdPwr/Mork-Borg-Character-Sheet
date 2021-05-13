@@ -1,84 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
 
-    <ImageView
-        android:id="@+id/power_dice_icon"
-        android:layout_width="@dimen/rolled_dice_icon_size"
-        android:layout_height="@dimen/rolled_dice_icon_size"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="1dp"
-        app:tint="@color/mb_pink"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_power_dr"
-        app:srcCompat="@drawable/dice" />
+        <variable
+            name="viewModel"
+            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/dialog_power_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/the_dark"
-        android:text="TextView"
-        android:textColor="@color/mb_pink"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-    <TextView
-        android:id="@+id/power_pres_test_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:fontFamily="@font/white_on_black"
-        android:text="6"
-        android:textColor="@color/mb_pink"
-        android:textSize="@dimen/rolled_dice_font_size"
-        app:layout_constraintBottom_toBottomOf="@+id/power_dice_icon"
-        app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
-        app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
-        app:layout_constraintTop_toTopOf="@+id/power_dice_icon" />
+        <ImageView
+            android:id="@+id/power_dice_icon"
+            android:layout_width="@dimen/rolled_dice_icon_size"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            app:tint="@color/mb_pink"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_power_dr"
+            app:srcCompat="@drawable/dice" />
 
-    <TextView
-        android:id="@+id/dialog_power_dr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/cut_the_crap"
-        android:padding="8dp"
-        android:text="@string/power_pres_dr_text"
-        android:textColor="@color/mb_pink"
-        app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
-        app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/power_dice_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/power_dice_icon"
-        app:layout_constraintTop_toTopOf="@id/power_dice_icon">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/dialog_power_name_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/the_dark"
+            android:text="@{viewModel.powerName}"
+            tools:text="Fireball"
+            android:textColor="@color/mb_pink"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/dialog_power_description_text"
+        <TextView
+            android:id="@+id/power_pres_test_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.powerUseRoll)}"
+            tools:text="6"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/power_dice_icon"
+            app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
+            app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
+            app:layout_constraintTop_toTopOf="@+id/power_dice_icon" />
+
+        <TextView
+            android:id="@+id/dialog_power_dr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cut_the_crap"
+            android:padding="8dp"
+            android:text="@string/power_pres_dr_text"
+            android:textColor="@color/mb_pink"
+            app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
+            app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/power_dice_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/power_dice_icon"
+            app:layout_constraintTop_toTopOf="@id/power_dice_icon">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nu_century_gothic"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo."
-                android:textColor="@color/mb_pink" />
-        </LinearLayout>
-    </ScrollView>
+                android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/dialog_power_description_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nu_century_gothic"
+                    android:text="@{viewModel.powerDescription}"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo."
+                    android:textColor="@color/mb_pink" />
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/power_dialog_confirm_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.powerUseRoll >= 12 ? @string/success : @string/failure}"
+            android:textColor="@color/white"
+            android:onClick="@{() -> viewModel.onPowerComplete()}"
+            app:backgroundTint="@color/mb_pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/power_dice_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

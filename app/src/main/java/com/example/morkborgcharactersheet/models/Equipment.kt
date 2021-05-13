@@ -9,6 +9,7 @@ import kotlin.random.Random
  * Equipment objects bridge the gap between Inventory and CharacterInventoryJoin
  * Could probably subclass this into the different inventory types TBH
  */
+// TODO: Finish transitioning to inventoryJoin ovr Inventory
 open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin?) {
     val joinId = Random.nextLong()
     val inventoryId = inventory.inventoryId
@@ -27,9 +28,15 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     val refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D2, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
     var broken = false
     val formattedDescription = formatDescription()
-    // TODO: Set by itemtype
+
     // TODO: Later allow user to choose
-    val equipmentImage = R.drawable.shield
+    val equipmentImage = when (type) {
+        ItemType.WEAPON -> if (weaponAbility == AbilityType.STRENGTH) R.drawable.sword else R.drawable.bow
+        ItemType.POWER -> R.drawable.ancient_scroll
+        ItemType.ARMOR -> R.drawable.armor
+        ItemType.SHIELD -> R.drawable.shield
+        else -> R.drawable.broken
+    }
 
     fun getInventory(): Inventory {
         inventory.name = name
@@ -52,7 +59,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     private fun formatDescription(): String {
         val d1 = if (type == ItemType.WEAPON) dice2.toString() else dice1.toString()
         val d2 = dice2.toString()
-        return description.replace("\${D1}", d1).replace("\${D2}", d2)
+        return description.replace("\$D1", d1).replace("\$D2", d2)
     }
 
     override fun equals(other: Any?): Boolean {

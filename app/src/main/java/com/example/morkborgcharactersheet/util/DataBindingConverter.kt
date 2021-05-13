@@ -15,8 +15,8 @@ class DataBindingConverter {
     companion object {
         /**
          * The converter I built for ints only works for positive ints (negative sign isn't an int)
-         * When dealing with int inputs that can possibly be negative, just ensure their editText has
-         * an inputType of signedNumber and just two-way bind it as a string. Then parse to an int later.
+         * When dealing with int inputs that can possibly be negative, ensure their editText has an
+         * inputType of signedNumber and just two-way bind it as a string. Then parse to an int later.
          */
         @InverseMethod("convertStringToInt")
         @JvmStatic
@@ -88,9 +88,7 @@ class DataBindingConverter {
         fun convertAbilityTypeToRadioButton(type: AbilityType?): Int {
             return when (type) {
                 AbilityType.STRENGTH -> R.id.fragment_item_new_strength_radio_button
-                AbilityType.AGILITY -> R.id.fragment_item_new_agility_radio_button
                 AbilityType.PRESENCE -> R.id.fragment_item_new_presence_radio_button
-                AbilityType.TOUGHNESS -> R.id.fragment_item_new_toughness_radio_button
                 AbilityType.UNTYPED -> -1
                 else -> -1
             }
@@ -100,9 +98,7 @@ class DataBindingConverter {
         fun convertRadioButtonToAbilityType(button: Int): AbilityType {
             return when (button) {
                 R.id.fragment_item_new_strength_radio_button -> AbilityType.STRENGTH
-                R.id.fragment_item_new_agility_radio_button -> AbilityType.AGILITY
                 R.id.fragment_item_new_presence_radio_button -> AbilityType.PRESENCE
-                R.id.fragment_item_new_toughness_radio_button -> AbilityType.TOUGHNESS
                 else -> AbilityType.UNTYPED
             }
         }
@@ -129,8 +125,6 @@ class DataBindingConverter {
         }
         /**
          * End editInventory-specific bindings
-         *
-         * Begin editCharacter-specific bindings
          */
     }
 }

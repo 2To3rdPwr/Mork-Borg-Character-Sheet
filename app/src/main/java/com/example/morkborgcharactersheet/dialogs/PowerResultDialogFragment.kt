@@ -3,54 +3,36 @@ package com.example.morkborgcharactersheet.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
-import com.example.morkborgcharactersheet.R
-import kotlinx.android.synthetic.main.dialog_dice_roll_result.view.*
-import kotlinx.android.synthetic.main.dialog_power_result.view.*
-import java.lang.IllegalStateException
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel
+import com.example.morkborgcharactersheet.databinding.DialogPowerResultBinding
 
 class PowerResultDialogFragment : DialogFragment() {
-    var presenceTest: Int = 0
-    var powerName: String = ""
-    // TODO: Display dice rolls in powerDescription
-    var powerDescription: String = ""
+    val viewModel: CharacterSheetViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
-    var listener: DialogListener? = null
-
-    interface DialogListener {
-        fun onPowerSuccess(omenUsed: Boolean)
-        fun onPowerFailed()
-    }
+    private var _binding: DialogPowerResultBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            // Get arguments
-            val args = arguments
-            presenceTest = args?.get("PRESTEST") as Int
-            powerName = args?.get("NAME") as String
-            powerDescription = args?.get("DESC") as String
+        _binding = DialogPowerResultBinding.inflate(LayoutInflater.from(context))
+        _binding!!.viewModel = viewModel
 
-            // Build and inflate
-            val inflater = it.layoutInflater
-            val view = inflater.inflate(R.layout.dialog_power_result, null)
+        viewModel.showPowerEvent.observe(requireParentFragment(), Observer {
+            if (it == false) {
+                dismiss()
+            }
+        })
 
-            view.power_pres_test_text.text = presenceTest.toString()
-            view.dialog_power_name_text.text = powerName
-            view.dialog_power_description_text.text = powerDescription
+        return AlertDialog.Builder(requireActivity())
+            .setView(binding.root)
+            .create()
+    }
 
-            val builder = AlertDialog.Builder(it, R.style.Theme_MorkBorgCharacterSheet_DialogBox)
-            builder
-                    .setView(view)
-                    .setNegativeButton("Failure") { _, _ ->
-                        listener?.onPowerFailed()
-                        dismiss()
-                    }
-                    .setPositiveButton("Success") { _, _ ->
-                        // TODO: Handle omen use
-                        listener?.onPowerSuccess(false)
-                        dismiss()
-                    }
-                    .create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -34,7 +34,7 @@ class Dice (var amount: Int = 1, var diceValue: DiceValue = DiceValue.D20, var b
         else if (bonus < 0)
             diceString += "$bonus"
         if (ability != AbilityType.UNTYPED)
-            diceString += "$ability"
+            diceString += "+$ability"
 
         return diceString
     }

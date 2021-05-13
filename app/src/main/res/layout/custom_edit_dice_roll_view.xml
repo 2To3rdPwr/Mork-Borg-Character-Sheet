@@ -23,6 +23,9 @@
         <variable
             name="visible"
             type="Boolean" />
+        <variable
+            name="hideAbility"
+            type="Boolean" />
     </data>
     <LinearLayout
         android:id="@+id/custom_dice_roller_linear_layout"
@@ -85,13 +88,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:visibility="@{hideAbility ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/custom_dice_roller_ability_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/abilities_array"
-            android:selectedItemPosition="@{DataBindingConverter.convertAbilityTypeToSpinnerPosition(abilityType)}" />
+            android:selectedItemPosition="@{DataBindingConverter.convertAbilityTypeToSpinnerPosition(abilityType)}"
+            android:visibility="@{hideAbility ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone" />
     </LinearLayout>
 </layout>

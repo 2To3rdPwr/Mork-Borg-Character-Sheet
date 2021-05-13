@@ -56,7 +56,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDamageRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
             }
         }
@@ -66,7 +65,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDamageRollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?:AbilityType.UNTYPED)
             }
         }
@@ -77,7 +75,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setUsesRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
             }
         }
@@ -87,7 +84,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setUsesRollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?:AbilityType.UNTYPED)
             }
         }
@@ -98,7 +94,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDescription1RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
             }
         }
@@ -108,7 +103,6 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDescription1RollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?:AbilityType.UNTYPED)
             }
         }
@@ -119,17 +113,15 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDescription2RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
             }
         }
 
         binding.fragmentItemNewDescriptionRoller2.customDiceRollerAbilitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Log.i("AAA", "AAA")
+                // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.i("Position Selected", position.toString())
                 editInventoryViewModel.setDescription2RollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?:AbilityType.UNTYPED)
             }
         }
@@ -166,11 +158,12 @@ class EditInventoryFragment : Fragment(){
             }
         })
 
+        // Not really a toast. Shows a snackbar alerting the user to set the item's name.
         editInventoryViewModel.showToastEvent.observe(viewLifecycleOwner, Observer { event ->
-            if(event && editInventoryViewModel.toastText.value != null) {
+            if(event) {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
-                    editInventoryViewModel.toastText.value!!,
+                    getString(R.string.name_required_string),
                     Snackbar.LENGTH_LONG
                 ).show()
                 editInventoryViewModel.onShowToastEventComplete()
@@ -216,7 +209,7 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.VISIBLE
 
-                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_dectription_tip)
+                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
                 binding.fragmentItemNewArmorTierLabel.visibility = View.VISIBLE
                 binding.fragmentItemNewArmorTierRadioGroup.visibility = View.VISIBLE
             }
@@ -227,7 +220,7 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
                 binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
-                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_dectription_tip)
+                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
             SHIELD -> {
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
@@ -235,7 +228,7 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
                 binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
-                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_dectription_tip)
+                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
             OTHER -> {
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
@@ -245,7 +238,7 @@ class EditInventoryFragment : Fragment(){
                         binding.editInventoryViewModel?.rolledMaxUses?.value == true,
                         binding.editInventoryViewModel?.refillableUses?.value == true)
 
-                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_dectription_tip)
+                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
             else -> {
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
@@ -253,7 +246,7 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
                 binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
-                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_dectription_tip)
+                binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
         }
     }

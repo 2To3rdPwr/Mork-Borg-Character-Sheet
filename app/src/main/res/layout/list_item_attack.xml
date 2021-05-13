@@ -45,7 +45,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sword" />
+            app:src="@{inventory.equipmentImage}" />
 
         <ImageView
             android:id="@+id/dice_icon"

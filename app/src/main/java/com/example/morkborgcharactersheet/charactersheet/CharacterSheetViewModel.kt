@@ -5,12 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.*
 import com.example.morkborgcharactersheet.database.*
+import com.example.morkborgcharactersheet.models.*
 import com.example.morkborgcharactersheet.models.ItemType.*
-import com.example.morkborgcharactersheet.models.AbilityType
 import com.example.morkborgcharactersheet.models.AbilityType.*
-import com.example.morkborgcharactersheet.models.Dice
-import com.example.morkborgcharactersheet.models.DiceValue
-import com.example.morkborgcharactersheet.models.Equipment
 import kotlinx.coroutines.*
 import java.lang.IllegalArgumentException
 import kotlin.random.Random
@@ -46,7 +43,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val armor = database.getEquippedArmor(characterId)
     val shield = database.getEquippedShield(characterId)
 
-
     // Custom ability rolls
     val customRollerAmount = MutableLiveData<Int>(1)
     val customRollerValue = MutableLiveData<DiceValue>(DiceValue.D20)
@@ -65,44 +61,43 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val attackDamage: LiveData<Int>
         get() = _attackDamage
 
-    // Defense Dialog
-
     // Power Dialog
+    private val _powerName = MutableLiveData<String>()
+    val powerName: LiveData<String>
+        get() = _powerName
 
-    // Rolls from dialogs
-    private val _rolledValue = MutableLiveData<Int>()
-    val rolledValue: LiveData<Int>
-        get() = _rolledValue
+    private val _powerUseRoll = MutableLiveData<Int>()
+    val powerUseRoll: LiveData<Int>
+        get() = _powerUseRoll
 
-    private val _rolledValue2 = MutableLiveData<Int>()
-    val rolledValue2: LiveData<Int>
-        get() = _rolledValue2
+    private val _powerDescription = MutableLiveData<String>()
+    val powerDescription: LiveData<String>
+        get() = _powerDescription
 
-    private val _rolledValue3 = MutableLiveData<Int>()
-    val rolledValue3: LiveData<Int>
-        get() = _rolledValue3
-    // End Dice Rolls
+    // Defense Dialog
+    private val _evasionRoll = MutableLiveData<Int>()
+    val evasionRoll: LiveData<Int>
+        get() = _evasionRoll
 
-    private var _recentInventory: Inventory? = null
-    val recentInventory: Inventory?
-        get() = _recentInventory
+    // Defence Dialog Damage Roller
+    val damageRollerAmount = MutableLiveData<Int>(1)
+    val damageRollerValue = MutableLiveData<DiceValue>(DiceValue.D4)
+    val damageRollerBonus = MutableLiveData<String>("0")
+    private val _damageRoll = MutableLiveData<Int>()
+    val damageRoll: LiveData<Int>
+        get() = _damageRoll
 
-    private var _recentEquipment: Equipment? = null
-    val recentEquipment: Equipment?
-        get() = _recentEquipment
+    private val _armorRoll = MutableLiveData<Int>()
+    val armorRoll: LiveData<Int>
+        get() = _armorRoll
 
-    // TODO: Replace with Equipment
-    // Power descriptions may vary, and sometimes have dice results embedded directly in their text.
-    private var _powerDescriptionText: String? = null
-    val powerDescriptionText: String?
-        get() = _powerDescriptionText
+    private val _defaultEvasionDR = MutableLiveData<Int>()
+    val defaultEvasionDR: LiveData<Int>
+        get() = _defaultEvasionDR
 
-    /**
-     * Transformed LiveData For display
-     */
-    val currentHPString = Transformations.map(character) {
-        it?.currentHP.toString()
-    }
+    private val _defenceDialogStep = MutableLiveData<Int>(1)
+    val defenceDialogStep: LiveData<Int>
+        get() = _defenceDialogStep
 
     /**
      * Events
@@ -116,12 +111,10 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _showAttackEvent.value = false
     }
 
+    // Pairs with onPowerClicked() and onPowerComplete()
     private val _showPowerEvent = MutableLiveData<Boolean>()
     val showPowerEvent: LiveData<Boolean>
         get() = _showPowerEvent
-    fun onShowPowerEventDone() {
-        _showPowerEvent.value = false
-    }
 
     private val _showDefenceEvent = MutableLiveData<Boolean>()
     val showDefenceEvent: LiveData<Boolean>
@@ -140,6 +133,14 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _editCharacterEvent.value = false
     }
 
+    // Should probably have done this as an enum
+    private val _snackbarText = MutableLiveData<CharacterSheetSnackbarType?>()
+    val snackbarText: LiveData<CharacterSheetSnackbarType?>
+        get() = _snackbarText
+    fun onSnackbarDone() {
+        _snackbarText.value = null
+    }
+
     /**
      * FE functions
      */
@@ -152,7 +153,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         customRollerAbility.value = abilityType
     }
 
-
     fun onCustomRoll() {
         _customRolledValue.value = abilityRoll(Dice(customRollerAmount.value ?: 0, customRollerValue.value!!, customRollerBonus.value?.toInt() ?: 0, customRollerAbility.value!!))
     }
@@ -160,7 +160,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     fun onAttackClicked(attack: Equipment) {
         // Can't shoot a bow with no arrows
         if (attack.uses == 0) {
-            // TODO: Pop toast
+            _snackbarText.value=CharacterSheetSnackbarType.NO_USES
             return
         }
 
@@ -181,57 +181,54 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     fun onPowerClicked(power: Equipment) {
         // Ensure this character has enough uses of powers left for the day
         if (character.value!!.powers <= 0) {
-            // TODO: Pop a toast for user feedback
+            _snackbarText.value = CharacterSheetSnackbarType.NO_POWERS
+            return
+        } else if (_armor.value?.armorTier?.ordinal ?: 0 > 1) {
+            _snackbarText.value = CharacterSheetSnackbarType.WEARING_ARMOR
             return
         }
-        // TODO: Powers can't be used in tier 2/3 armor or shields. Pop toast for user.
 
         // Presence test to see if power fires off or fails.
-        _rolledValue.value = abilityRoll(PRESENCE)
+        _powerUseRoll.value = abilityRoll(PRESENCE)
+
         // Other rolled values are determined on a power-by-power basis
         val roll1 = abilityRoll(power.dice1)
         val roll2 = abilityRoll(power.dice2)
 
-        _rolledValue2.value = roll1
-        _rolledValue3.value = roll2
-        _powerDescriptionText = power.description.replace("\${D1}", roll1.toString()).replace("\${D2}", roll2.toString())
-
-        _recentEquipment = power
+        _powerDescription.value = power.description.replace("\$D1", roll1.toString()).replace("\$D2", roll2.toString())
 
         _showPowerEvent.value = true
     }
 
-    fun onPowerComplete(feedback: Boolean) {
-        if (feedback) {
+    fun onPowerComplete() {
+        if (powerUseRoll.value!! < 12) {
             val feedbackDamage = Dice(diceValue = DiceValue.D2).roll()
             takeDamage(feedbackDamage)
         }
         _character.value!!.powers --
         // Notify LiveData of changes to character
         _character.value = _character.value
+
+        _showPowerEvent.value = false
     }
 
     fun onDefenceClicked() {
-        // TODO: Armor Tiers
-
-        // rolledValue 1 is agility test to avoid damage
-        _rolledValue.value = abilityRoll(AGILITY)
-        // rolledValue2 is damage negated by armor/shield
-        _rolledValue2.value = if (armor.value != null) roll(diceValue = armor.value!!.dice1Value) else 0
-        if (shield.value != null) {
-            _rolledValue2.value = if (rolledValue2.value != null) _rolledValue2.value!! + 1 else 1
-        }
-        _rolledValue2.value = -1 * _rolledValue2.value!!
+        _defenceDialogStep.value = 1
+        _defaultEvasionDR.value = if (_armor.value?.armorTier?.ordinal ?: 0 >= 2) 14 else 12
+        _evasionRoll.value = abilityRoll(AGILITY)
 
         _showDefenceEvent.value = true
     }
 
-    fun onDefenceComplete(damage: Int, shielded: Boolean) {
-        if (!shielded) {
-            takeDamage(damage)
-        } else {
-            // TODO: Destroy shield
+    fun onDefenceHit() {
+        _defenceDialogStep.value = 2
+    }
+
+    fun onDefenceComplete(hit: Boolean) {
+        if(hit) {
+            // TODO
         }
+        _showDefenceEvent.value = false
     }
 
     /**
@@ -264,7 +261,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
     fun loadCharacter() {
         viewModelScope.launch {
-            val myCharacter: Character? = getCharacter(characterId)
+            val myCharacter: Character = getCharacter(characterId)
                     ?: throw IllegalArgumentException("Invalid characterId")
             _character.value = myCharacter
 
@@ -375,5 +372,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         viewModelScope.launch {
             saveCharacter()
         }
+    }
+
+    enum class CharacterSheetSnackbarType {
+        NO_USES,
+        NO_POWERS,
+        WEARING_ARMOR;
     }
 }

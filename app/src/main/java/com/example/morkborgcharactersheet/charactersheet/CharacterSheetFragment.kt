@@ -1,7 +1,6 @@
 package com.example.morkborgcharactersheet.charactersheet
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +9,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.morkborgcharactersheet.R
-import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentArgs
 import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
-import com.example.morkborgcharactersheet.database.CharacterDatabase
 import com.example.morkborgcharactersheet.databinding.FragmentCharacterSheetBinding
 import com.example.morkborgcharactersheet.dialogs.AttackResultDialogFragment
 import com.example.morkborgcharactersheet.dialogs.DefenceDialogFragment
-import com.example.morkborgcharactersheet.dialogs.DiceResultDialogFragment
 import com.example.morkborgcharactersheet.dialogs.PowerResultDialogFragment
 import com.example.morkborgcharactersheet.models.AbilityType
 import com.example.morkborgcharactersheet.models.DiceValue
 import com.example.morkborgcharactersheet.util.DataBindingConverter
+import com.google.android.material.snackbar.Snackbar
 
 class CharacterSheetFragment(var characterId: Long) : Fragment(){
     // Creating a viewmodel without ViewModelProvider allows me to share it with other fragments
@@ -96,7 +90,6 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
             }
         }
 
-        // TODO: Refactor dialogs. Ideally we can just pass them an Equipment and whatever rolled values they need and be done with it.
         characterSheetViewModel.showAttackEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 AttackResultDialogFragment().show(childFragmentManager, "Attack")
@@ -112,15 +105,13 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
 
         characterSheetViewModel.showPowerEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                popPowerResultDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.recentEquipment!!.name, characterSheetViewModel.powerDescriptionText?:"")
-                characterSheetViewModel.onShowPowerEventDone()
+                PowerResultDialogFragment().show(childFragmentManager, "Power")
             }
         })
 
         characterSheetViewModel.showDefenceEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                popDefenceDialog(characterSheetViewModel.rolledValue.value!!, characterSheetViewModel.rolledValue2.value!!)
-                characterSheetViewModel.onShowDefenceEventDone()
+                DefenceDialogFragment().show(childFragmentManager, "Defence")
             }
         })
 
@@ -131,60 +122,26 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
             }
         })
 
+        /**
+         * Snackbar
+         */
+        characterSheetViewModel.snackbarText.observe(viewLifecycleOwner, Observer { text ->
+            if(text != null) {
+                val snackbarText = when (text) {
+                    CharacterSheetViewModel.CharacterSheetSnackbarType.NO_USES -> getString(R.string.no_uses_snackbar_string)
+                    CharacterSheetViewModel.CharacterSheetSnackbarType.NO_POWERS -> getString(R.string.no_powers_snackbar_string)
+                    CharacterSheetViewModel.CharacterSheetSnackbarType.WEARING_ARMOR -> getString(R.string.no_power_wearing_armor_string)
+                    else -> throw IllegalArgumentException("Invalid snackbar type")
+                }
+                Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        snackbarText,
+                        Snackbar.LENGTH_LONG
+                ).show()
+                characterSheetViewModel.onSnackbarDone()
+            }
+        })
+
         return binding.root
-    }
-
-    /**
-     * Dialog Builders
-     * TODO: MVVM-ize dialogs
-     *      https://proandroiddev.com/dialogs-in-android-mvvm-5d6e1ca53b19
-     */
-    fun getViewModel(): CharacterSheetViewModel {
-        return characterSheetViewModel
-    }
-
-    private fun popPowerResultDialog(presTest: Int, name: String, description: String) {
-        val newFragment = PowerResultDialogFragment()
-        val bundle = Bundle()
-        bundle.putInt("PRESTEST", presTest)
-        bundle.putString("NAME", name)
-        bundle.putString("DESC", description)
-        newFragment.arguments = bundle
-
-        newFragment.apply {
-            listener = object :PowerResultDialogFragment.DialogListener {
-                override fun onPowerSuccess(omenUsed: Boolean) {
-                    characterSheetViewModel.onPowerComplete(false)
-                }
-
-                override fun onPowerFailed() {
-                    characterSheetViewModel.onPowerComplete(true)
-                }
-            }
-        }
-
-        newFragment.show(parentFragmentManager, "Power")
-    }
-
-    private fun popDefenceDialog(aglTest: Int, damageReduction: Int) {
-        val newFragment = DefenceDialogFragment()
-        val bundle = Bundle()
-        bundle.putInt("AGLTEST", aglTest)
-        bundle.putInt("DR", damageReduction)
-        newFragment.arguments = bundle
-
-        newFragment.apply {
-            listener = object  :DefenceDialogFragment.DialogListener {
-                override fun onDamageTaken(damage: Int) {
-                    characterSheetViewModel.onDefenceComplete(damage, false)
-                }
-
-                override fun onDamageAvoided(shieldUsed: Boolean) {
-                    characterSheetViewModel.onDefenceComplete(0, shieldUsed)
-                }
-            }
-        }
-
-        newFragment.show(parentFragmentManager, "Defence")
     }
 }

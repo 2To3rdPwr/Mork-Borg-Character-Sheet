@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/dark_college"
-                    android:text="@string/ability_used_string"
+                    android:text="@string/weapon_type_label"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -146,16 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/abandon"
-                        android:text="@string/strength_string"
-                        android:textSize="12sp" />
-
-                    <RadioButton
-                        android:id="@+id/fragment_item_new_agility_radio_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
-                        android:text="@string/agility_string"
+                        android:text="@string/weapon_type_melee"
                         android:textSize="12sp" />
 
                     <RadioButton
@@ -164,16 +155,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/abandon"
-                        android:text="@string/presence_string"
-                        android:textSize="12sp" />
-
-                    <RadioButton
-                        android:id="@+id/fragment_item_new_toughness_radio_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
-                        android:text="@string/toughness_string"
+                        android:text="@string/weapon_type_ranged"
                         android:textSize="12sp" />
                 </RadioGroup>
 
@@ -281,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/new_item_2_roll_dectription_tip"
+                android:text="@string/new_item_2_roll_description_tip"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="@+id/fragment_item_new_description_scrollable"
                 app:layout_constraintStart_toStartOf="@+id/fragment_item_new_description_scrollable"
@@ -294,7 +276,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/nu_century_gothic"
-                android:text="${D1}"
+                android:text="$D1"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_tutorial_text" />
@@ -317,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/nu_century_gothic"
-                android:text="${D2}"
+                android:text="$D2"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/fragment_item_new_description_roller_1_label"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_1" />

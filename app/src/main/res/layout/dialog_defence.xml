@@ -2,62 +2,60 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+
+        <variable
+            name="viewModel"
+            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/black">
+        android:background="@color/black">
 
         <ImageView
             android:id="@+id/defence_dialog_tohit_icon"
             android:layout_width="@dimen/rolled_dice_icon_size"
             android:layout_height="@dimen/rolled_dice_icon_size"
-            android:layout_marginStart="8dp"
-            app:tint="@color/mb_pink"
-            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_damage_taken_label"
-            app:srcCompat="@drawable/dice" />
-
-        <ImageView
-            android:id="@+id/defence_dialog_armor_icon"
-            android:layout_width="@dimen/rolled_dice_icon_size"
-            android:layout_height="@dimen/rolled_dice_icon_size"
-            android:layout_marginEnd="8dp"
-            app:tint="@color/mb_lighter_pink"
-            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon"
-            app:srcCompat="@drawable/shield" />
+            app:layout_constraintEnd_toEndOf="@+id/defence_tohit_label"
+            app:layout_constraintStart_toStartOf="@+id/defence_tohit_label"
+            app:layout_constraintTop_toBottomOf="@+id/defence_tohit_label"
+            app:srcCompat="@drawable/dice"
+            app:tint="@color/mb_pink" />
 
         <TextView
             android:id="@+id/defence_dialog_tohit_rolled_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@{viewModel.evasionRoll >= viewModel.defaultEvasionDR ? @color/white : @color/black}"
             android:fontFamily="@font/white_on_black"
-            android:text="19"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.evasionRoll)}"
             android:textColor="@color/mb_pink"
             android:textSize="@dimen/rolled_dice_font_size"
             app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_tohit_icon"
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
             app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon"
-            app:layout_constraintTop_toTopOf="@+id/defence_dialog_tohit_icon" />
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_tohit_icon"
+            tools:text="19" />
 
         <TextView
-            android:id="@+id/defence_dialog_blocked_rolled_text"
+            android:id="@+id/defence_tohit_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:fontFamily="@font/white_on_black"
-            android:text="-3"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/zombie"
+            android:text="@string/to_hit_string"
             android:textColor="@color/mb_pink"
-            android:textSize="@dimen/rolled_dice_font_size"
-            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_armor_icon"
-            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
-            app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon"
-            app:layout_constraintTop_toTopOf="@+id/defence_dialog_armor_icon" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/defence_dialog_tohit_dr_label"
@@ -65,12 +63,55 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/dark_college"
             android:padding="8dp"
-            android:text="@string/defence_dialog_tohit_label"
+            android:text="@{`DR`+DataBindingConverter.convertIntToString(viewModel.defaultEvasionDR)}"
+            tools:text="DR12"
             android:textColor="@color/mb_pink"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/defence_dialog_tohit_icon"
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
-            app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon" />
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_icon" />
+
+        <Button
+            android:id="@+id/damage_evade_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/deadly_killers"
+            android:text="@string/miss"
+            android:textSize="18sp"
+            android:onClick="@{() -> viewModel.onDefenceComplete(false)}"
+            app:backgroundTint="@color/mb_pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/defence_hit_button"
+            app:layout_constraintTop_toTopOf="@+id/defence_hit_button" />
+
+        <Button
+            android:id="@+id/defence_hit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/deadly_killers"
+            android:text="@string/hit"
+            android:textSize="18sp"
+            app:backgroundTint="@color/mb_pink"
+            app:layout_constraintEnd_toStartOf="@+id/damage_evade_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_dr_label" />
+
+        <TextView
+            android:id="@+id/defence_dialog_blocked_rolled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:fontFamily="@font/white_on_black"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.armorRoll)}"
+            android:textColor="@color/mb_pink"
+            android:textSize="@dimen/rolled_dice_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_armor_icon"
+            tools:text="-3" />
 
         <TextView
             android:id="@+id/defence_dialog_blocked_label"
@@ -85,28 +126,22 @@
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
             app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon" />
 
-        <EditText
+        <TextView
             android:id="@+id/defence_dialog_damage_input_edittext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@null"
-            android:ems="10"
             android:fontFamily="@font/cut_the_crap"
-            android:inputType="number"
-            android:maxLength="3"
-            android:maxLines="1"
-            android:selectAllOnFocus="false"
-            android:singleLine="true"
-            android:text="0"
+            android:text="@{DataBindingConverter.convertIntToString(viewModel.damageRoll)}"
             android:textAlignment="center"
             android:textColor="@color/mb_pink"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_damage_icon"
             app:layout_constraintStart_toStartOf="@+id/defence_dialog_damage_icon"
-            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon" />
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon"
+            tools:text="0" />
 
         <TextView
             android:id="@+id/defence_dialog_damage_taken_label"
@@ -117,19 +152,51 @@
             android:text="@string/damage_string"
             android:textColor="@color/mb_pink"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_damage_input_edittext"
-            app:layout_constraintStart_toStartOf="@+id/defence_dialog_damage_input_edittext"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:layout_editor_absoluteX="222dp"
+            tools:layout_editor_absoluteY="260dp" />
 
         <ImageView
             android:id="@+id/defence_dialog_damage_icon"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            app:srcCompat="@drawable/explosion"
             app:tint="@color/mb_pink"
-            app:layout_constraintEnd_toStartOf="@+id/defence_dialog_armor_icon"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/defence_dialog_tohit_icon"
+            tools:layout_editor_absoluteX="187dp"
+            tools:layout_editor_absoluteY="416dp" />
+
+        <include
+            android:id="@+id/defence_damage_roller"
+            layout="@layout/custom_edit_dice_roll_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="340dp"
+            android:theme="@style/Theme.MorkBorgCharacterSheet.DialogBox"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_damage_taken_label"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_damage_taken_label"
             app:layout_constraintTop_toBottomOf="@+id/defence_dialog_damage_taken_label"
-            app:srcCompat="@drawable/explosion" />
+            bind:diceAmount="@={viewModel.damageRollerAmount}"
+            bind:diceBonus="@={viewModel.damageRollerBonus}"
+            bind:diceValue="@{viewModel.damageRollerValue}"
+            bind:hideAbility="@{true}"
+            bind:visible="@{true}" />
+
+        <ImageView
+            android:id="@+id/defence_dialog_armor_icon"
+            android:layout_width="@dimen/rolled_dice_icon_size"
+            android:layout_height="@dimen/rolled_dice_icon_size"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/defence_dialog_damage_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/defence_dialog_damage_icon"
+            app:srcCompat="@drawable/shield"
+            app:tint="@color/mb_pink" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="damage_evade_button,defence_dialog_tohit_dr_label,defence_hit_button,defence_tohit_label,defence_dialog_tohit_rolled_text,defence_dialog_tohit_icon"
+            android:id="@+id/defence_dialog_tohit_group"
+            android:visibility="@{viewModel.defenceDialogStep == 1 ? View.Visible : View.Gone}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
