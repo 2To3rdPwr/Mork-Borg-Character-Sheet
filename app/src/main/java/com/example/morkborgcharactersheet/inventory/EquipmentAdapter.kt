@@ -38,8 +38,12 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Expand
     class ViewHolder private constructor(val binding: ListItemInventoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(clickListener: EquipmentListener, item: ExpandableEquipment) {
             binding.equipment = item
-            if(item.formattedDescription == "")
-                Log.i("Item", item.name)
+            // Override Recyclerview's touch to allow description scrolling
+            binding.equipmentDescriptionText.setOnTouchListener{ v, event ->
+                binding.equipmentDescriptionScrollable.onTouchEvent(event)
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                true
+            }
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }

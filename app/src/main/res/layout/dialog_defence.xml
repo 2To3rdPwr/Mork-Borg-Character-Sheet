@@ -197,6 +197,6 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="damage_evade_button,defence_dialog_tohit_dr_label,defence_hit_button,defence_tohit_label,defence_dialog_tohit_rolled_text,defence_dialog_tohit_icon"
             android:id="@+id/defence_dialog_tohit_group"
-            android:visibility="@{viewModel.defenceDialogStep == 1 ? View.Visible : View.Gone}"/>
+            android:visibility="@{viewModel.defenceDialogStep == 1 ? View.VISIBLE : View.GONE}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

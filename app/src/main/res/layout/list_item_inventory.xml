@@ -109,7 +109,7 @@
             android:background="?attr/colorButtonNormal"
             android:visibility="@{equipment.expanded ? View.VISIBLE : View.GONE}">
 
-            <androidx.core.widget.NestedScrollView
+            <ScrollView
                 android:id="@+id/equipment_description_scrollable"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -129,13 +129,13 @@
 
                     <TextView
                         android:id="@+id/equipment_description_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nu_century_gothic"
                         android:text="@{equipment.formattedDescription}"
                         tools:text="@string/laurem_ipsum_long" />
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+            </ScrollView>
 
             <ImageView
                 android:id="@+id/reload_equipment_icon"
