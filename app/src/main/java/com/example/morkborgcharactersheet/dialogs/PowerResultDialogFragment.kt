@@ -20,7 +20,7 @@ class PowerResultDialogFragment : DialogFragment() {
         _binding = DialogPowerResultBinding.inflate(LayoutInflater.from(context))
         _binding!!.viewModel = viewModel
 
-        viewModel.showPowerEvent.observe(requireParentFragment(), Observer {
+        viewModel.showPowerEvent.observe(this, Observer {
             if (it == false) {
                 dismiss()
             }

@@ -99,13 +99,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/enchanted_land"
+            android:onClick="@{() -> viewModel.onPowerComplete()}"
             android:text="@{viewModel.powerUseRoll >= 12 ? @string/success : @string/failure}"
             android:textColor="@color/white"
-            android:onClick="@{() -> viewModel.onPowerComplete()}"
+            android:textSize="24sp"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/power_dice_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/power_dice_icon"
+            tools:text="Success" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -222,6 +222,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
     fun onDefenceHit() {
         _defenceDialogStep.value = 2
+        Log.i("Defence", defenceDialogStep.value.toString())
+    }
+
+    fun onDefenceDamageRoll() {
+        _defenceDialogStep.value = 3
     }
 
     fun onDefenceComplete(hit: Boolean) {
