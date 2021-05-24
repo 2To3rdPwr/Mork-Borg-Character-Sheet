@@ -1,5 +1,6 @@
 package com.example.morkborgcharactersheet.models
 
+// TODO: DiceValue for D0
 enum class DiceValue(val value: Int, val id: Int) {
     D2 (2, 0),
     D3 (3, 1),
@@ -11,7 +12,7 @@ enum class DiceValue(val value: Int, val id: Int) {
     D20 (20, 7);
 
     companion object {
-        fun get(value: Int): DiceValue? = DiceValue.values().find { it.id == value }
-        fun getByValue(value: Int): DiceValue? = DiceValue.values().find { it.value == value }
+        fun get(value: Int): DiceValue? = values().find { it.id == value }
+        fun getByValue(value: Int): DiceValue? = values().find { it.value == value }
     }
 }

@@ -18,7 +18,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     var description = inventory.description
     val type = ItemType.get(inventory.type)
     var equipped = inventory.equipped
-    val armorTier = ArmorTier.get(inventory.armorTier)
+    var armorTier = ArmorTier.get(inventory.armorTier)
     val weaponAbility = AbilityType.get(inventory.ability)
     val dice1 = Dice(inventory.dice1Amount, DiceValue.getByValue(inventory.dice1Value)?:DiceValue.D2, inventory.dice1Bonus, AbilityType.get(inventory.dice1Ability)!!)
     val dice2 = Dice(inventory.dice2Amount, DiceValue.getByValue(inventory.dice2Value)?:DiceValue.D2, inventory.dice2Bonus, AbilityType.get(inventory.dice2Ability)!!)

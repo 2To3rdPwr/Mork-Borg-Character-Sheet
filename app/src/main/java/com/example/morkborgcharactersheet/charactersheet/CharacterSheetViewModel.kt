@@ -37,11 +37,28 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         get() = _powers
 
     private val _armor = MutableLiveData<Equipment>()
+    val armor: LiveData<Equipment>
+        get() = _armor
 
     private val _shield = MutableLiveData<Equipment>()
+    val shield: LiveData<Equipment>
+        get() = _shield
 
-    val armor = database.getEquippedArmor(characterId)
-    val shield = database.getEquippedShield(characterId)
+    private val _brokenType = MutableLiveData<BrokenEventType>(BrokenEventType.NOT_BROKEN)
+    val brokenType: LiveData<BrokenEventType>
+        get() = _brokenType
+
+    private val _brokenRoll = MutableLiveData<Int>()
+    val brokenRoll: LiveData<Int>
+        get() = _brokenRoll
+
+    private val _crit = MutableLiveData<Boolean>(false)
+    val crit: LiveData<Boolean>
+        get() = _crit
+
+    private val _fumble = MutableLiveData<Boolean>(false)
+    val fumble: LiveData<Boolean>
+        get() = _fumble
 
     // Custom ability rolls
     val customRollerAmount = MutableLiveData<Int>(1)
@@ -79,18 +96,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val evasionRoll: LiveData<Int>
         get() = _evasionRoll
 
-    // Defence Dialog Damage Roller
-    val damageRollerAmount = MutableLiveData<Int>(1)
-    val damageRollerValue = MutableLiveData<DiceValue>(DiceValue.D4)
-    val damageRollerBonus = MutableLiveData<String>("0")
-    private val _damageRoll = MutableLiveData<Int>()
-    val damageRoll: LiveData<Int>
-        get() = _damageRoll
-
-    private val _armorRoll = MutableLiveData<Int>()
-    val armorRoll: LiveData<Int>
-        get() = _armorRoll
-
     private val _defaultEvasionDR = MutableLiveData<Int>()
     val defaultEvasionDR: LiveData<Int>
         get() = _defaultEvasionDR
@@ -98,6 +103,23 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private val _defenceDialogStep = MutableLiveData<Int>(1)
     val defenceDialogStep: LiveData<Int>
         get() = _defenceDialogStep
+
+    private val _armorRoll = MutableLiveData<Int>()
+    val armorRoll: LiveData<Int>
+        get() = _armorRoll
+
+    private var armorToggle = true
+
+    // Defence Dialog Damage Roller
+    val damageRollerAmount = MutableLiveData<Int>(1)
+    val damageRollerValue = MutableLiveData<DiceValue>(DiceValue.D4)
+    val damageRollerBonus = MutableLiveData<String>("0")
+    private val _defenceDamage = MutableLiveData<Int>()
+    val defenceDamage: LiveData<Int>
+        get() = _defenceDamage
+    val minDefenceDamage: LiveData<Int> = Transformations.map(defenceDamage) {
+        Math.max(it, 0)
+    }
 
     /**
      * Events
@@ -154,7 +176,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     fun onCustomRoll() {
-        _customRolledValue.value = abilityRoll(Dice(customRollerAmount.value ?: 0, customRollerValue.value!!, customRollerBonus.value?.toInt() ?: 0, customRollerAbility.value!!))
+        _customRolledValue.value = abilityRoll(Dice(customRollerAmount.value ?: 0, customRollerValue.value!!, customRollerBonus.value?.toIntOrNull() ?: 0, customRollerAbility.value!!))
     }
 
     fun onAttackClicked(attack: Equipment) {
@@ -165,7 +187,13 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
 
         _attackToHit.value = abilityRoll(attack.weaponAbility!!)
-        _attackDamage.value = abilityRoll(attack.dice1)
+        var damage = abilityRoll(attack.dice1)
+
+        if (crit.value == true) {
+            damage *= 2
+        }
+
+        _attackDamage.value = damage
 
         _showAttackEvent.value = true
 
@@ -222,16 +250,67 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
     fun onDefenceHit() {
         _defenceDialogStep.value = 2
-        Log.i("Defence", defenceDialogStep.value.toString())
     }
 
     fun onDefenceDamageRoll() {
+        var myArmor = armor.value
+        val myShield = shield.value
+        armorToggle = true
+
+        var damageRoll = Dice(damageRollerAmount.value ?: 0, damageRollerValue.value ?: DiceValue.D2, damageRollerBonus.value?.toIntOrNull() ?: 0).roll()
+        if (fumble.value == true) {
+            damageRoll *= 2
+            if (myArmor != null) {
+                myArmor.armorTier = when (myArmor.armorTier) {
+                    ArmorTier.HEAVY -> ArmorTier.MEDIUM
+                    ArmorTier.MEDIUM -> ArmorTier.LIGHT
+                    ArmorTier.LIGHT -> ArmorTier.NONE
+                    else -> ArmorTier.NONE
+                }
+            }
+        }
+
+        var defenceArmorRoll = 0
+        if (myArmor != null) {
+            val armorDice = when (myArmor.armorTier) {
+                ArmorTier.LIGHT -> DiceValue.D2
+                ArmorTier.MEDIUM -> DiceValue.D4
+                ArmorTier.HEAVY -> DiceValue.D6
+                else -> DiceValue.D2                    // Doesn't matter since ArmorTier(None) doesn't roll
+            }
+
+            if (myArmor.armorTier != ArmorTier.NONE) {
+                defenceArmorRoll = Dice(diceValue = armorDice).roll()
+            }
+        }
+
+        if (myShield != null && !myShield.broken) {
+            defenceArmorRoll ++
+        }
+
+        _armorRoll.value = defenceArmorRoll
+        _defenceDamage.value = damageRoll - defenceArmorRoll
+
         _defenceDialogStep.value = 3
     }
 
-    fun onDefenceComplete(hit: Boolean) {
+    fun toggleArmor() {
+        armorToggle = !armorToggle
+
+        if (armorToggle) {
+            _defenceDamage.value = _defenceDamage.value?.minus(armorRoll.value ?: 0)
+        } else {
+            _defenceDamage.value = _defenceDamage.value?.plus(armorRoll.value ?: 0)
+        }
+    }
+
+    fun onDefenceComplete(hit: Boolean, shielded: Boolean) {
         if(hit) {
-            // TODO
+            takeDamage(minDefenceDamage.value?:0)
+        } else if (shielded) {
+            viewModelScope.launch {
+                shield.value?.let { breakShield(it.inventoryId) }
+            }
         }
         _showDefenceEvent.value = false
     }
@@ -255,6 +334,12 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private suspend fun updateInventory(newInventory: Inventory) {
         return withContext(Dispatchers.IO) {
             database.updateInventory(newInventory)
+        }
+    }
+
+    private suspend fun breakShield(inventoryId: Long) {
+        withContext(Dispatchers.IO) {
+            database.breakShield(inventoryId)
         }
     }
 
@@ -301,21 +386,18 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     /**
      * Utility Functions
      */
-    // Used for general dice rolls
-    // TODO: Deprecated: Replace with Dice's roll() function
-    private fun roll(amount: Int = 1, diceValue: Int, bonus: Int = 0): Int {
-        var total = 0
-        for(i in 1 .. amount) {
-            total += Random.nextInt(1, diceValue + 1)
-        }
-        total += bonus
+    // Roll a simple 1D20 + bonus that can crit
+    private fun critRoll(bonus: Int = 0): Int {
+        var roll = Random.nextInt(1, 21)
 
-        return total
+        _crit.value = roll == 20
+        _fumble.value = roll == 1
+
+        return roll + bonus
     }
 
-    // Used for dice rolls modified by ability scores
-    // TODO: Deprecated: Replace with Dice's roll() function
-    private fun abilityRoll(ability: AbilityType, diceAmount: Int = 1, diceValue: Int = 20, diceBonus: Int = 0): Int {
+    // Roll 1D20 + ability score. Can crit.
+    private fun abilityRoll(ability: AbilityType): Int {
         val abilityScore = when (ability) {
             STRENGTH -> character.value!!.strength
             AGILITY -> character.value!!.agility
@@ -323,7 +405,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             TOUGHNESS -> character.value!!.toughness
             else -> 0
         }
-        return roll(diceAmount, diceValue, diceBonus + abilityScore)
+        return critRoll(abilityScore)
     }
 
     private fun abilityRoll(dice: Dice): Int {
@@ -338,39 +420,45 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     private fun takeDamage(damage: Int) {
-        _character.value!!.currentHP -= damage
+        Log.i("CurrentHP", character.value?.currentHP.toString())
+        var currentHp = character.value!!.currentHP - damage
 
-        if (_character.value!!.currentHP == 0) {
-            val brokenOutcome = Random.nextInt(4)
-            var brokenText: String = ""
+        if (currentHp == 0) {
             var restoredHP: Int = 0
 
             // TODO: Extract hardcoded strings
-            when (brokenOutcome) {
+            //  Add strings to string resource file and let FE know which version of dying to use strings for
+            when (Random.nextInt(4)) {
                 0 -> {
                     // Fall unconscious
-                    restoredHP = roll(diceValue = 4)
-                    brokenText = "Fall unconscious for " + roll(diceValue = 4) + " rounds."
+                    _brokenType.value = BrokenEventType.UNCONSCIOUS
+                    _brokenRoll.value = Dice(diceValue = DiceValue.D4).roll()
+                    restoredHP = Dice(diceValue = DiceValue.D4).roll()
                 }
                 1 -> {
                     // Lost a limb or (1:6 chance) eye
                     val eyeLost = Random.nextInt(6) == 0
-                    restoredHP = roll(diceValue = 4)
-                    brokenText = (if (eyeLost) "Lost an eye. " else "Broken or severed limb. ") + "Can\'t act for " + roll(diceValue =  4) + " rounds."
+                    _brokenType.value = if (eyeLost) BrokenEventType.LOSE_EYE else BrokenEventType.LOSE_LIMB
+                    _brokenRoll.value = Dice(diceValue = DiceValue.D4).roll()
+                    restoredHP = Dice(diceValue = DiceValue.D4).roll()
                 }
                 2 -> {
                     // Bleeding out
-                    brokenText = "Bleeding out. Death in " + roll(diceValue = 2) + " hours. All tests are DR 16 in the first hour and DR 18 in the final hour."
+                    _brokenType.value = BrokenEventType.BLEEDING
+                    _brokenRoll.value = Dice(diceValue = DiceValue.D4).roll()
                 }
                 3 -> {
-                    // TODO: Death
+                    // Death
+                    _brokenType.value = BrokenEventType.DEAD
                 }
             }
             _character.value!!.currentHP = min(restoredHP, character.value!!.maxHP)
-            // TODO: Convey brokenText to player
-        } else if (_character.value!!.currentHP < 0) {
-            // TODO: Death
+
+        } else if (currentHp < 0) {
+            _brokenType.value = BrokenEventType.DEAD
         }
+
+        _character.value!!.currentHP = currentHp
         // Notify LiveData of changes to character
         _character.value = _character.value
 
@@ -383,5 +471,14 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         NO_USES,
         NO_POWERS,
         WEARING_ARMOR;
+    }
+
+    enum class BrokenEventType {
+        NOT_BROKEN,
+        UNCONSCIOUS,
+        LOSE_EYE,
+        LOSE_LIMB,
+        BLEEDING,
+        DEAD;
     }
 }

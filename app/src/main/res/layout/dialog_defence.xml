@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/deadly_killers"
-            android:onClick="@{() -> viewModel.onDefenceComplete(false)}"
+            android:onClick="@{() -> viewModel.onDefenceComplete(false, false)}"
             android:text="@string/miss"
             android:textSize="18sp"
             app:backgroundTint="@color/mb_pink"
@@ -201,7 +201,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/cut_the_crap"
-            android:text="@{DataBindingConverter.convertIntToString(viewModel.damageRoll)}"
             android:textAlignment="center"
             android:textColor="@color/mb_pink"
             android:textSize="36sp"
@@ -230,6 +229,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/finished_sympathy"
             android:switchPadding="8dp"
+            android:onClick="@{() -> viewModel.toggleArmor()}"
+            android:checked="true"
             android:text="@string/apply_armor"
             android:textColor="@color/mb_pink"
             android:thumb="@drawable/dialog_switch_thumb"
@@ -244,7 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/take_it"
-            android:onClick="@{() -> viewModel.onDefenceComplete(true)}"
+            android:onClick="@{() -> viewModel.onDefenceComplete(true, false)}"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toStartOf="@+id/defence_use_shield_button"
             app:layout_constraintHorizontal_bias="0.5"
@@ -256,6 +257,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/use_shield"
+            android:onClick="@{() -> viewModel.onDefenceComplete(false, true)}"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -266,7 +268,7 @@
             android:id="@+id/defence_dialog_tohit_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.defenceDialogStep == 1 ? View.VISIBLE : View.GONE}"
+            android:visibility="visible"
             app:constraint_referenced_ids="damage_evade_button,defence_dialog_tohit_dr_label,defence_hit_button,defence_tohit_label,defence_dialog_tohit_rolled_text,defence_dialog_tohit_icon"
             tools:visibility="gone" />
 
@@ -274,14 +276,21 @@
             android:id="@+id/defence_dialog_damage_roll_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.defenceDialogStep == 2 ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:constraint_referenced_ids="defence_dialog_damage_roll_label,defence_damage_roller,defence_roll_damage_button" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/defence_dialog_damage_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.defenceDialogStep == 3 ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:constraint_referenced_ids="defence_dialog_damage_icon,defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_dialog_damage_rolled_text,defence_damage_taken_label,defence_apply_armor_toggle,defence_confirm_button,defence_use_shield_button"  />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/defence_dialog_armor_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_apply_armor_toggle"  />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

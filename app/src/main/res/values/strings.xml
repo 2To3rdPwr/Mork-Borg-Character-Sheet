@@ -64,6 +64,12 @@
     <string name="apply_armor">Apply Armor</string>
     <string name="take_it">Take It</string>
     <string name="use_shield">Use Shield</string>
+    <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
+    <string name="broken_unconscious_string_2">" rounds"</string>
+    <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
+    <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
+    <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
+    <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>

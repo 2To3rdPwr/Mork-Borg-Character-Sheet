@@ -85,13 +85,16 @@
             app:layout_constraintTop_toBottomOf="@+id/name_text"
             app:srcCompat="@drawable/skull" />
 
-        <EditText
+        <!-- TODO: Convert to EditText to allow users to manually change HP
+                HP can be negative, so create a LiveData<String> to represent it
+                and populate its changes to character.currentHP -->
+        <TextView
             android:id="@+id/current_hp_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/zombie"
-            android:inputType="number"
-            android:text="@={DataBindingConverter.convertIntToString(characterSheetViewModel.character.currentHP)}"
+            android:inputType="numberSigned|number"
+            android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.currentHP)}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/health_image"
             app:layout_constraintEnd_toStartOf="@+id/max_hp_text"

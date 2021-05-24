@@ -68,6 +68,9 @@ interface CharacterDatabaseDAO {
     @Query("UPDATE inventory SET equipped = CASE WHEN inventoryId = :inventoryId THEN 1 ELSE 0 END WHERE character_id = :characterId AND type = 3")
     fun equipShield(characterId: Long, inventoryId: Long)
 
+    @Query("UPDATE inventory SET equipped = 0 WHERE inventoryId = :inventoryId")
+    fun breakShield(inventoryId: Long)
+
     @Query("SELECT * FROM inventory WHERE character_id = :characterId AND type = 2 AND equipped = 1 LIMIT 1")
     fun getEquippedArmor(characterId: Long): LiveData<Inventory>
 

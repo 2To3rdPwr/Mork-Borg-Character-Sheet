@@ -6,4 +6,5 @@
     <color name="mb_lighter_pink">#ff5c87</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#8d8d8d</color>
 </resources>

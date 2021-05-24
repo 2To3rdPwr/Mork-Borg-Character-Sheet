@@ -1,5 +1,6 @@
 package com.example.morkborgcharactersheet.models
 
+// TODO: Add DiceValue as a part of the enum instead f checking it externally
 enum class ArmorTier(val id: Int, val diceValue: Int) {
     NONE (0, 0),
     LIGHT (1, 2),
