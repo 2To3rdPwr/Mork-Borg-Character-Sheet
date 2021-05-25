@@ -71,6 +71,18 @@
             app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_icon"
             tools:text="DR12" />
 
+        <TextView
+            android:id="@+id/defence_dialog_crit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/deadly_killers"
+            android:text="@string/defence_crit_string"
+            android:textColor="@color/mb_yellow"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_dr_label" />
+
         <Button
             android:id="@+id/damage_evade_button"
             android:layout_width="wrap_content"
@@ -90,14 +102,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/deadly_killers"
+            android:onClick="@{() -> viewModel.onDefenceHit()}"
             android:text="@string/hit"
             android:textSize="18sp"
-            android:onClick="@{() -> viewModel.onDefenceHit()}"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toStartOf="@+id/damage_evade_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_dr_label" />
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_crit_text" />
 
         <TextView
             android:id="@+id/defence_dialog_damage_roll_label"
@@ -270,7 +282,7 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:constraint_referenced_ids="damage_evade_button,defence_dialog_tohit_dr_label,defence_hit_button,defence_tohit_label,defence_dialog_tohit_rolled_text,defence_dialog_tohit_icon"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/defence_dialog_damage_roll_group"
