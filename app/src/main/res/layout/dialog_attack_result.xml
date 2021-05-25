@@ -95,5 +95,17 @@
             app:layout_constraintBottom_toTopOf="@+id/attack_damage_icon"
             app:layout_constraintEnd_toEndOf="@+id/attack_damage_icon"
             app:layout_constraintStart_toEndOf="@+id/attack_dice_icon" />
+
+        <TextView
+            android:id="@+id/attack_dialg_crit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/deadly_killers"
+            android:text="@string/attack_crit_string"
+            android:textColor="@color/mb_yellow"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attack_dice_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

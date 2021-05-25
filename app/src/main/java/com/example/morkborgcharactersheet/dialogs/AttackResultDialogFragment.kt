@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -31,6 +32,15 @@ class AttackResultDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogAttackResultBinding.inflate(LayoutInflater.from(context))
         _binding!!.viewModel = viewModel
+
+        if (viewModel.crit.value == true) {
+            binding.attackDialgCritText.text = getText(R.string.attack_crit_string)
+            binding.attackDialgCritText.visibility = View.VISIBLE
+        } else if (viewModel.fumble.value == true) {
+            binding.attackDialgCritText.text = getText(R.string.attack_fumble_string)
+            binding.attackDialgCritText.visibility = View.VISIBLE
+        }
+
         return AlertDialog.Builder(requireActivity())
             .setView(binding.root)
             .create()

@@ -72,6 +72,8 @@
     <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
     <string name="defence_crit_string">CRIT! Free attack on attacker</string>
     <string name="defence_fumble_string">FUMBLE! Double damage and armr reduced by one tier!</string>
+    <string name="attack_crit_string">CRIT! Double damage!</string>
+    <string name="attack_fumble_string">FUMBLE! Weapon lost or broken!</string>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>

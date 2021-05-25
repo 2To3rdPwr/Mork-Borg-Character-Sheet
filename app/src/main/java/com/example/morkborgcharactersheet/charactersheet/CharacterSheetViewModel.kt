@@ -186,17 +186,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             return
         }
 
-        _attackToHit.value = abilityRoll(attack.weaponAbility!!)
-        var damage = abilityRoll(attack.dice1)
-
-        if (crit.value == true) {
-            damage *= 2
-        }
-
-        _attackDamage.value = damage
-
-        _showAttackEvent.value = true
-
         // Decrement attack's uses, if applicable
         if(attack.uses > 0) {
             attack.uses --
@@ -204,6 +193,28 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                 updateInventory(attack.getInventory())
             }
         }
+
+        _attackToHit.value = abilityRoll(attack.weaponAbility!!)
+        var damage = abilityRoll(attack.dice1)
+
+        if (crit.value == true) {
+            damage *= 2
+        } else if (fumble.value == true) {
+            // Lose used weapon on fumble
+            attack.equipped = false
+            viewModelScope.launch {
+                updateInventory(attack.getInventory())
+            }
+            // Force state change in recyclerview
+            var myAttacks = attacks.value!!
+            _attacks.value = myAttacks.filterNot {
+                it.inventoryId == attack.inventoryId
+            }
+        }
+
+        _attackDamage.value = damage
+
+        _showAttackEvent.value = true
     }
 
     fun onPowerClicked(power: Equipment) {
