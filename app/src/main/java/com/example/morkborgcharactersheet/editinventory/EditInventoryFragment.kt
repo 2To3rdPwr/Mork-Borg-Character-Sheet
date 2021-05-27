@@ -56,7 +56,7 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setDamageRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
+                editInventoryViewModel.setDamageRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
             }
         }
 
@@ -75,7 +75,7 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setUsesRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
+                editInventoryViewModel.setUsesRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
             }
         }
 
@@ -94,7 +94,7 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setDescription1RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
+                editInventoryViewModel.setDescription1RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
             }
         }
 
@@ -113,7 +113,7 @@ class EditInventoryFragment : Fragment(){
                 // Can't select nothing
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setDescription2RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D2) // Probably better to throw an error instead of just defaulting to D2
+                editInventoryViewModel.setDescription2RollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
             }
         }
 

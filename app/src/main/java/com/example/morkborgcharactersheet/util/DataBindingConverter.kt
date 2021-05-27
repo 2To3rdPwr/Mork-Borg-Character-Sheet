@@ -1,6 +1,5 @@
 package com.example.morkborgcharactersheet.util
 
-import android.telephony.ims.ImsMmTelManager
 import android.text.TextUtils
 import android.util.Log
 import androidx.databinding.InverseMethod
@@ -9,14 +8,29 @@ import com.example.morkborgcharactersheet.models.AbilityType
 import com.example.morkborgcharactersheet.models.ArmorTier
 import com.example.morkborgcharactersheet.models.DiceValue
 import com.example.morkborgcharactersheet.models.ItemType
-import kotlinx.android.synthetic.main.fragment_inventory_edit.view.*
 
 class DataBindingConverter {
     companion object {
         /**
-         * The converter I built for ints only works for positive ints (negative sign isn't an int)
-         * When dealing with int inputs that can possibly be negative, ensure their editText has an
-         * inputType of signedNumber and just two-way bind it as a string. Then parse to an int later.
+         * One-Way bindings
+         */
+        @JvmStatic
+        fun convertItemTypeToImage(type: ItemType): Int {
+            return when(type) {
+                ItemType.WEAPON -> R.drawable.sword
+                ItemType.ARMOR -> R.drawable.armor
+                ItemType.SHIELD -> R.drawable.shield
+                ItemType.POWER -> R.drawable.ancient_scroll_2
+                ItemType.OTHER -> R.drawable.broken
+            }
+        }
+
+        /**
+         * Two-way bindings
+         */
+        /**
+         * Parse strings to ints and vice-versa for data binding purposes, allowing for negative values.
+         * Parses invalid data as 0
          */
         @InverseMethod("convertStringToInt")
         @JvmStatic
@@ -26,10 +40,10 @@ class DataBindingConverter {
 
         @JvmStatic
         fun convertStringToInt(value: String): Int? {
-            if (TextUtils.isEmpty(value) || !TextUtils.isDigitsOnly(value)) {
-                return null
+            if (TextUtils.isEmpty(value) || !value.matches(Regex("-?\\d+"))) {
+                return 0
             }
-            return value.toIntOrNull()
+            return value.toIntOrNull() ?: 0
         }
 
         @InverseMethod("convertSpinnerPositionToDiceValue")

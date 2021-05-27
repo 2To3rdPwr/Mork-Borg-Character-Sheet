@@ -17,4 +17,6 @@ class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventor
         result = 31 * result + position.hashCode()
         return result
     }
+
+
 }

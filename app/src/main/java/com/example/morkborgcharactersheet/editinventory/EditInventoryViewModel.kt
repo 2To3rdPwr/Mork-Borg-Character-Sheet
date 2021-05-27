@@ -14,6 +14,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
 
     private var newInventory: Boolean = inventoryId == -1L
 
+    private var previouslyEquipped = false
     /**
      * LiveData
      */
@@ -23,7 +24,6 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     val itemDescription = MutableLiveData<String>()
     val itemType = MutableLiveData<ItemType>()
 
-    // TODO: Melee vs ranged instead of all four ability types
     val weaponAbilityUsed = MutableLiveData<AbilityType>()
     val armorTier = MutableLiveData<ArmorTier>()
 
@@ -130,22 +130,22 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
 
             if (itemType.value == ItemType.WEAPON) {
                 newItemDice1Amount = damageRollerAmount.value?:0
-                newItemDice1Value = damageRollerValue.value?.value?:DiceValue.D2.value
+                newItemDice1Value = damageRollerValue.value?.value?:DiceValue.D0.value
                 newItemDice1Bonus = damageRollerBonus.value?.toIntOrNull()?:0
                 newItemDice1Ability = damageRollerAbility.value?.id?:AbilityType.UNTYPED.id
 
                 newItemDice2Amount = description1RollerAmount.value?:0
-                newItemDice2Value = description1RollerValue.value?.value?:DiceValue.D2.value
+                newItemDice2Value = description1RollerValue.value?.value?:DiceValue.D0.value
                 newItemDice2Bonus = description1RollerBonus.value?.toIntOrNull()?:0
                 newItemDice2Ability = description1RollerAbility.value?.id?:AbilityType.UNTYPED.id
             } else {
                 newItemDice1Amount = description1RollerAmount.value?:0
-                newItemDice1Value = description1RollerValue.value?.value?:DiceValue.D2.value
+                newItemDice1Value = description1RollerValue.value?.value?:DiceValue.D0.value
                 newItemDice1Bonus = description1RollerBonus.value?.toIntOrNull()?:0
                 newItemDice1Ability = description1RollerAbility.value?.id?:AbilityType.UNTYPED.id
 
                 newItemDice2Amount = description2RollerAmount.value?:0
-                newItemDice2Value = description2RollerValue.value?.value?:DiceValue.D2.value
+                newItemDice2Value = description2RollerValue.value?.value?:DiceValue.D0.value
                 newItemDice2Bonus = description2RollerBonus.value?.toIntOrNull()?:0
                 newItemDice2Ability = description2RollerAbility.value?.id?:AbilityType.UNTYPED.id
             }
@@ -177,7 +177,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                 if (limitedUse.value == true) {
                     if (rolledMaxUses.value == true) {
                         val abilityScore = if (usesRollerAbility.value != null && usesRollerAbility.value != AbilityType.UNTYPED) getAbilityScoreForCharacter(characterId, usesRollerAbility.value!!) else 0
-                        currentUses = Dice(usesRollerAmount.value?:0, usesRollerValue.value?:DiceValue.D2, usesRollerBonus.value?.toIntOrNull()?:0).roll(abilityScore)
+                        currentUses = Dice(usesRollerAmount.value?:0, usesRollerValue.value?:DiceValue.D0, usesRollerBonus.value?.toIntOrNull()?:0).roll(abilityScore)
                     } else {
                         currentUses = staticUses.value?:0
                     }
@@ -189,7 +189,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                     dice1Amount = newItemDice1Amount, dice1Value = newItemDice1Value, dice1Bonus = newItemDice1Bonus, dice1Ability = newItemDice1Ability,
                     dice2Amount = newItemDice2Amount, dice2Value = newItemDice2Value, dice2Bonus = newItemDice2Bonus, dice2Ability = newItemDice2Ability,
                     refillDiceAmount = newUsesDiceAmount, refillDiceValue = newUsesDiceValue, refillDiceBonus = newUsesDiceBonus, refillDiceAbility = newUsesDiceAbility,
-                    uses = currentUses, refillable = newRefillable
+                    uses = currentUses, refillable = newRefillable, equipped = previouslyEquipped
                 )
 
                 if (newInventory) {
@@ -273,6 +273,7 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
                     weaponAbilityUsed.value = AbilityType.get(item.ability)
                     limitedUse.value = item.uses != -1
                     refillableUses.value = item.refillable
+                    previouslyEquipped = item.equipped
 
                     if (item.uses != -1 && item.refillDiceAmount == 0 && item.refillDiceAbility == AbilityType.UNTYPED.id) {
                         // Static Uses

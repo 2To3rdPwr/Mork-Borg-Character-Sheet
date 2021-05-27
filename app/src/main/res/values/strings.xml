@@ -65,15 +65,19 @@
     <string name="take_it">Take It</string>
     <string name="use_shield">Use Shield</string>
     <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
-    <string name="broken_unconscious_string_2">" rounds"</string>
+    <string name="broken_unconscious_string_2">" rounds."</string>
     <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
     <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
     <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
     <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
-    <string name="defence_crit_string">CRIT! Free attack on attacker</string>
-    <string name="defence_fumble_string">FUMBLE! Double damage and armr reduced by one tier!</string>
-    <string name="attack_crit_string">CRIT! Double damage!</string>
-    <string name="attack_fumble_string">FUMBLE! Weapon lost or broken!</string>
+    <string name="defence_crit_string">CRIT Free attack on attacker</string>
+    <string name="defence_fumble_string">FUMBLE Double damage and armr reduced by one tier!</string>
+    <string name="attack_crit_string">CRIT Double damage!</string>
+    <string name="attack_fumble_string">FUMBLE Weapon lost or broken!</string>
+    <string name="broken_title_string">BROKEN</string>
+    <string name="death_title_string">DEAD</string>
+    <string name="broken_eye_limb_string_2">" rounds."</string>
+    <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>
@@ -82,6 +86,7 @@
         <item>Toughness</item>
     </string-array>
     <string-array name="dice_values_array">
+        <item>0</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>

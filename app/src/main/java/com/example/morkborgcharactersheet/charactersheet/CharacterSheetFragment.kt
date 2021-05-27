@@ -14,6 +14,7 @@ import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.example.morkborgcharactersheet.databinding.FragmentCharacterSheetBinding
 import com.example.morkborgcharactersheet.dialogs.AttackResultDialogFragment
+import com.example.morkborgcharactersheet.dialogs.BrokenDialogFragment
 import com.example.morkborgcharactersheet.dialogs.DefenceDialogFragment
 import com.example.morkborgcharactersheet.dialogs.PowerResultDialogFragment
 import com.example.morkborgcharactersheet.models.AbilityType
@@ -115,6 +116,12 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
             }
         })
 
+        characterSheetViewModel.brokenType.observe(viewLifecycleOwner, Observer {
+            if (it !== CharacterSheetViewModel.BrokenEventType.NOT_BROKEN) {
+                BrokenDialogFragment().show(childFragmentManager, "Broken")
+            }
+        })
+
         characterSheetViewModel.editCharacterEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 characterSheetViewModel.oneditCharacterEventDone()
@@ -143,5 +150,11 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
         })
 
         return binding.root
+    }
+
+    // Ensure that changes made are saved when changing tabs
+    override fun onPause() {
+        super.onPause()
+        characterSheetViewModel.onStop()
     }
 }

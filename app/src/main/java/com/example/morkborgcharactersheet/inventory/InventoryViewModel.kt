@@ -208,8 +208,9 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     fun loadInventory() {
         viewModelScope.launch {
-            val myInventory = getEquipment()
-            val myEquipment = myInventory.map { inventory -> ExpandableEquipment(inventory, null) }
+            var myInventory = getEquipment()
+            var myEquipment = myInventory.map { inventory -> ExpandableEquipment(inventory, null) }
+            myEquipment = myEquipment.sortedBy { it.type?.ordinal ?: 6}
             _expandableEquipmentList.value = myEquipment.toMutableList()
 
             character = getCharacter()

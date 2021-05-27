@@ -20,12 +20,12 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     var equipped = inventory.equipped
     var armorTier = ArmorTier.get(inventory.armorTier)
     val weaponAbility = AbilityType.get(inventory.ability)
-    val dice1 = Dice(inventory.dice1Amount, DiceValue.getByValue(inventory.dice1Value)?:DiceValue.D2, inventory.dice1Bonus, AbilityType.get(inventory.dice1Ability)!!)
-    val dice2 = Dice(inventory.dice2Amount, DiceValue.getByValue(inventory.dice2Value)?:DiceValue.D2, inventory.dice2Bonus, AbilityType.get(inventory.dice2Ability)!!)
+    val dice1 = Dice(inventory.dice1Amount, DiceValue.getByValue(inventory.dice1Value)?:DiceValue.D0, inventory.dice1Bonus, AbilityType.get(inventory.dice1Ability)!!)
+    val dice2 = Dice(inventory.dice2Amount, DiceValue.getByValue(inventory.dice2Value)?:DiceValue.D0, inventory.dice2Bonus, AbilityType.get(inventory.dice2Ability)!!)
     val limitedUses = inventory.uses != -1
     val refillable = inventory.refillable
     var uses = inventory.uses
-    val refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D2, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
+    val refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D0, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
     var broken = false
     val formattedDescription = formatDescription()
 

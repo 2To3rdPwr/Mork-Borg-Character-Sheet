@@ -32,7 +32,7 @@
                 android:layout_height="@dimen/rolled_dice_icon_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/sword" />
+                app:src="@{DataBindingConverter.convertItemTypeToImage(editInventoryViewModel.itemType)}" />
 
             <EditText
                 android:id="@+id/fragment_item_new_name_text"

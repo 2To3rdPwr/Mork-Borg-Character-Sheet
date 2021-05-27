@@ -5,12 +5,14 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel
 import com.example.morkborgcharactersheet.databinding.DialogDefenceBinding
+import com.example.morkborgcharactersheet.models.DiceValue
 import com.example.morkborgcharactersheet.util.DataBindingConverter
 
 class DefenceDialogFragment : DialogFragment() {
@@ -31,6 +33,15 @@ class DefenceDialogFragment : DialogFragment() {
             binding.defenceDialogCritText.visibility = View.VISIBLE
         } else {
             binding.defenceDialogCritText.visibility = View.GONE
+        }
+
+        binding.defenceDamageRoller.customDiceRollerDiceValueSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Can't select nothing
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.setDefenceDamageDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?: DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
+            }
         }
 
         viewModel.showDefenceEvent.observe(this, Observer {

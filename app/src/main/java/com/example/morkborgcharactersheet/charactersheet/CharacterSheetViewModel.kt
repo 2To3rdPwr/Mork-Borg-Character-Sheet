@@ -10,6 +10,7 @@ import com.example.morkborgcharactersheet.models.ItemType.*
 import com.example.morkborgcharactersheet.models.AbilityType.*
 import kotlinx.coroutines.*
 import java.lang.IllegalArgumentException
+import java.util.*
 import kotlin.random.Random
 import kotlin.math.min
 
@@ -43,14 +44,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private val _shield = MutableLiveData<Equipment>()
     val shield: LiveData<Equipment>
         get() = _shield
-
-    private val _brokenType = MutableLiveData<BrokenEventType>(BrokenEventType.NOT_BROKEN)
-    val brokenType: LiveData<BrokenEventType>
-        get() = _brokenType
-
-    private val _brokenRoll = MutableLiveData<Int>()
-    val brokenRoll: LiveData<Int>
-        get() = _brokenRoll
 
     private val _crit = MutableLiveData<Boolean>(false)
     val crit: LiveData<Boolean>
@@ -112,7 +105,9 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
     // Defence Dialog Damage Roller
     val damageRollerAmount = MutableLiveData<Int>(1)
-    val damageRollerValue = MutableLiveData<DiceValue>(DiceValue.D4)
+    private val _damageRollerValue = MutableLiveData<DiceValue>(DiceValue.D4)
+    val damageRollerValue: LiveData<DiceValue>
+        get() = _damageRollerValue
     val damageRollerBonus = MutableLiveData<String>("0")
     private val _defenceDamage = MutableLiveData<Int>()
     val defenceDamage: LiveData<Int>
@@ -120,6 +115,18 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val minDefenceDamage: LiveData<Int> = Transformations.map(defenceDamage) {
         Math.max(it, 0)
     }
+
+    // Broken dialog
+    private val _brokenType = MutableLiveData<BrokenEventType>(BrokenEventType.NOT_BROKEN)
+    val brokenType: LiveData<BrokenEventType>
+        get() = _brokenType
+    fun onBrokenDialogDone() {
+        _brokenType.value = BrokenEventType.NOT_BROKEN
+    }
+
+    private val _brokenRoll = MutableLiveData<Int>()
+    val brokenRoll: LiveData<Int>
+        get() = _brokenRoll
 
     /**
      * Events
@@ -263,12 +270,16 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _defenceDialogStep.value = 2
     }
 
+    fun setDefenceDamageDiceValue(diceValue: DiceValue) {
+        _damageRollerValue.value = diceValue
+    }
+
     fun onDefenceDamageRoll() {
         var myArmor = armor.value
         val myShield = shield.value
         armorToggle = true
 
-        var damageRoll = Dice(damageRollerAmount.value ?: 0, damageRollerValue.value ?: DiceValue.D2, damageRollerBonus.value?.toIntOrNull() ?: 0).roll()
+        var damageRoll = Dice(damageRollerAmount.value ?: 0, damageRollerValue.value ?: DiceValue.D0, damageRollerBonus.value?.toIntOrNull() ?: 0).roll()
         if (fumble.value == true) {
             damageRoll *= 2
             if (myArmor != null) {
@@ -287,7 +298,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                 ArmorTier.LIGHT -> DiceValue.D2
                 ArmorTier.MEDIUM -> DiceValue.D4
                 ArmorTier.HEAVY -> DiceValue.D6
-                else -> DiceValue.D2                    // Doesn't matter since ArmorTier(None) doesn't roll
+                else -> DiceValue.D0                   // Doesn't matter since ArmorTier(None) doesn't roll
             }
 
             if (myArmor.armorTier != ArmorTier.NONE) {
@@ -326,6 +337,12 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _showDefenceEvent.value = false
     }
 
+    fun onStop() {
+        viewModelScope.launch {
+            saveCharacter()
+        }
+    }
+
     /**
      * suspend functions for async database access
      */
@@ -337,6 +354,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     private suspend fun saveCharacter() {
+        _character.value?.lastUsed = Date()
         withContext(Dispatchers.IO) {
             database.updateCharacter(character.value!!)
         }
@@ -431,14 +449,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     private fun takeDamage(damage: Int) {
-        Log.i("CurrentHP", character.value?.currentHP.toString())
         var currentHp = character.value!!.currentHP - damage
 
         if (currentHp == 0) {
-            var restoredHP: Int = 0
+            var restoredHP = 0
 
-            // TODO: Extract hardcoded strings
-            //  Add strings to string resource file and let FE know which version of dying to use strings for
             when (Random.nextInt(4)) {
                 0 -> {
                     // Fall unconscious
