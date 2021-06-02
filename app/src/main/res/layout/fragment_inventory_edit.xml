@@ -32,7 +32,7 @@
                 android:layout_height="@dimen/rolled_dice_icon_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:src="@{DataBindingConverter.convertItemTypeToImage(editInventoryViewModel.itemType)}" />
+                app:src="@{DataBindingConverter.convertItemTypeToImage(editInventoryViewModel.equipment.type)}" />
 
             <EditText
                 android:id="@+id/fragment_item_new_name_text"
@@ -43,7 +43,7 @@
                 android:ems="10"
                 android:fontFamily="@font/the_dark"
                 android:inputType="textPersonName|textCapWords"
-                android:text="@={editInventoryViewModel.itemName}"
+                android:text="@={editInventoryViewModel.equipment.name}"
                 app:layout_constraintBottom_toBottomOf="@+id/fragment_item_new_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/fragment_item_new_icon"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:checkedButton="@={DataBindingConverter.convertItemTypeToRadioButton(editInventoryViewModel.itemType)}"
+                android:checkedButton="@={DataBindingConverter.convertItemTypeToRadioButton(editInventoryViewModel.equipment.type)}"
                 app:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_text"
                 tools:layout_editor_absoluteX="8dp">
 
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:checkedButton="@={DataBindingConverter.convertAbilityTypeToRadioButton(editInventoryViewModel.weaponAbilityUsed)}"
+                    android:checkedButton="@={DataBindingConverter.convertAbilityTypeToRadioButton(editInventoryViewModel.equipment.weaponAbility)}"
                     app:layout_constraintTop_toBottomOf="@id/fragment_item_new_ability_select_text">
 
                     <RadioButton
@@ -196,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:checkedButton="@={DataBindingConverter.convertArmorTierToRadioButton(editInventoryViewModel.armorTier)}"
+                    android:checkedButton="@={DataBindingConverter.convertArmorTierToRadioButton(editInventoryViewModel.equipment.armorTier)}"
                     app:layout_constraintTop_toBottomOf="@id/fragment_item_new_armor_tier_label">
 
                     <RadioButton
@@ -252,7 +252,7 @@
                         android:gravity="start|top"
                         android:inputType="textMultiLine|textCapSentences"
                         android:minHeight="80dp"
-                        android:text="@={editInventoryViewModel.itemDescription}"
+                        android:text="@={editInventoryViewModel.equipment.description}"
                         android:textSize="14sp"
                         tools:text="@string/laurem_ipsum_long" />
                 </LinearLayout>
@@ -321,7 +321,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:checked="@={editInventoryViewModel.limitedUse}"
+                android:checked="@={editInventoryViewModel.equipment.limitedUses}"
                 android:fontFamily="@font/white_on_black"
                 android:text="@string/infinite_uses_string"
                 android:textSize="12sp"
@@ -336,7 +336,7 @@
                 android:id="@+id/fragment_item_new_refillable_toggle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checked="@={editInventoryViewModel.refillableUses}"
+                android:checked="@={editInventoryViewModel.equipment.refillable}"
                 android:fontFamily="@font/white_on_black"
                 android:text="@string/non_refillable_string"
                 android:textSize="12sp"

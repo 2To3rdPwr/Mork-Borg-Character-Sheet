@@ -1,15 +1,14 @@
 package com.example.morkborgcharactersheet.models
 
 import com.example.morkborgcharactersheet.database.CharacterInventoryJoin
+import com.example.morkborgcharactersheet.database.EquipmentData
 import com.example.morkborgcharactersheet.database.Inventory
 
-class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventoryJoin?) : Equipment(inventory, inventoryJoin){
+class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventoryJoin) : Equipment(inventory, inventoryJoin){
     var expanded = false
     var position = -1
 
-    fun toggleExpanded() {
-        expanded = !expanded
-    }
+    constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
 
     override fun hashCode(): Int {
         var result = super.hashCode()
@@ -17,6 +16,4 @@ class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventor
         result = 31 * result + position.hashCode()
         return result
     }
-
-
 }

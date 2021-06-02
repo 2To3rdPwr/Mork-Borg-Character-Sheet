@@ -1,6 +1,5 @@
 package com.example.morkborgcharactersheet.charactersheet
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.*
@@ -148,9 +147,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private val _showDefenceEvent = MutableLiveData<Boolean>()
     val showDefenceEvent: LiveData<Boolean>
         get() = _showDefenceEvent
-    fun onShowDefenceEventDone() {
-        _showDefenceEvent.value = false
-    }
 
     private val _editCharacterEvent = MutableLiveData<Boolean>()
     val editCharacterEvent: LiveData<Boolean>
@@ -158,11 +154,10 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     fun onCharacterEdit() {
         _editCharacterEvent.value = true
     }
-    fun oneditCharacterEventDone() {
+    fun onEditCharacterEventDone() {
         _editCharacterEvent.value = false
     }
 
-    // Should probably have done this as an enum
     private val _snackbarText = MutableLiveData<CharacterSheetSnackbarType?>()
     val snackbarText: LiveData<CharacterSheetSnackbarType?>
         get() = _snackbarText
@@ -188,8 +183,8 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
     fun onAttackClicked(attack: Equipment) {
         // Can't shoot a bow with no arrows
-        if (attack.uses == 0) {
-            _snackbarText.value=CharacterSheetSnackbarType.NO_USES
+        if (attack.uses == 0 && attack.limitedUses) {
+            _snackbarText.value = CharacterSheetSnackbarType.NO_USES
             return
         }
 
@@ -197,7 +192,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         if(attack.uses > 0) {
             attack.uses --
             viewModelScope.launch {
-                updateInventory(attack.getInventory())
+                updateEquipment(attack)
             }
         }
 
@@ -210,7 +205,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             // Lose used weapon on fumble
             attack.equipped = false
             viewModelScope.launch {
-                updateInventory(attack.getInventory())
+                updateEquipment(attack)
             }
             // Force state change in recyclerview
             var myAttacks = attacks.value!!
@@ -220,7 +215,6 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
 
         _attackDamage.value = damage
-
         _showAttackEvent.value = true
     }
 
@@ -252,9 +246,8 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             takeDamage(feedbackDamage)
         }
         _character.value!!.powers --
-        // Notify LiveData of changes to character
-        _character.value = _character.value
 
+        _character.value = _character.value
         _showPowerEvent.value = false
     }
 
@@ -360,21 +353,22 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
     }
 
-    private suspend fun updateInventory(newInventory: Inventory) {
+    private suspend fun updateEquipment(equipment: Equipment) {
         return withContext(Dispatchers.IO) {
-            database.updateInventory(newInventory)
+            database.updateInventoryJoin(equipment.getInvJoin())
         }
     }
 
     private suspend fun breakShield(inventoryId: Long) {
         withContext(Dispatchers.IO) {
-            database.breakShield(inventoryId)
+            database.breakEquipment(characterId, inventoryId)
         }
     }
 
-    private suspend fun getEquipment(): List<Inventory> {
+    private suspend fun getEquipment(): List<Equipment> {
         return withContext(Dispatchers.IO) {
-            database.getEquipment(characterId)
+            val myData = database.getCharactersEquipment(characterId)
+            myData.map { equipmentData -> Equipment(equipmentData) }
         }
     }
 
@@ -384,10 +378,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                     ?: throw IllegalArgumentException("Invalid characterId")
             _character.value = myCharacter
 
-            val myInventory = getEquipment()
-            val myEquipment = myInventory.map { inventory ->
-                Equipment(inventory, null)
-            }
+            val myEquipment = getEquipment()
 
             _attacks.value = myEquipment.filter { equipment ->
                 equipment.equipped && equipment.type == WEAPON

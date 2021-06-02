@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 /**
  * I could probably split inventory up into separate tables for each weapon type, but the point of
- * this project is to learn and demonstrate android, so just making a massive table antipattern for
- * now
+ * this project is to learn and demonstrate android not sql, so just making a massive table
+ * antipattern for now
  */
 
 @Entity(tableName = "inventory")
@@ -15,21 +15,11 @@ data class Inventory (
     @PrimaryKey(autoGenerate = true)
     var inventoryId: Long = 0L,
 
-    // TODO: Replace with join table
-    //      This way multiple characters can use the same gear
-    //      and we can have default gear
-    //      I'll have to add a column denoting gear as default tho
-    @ColumnInfo(name = "character_id")
-    val characterId: Long,
-
     @ColumnInfo(name = "name")
     var name: String,
 
     @ColumnInfo(name = "description")
     var description: String,
-
-    @ColumnInfo(name = "equipped")
-    var equipped: Boolean = false,
 
     /**
      * Type: Can be one of
@@ -60,6 +50,8 @@ data class Inventory (
      *      3: Presence
      *      4: Toughness
      *      0: None
+     * Currently limited to just 1 (melee weapons) and 3 (ranged weapons) but leaving things open to
+     *  potentially allow for weird homebrew stuff in the future.
      */
     @ColumnInfo(name = "ability")
     var ability: Int = 0,
@@ -70,10 +62,10 @@ data class Inventory (
      * amount D value + bonus + ability
      */
     @ColumnInfo(name = "dice1_amount")
-    var dice1Amount: Int = 1,
+    var dice1Amount: Int = 0,
 
     @ColumnInfo(name = "dice1_value")
-    var dice1Value: Int = 2,
+    var dice1Value: Int = 0,
 
     @ColumnInfo(name = "dice1_bonus")
     var dice1Bonus: Int = 0,
@@ -82,10 +74,10 @@ data class Inventory (
     var dice1Ability: Int = 0,
 
     @ColumnInfo(name = "dice2_amount")
-    var dice2Amount: Int = 1,
+    var dice2Amount: Int = 0,
 
     @ColumnInfo(name = "dice2_value")
-    var dice2Value: Int = 2,
+    var dice2Value: Int = 0,
 
     @ColumnInfo(name = "dice2_bonus")
     var dice2Bonus: Int = 0,
@@ -93,13 +85,8 @@ data class Inventory (
     @ColumnInfo(name = "dice2_ability")
     var dice2Ability: Int = 0,
 
-    /**
-     * Number of uses for limited-use items.
-     * EX: A bow with limited arrows
-     * A value of -1 indicates infinite uses
-     */
-    @ColumnInfo(name = "uses")
-    var uses: Int = -1,
+    @ColumnInfo(name = "limited_uses")
+    var limitedUses: Boolean = false,
 
     /**
      * Dictates behavior upon all uses consumed.
@@ -110,20 +97,21 @@ data class Inventory (
     var refillable: Boolean = false,
 
     /**
-     * Amount of uses an item can be refilled to
+     * Amount of uses an item can be automatically refilled to
      * If an item has a static number of uses, only fill out refillDiceBonus
      */
     @ColumnInfo(name = "refill_dice_amount")
     var refillDiceAmount: Int = 0,
 
     @ColumnInfo(name = "refill_dice_value")
-    var refillDiceValue: Int = 2,
+    var refillDiceValue: Int = 0,
 
     @ColumnInfo(name = "refill_dice_bonus")
     var refillDiceBonus: Int = 0,
 
     @ColumnInfo(name = "refill_dice_ability")
-    var refillDiceAbility: Int = 0
+    var refillDiceAbility: Int = 0,
 
-    // TODO: Icon?
+    @ColumnInfo(name = "default_item")
+    val defaultItem: Boolean = false
 )

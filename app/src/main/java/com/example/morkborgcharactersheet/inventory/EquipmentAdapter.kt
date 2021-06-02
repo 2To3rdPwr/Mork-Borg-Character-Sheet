@@ -10,8 +10,6 @@ import com.example.morkborgcharactersheet.databinding.ListItemInventoryBinding
 import com.example.morkborgcharactersheet.models.ExpandableEquipment
 
 class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<ExpandableEquipment, EquipmentAdapter.ViewHolder>(EquipmentDiffCallback()) {
-    // TODO: Instead of Inventory, use a custom model specifically for this recyclerview.
-    //      Custom model would contain expandability info as well as replace ${D1} and ${D2} in the description
 
     // TODO: Allow OTHER items to be used
 

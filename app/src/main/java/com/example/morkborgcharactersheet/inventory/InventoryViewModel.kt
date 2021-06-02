@@ -1,6 +1,5 @@
 package com.example.morkborgcharactersheet.inventory
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.morkborgcharactersheet.database.CharacterDatabaseDAO
 import com.example.morkborgcharactersheet.database.Inventory
@@ -10,6 +9,7 @@ import com.example.morkborgcharactersheet.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+// TODO: reference equipment by JoinId instead of InventoryId
 class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
 
@@ -92,12 +92,10 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     private fun onEquipmentEquipClicked(equipment: ExpandableEquipment) {
         equipment.equipped = !equipment.equipped
         viewModelScope.launch {
-            if (equipment.equipped && equipment.type == ItemType.ARMOR)
-                equipArmor(characterId, equipment.inventoryId)
-            else if (equipment.equipped && equipment.type == ItemType.SHIELD)
-                equipShield(characterId, equipment.inventoryId)
+            if (equipment.equipped && (equipment.type == ItemType.ARMOR || equipment.type == ItemType.SHIELD))
+                equipSingle(characterId, equipment.getInvJoin().characterInventoryJoinId, equipment.type!!.id)
             else
-                updateEquipment(equipment.getInventory())
+                updateEquipment(equipment)
         }
         _expandableEquipmentList.value!![equipment.position] = equipment
         _expandableEquipmentList.value = expandableEquipmentList.value
@@ -110,7 +108,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     private fun onEquipmentDeleteClicked(equipment: ExpandableEquipment) {
         viewModelScope.launch {
-            deleteEquipment(equipment.inventoryId)
+            deleteEquipment(equipment)
         }
         _expandableEquipmentList.value!!.remove(equipment)
         _expandableEquipmentList.value = expandableEquipmentList.value
@@ -120,7 +118,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
         if (equipment.limitedUses && equipment.uses > 0) {
             equipment.uses --
             viewModelScope.launch {
-                updateEquipment(equipment.getInventory())
+                updateEquipment(equipment)
             }
             _expandableEquipmentList.value!![equipment.position] = equipment
             _expandableEquipmentList.value = expandableEquipmentList.value
@@ -134,7 +132,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
                 if (equipment.refillDice.ability != AbilityType.UNTYPED)
                     abilityBonus = getAbilityScore(equipment.characterId, equipment.refillDice.ability.id)
                 equipment.reload(abilityBonus)
-                updateEquipment(equipment.getInventory())
+                updateEquipment(equipment)
             }
             _expandableEquipmentList.value!![equipment.position] = equipment
             _expandableEquipmentList.value = expandableEquipmentList.value
@@ -152,33 +150,32 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
         }
     }
 
-    private suspend fun getEquipment(): List<Inventory> {
+    private suspend fun getEquipment(): List<ExpandableEquipment> {
         return withContext(Dispatchers.IO) {
-            database.getEquipment(characterId)
+            val myData = database.getCharactersEquipment(characterId)
+            myData.map { equipmentData -> ExpandableEquipment(equipmentData) }
         }
     }
 
-    private suspend fun updateEquipment(equipment: Inventory) {
+    private suspend fun updateEquipment(equipment: Equipment) {
         withContext(Dispatchers.IO) {
-            database.updateInventory(equipment)
+            database.updateInventoryJoin(equipment.getInvJoin())
         }
     }
 
-    private suspend fun deleteEquipment(equipment: Long) {
+    private suspend fun deleteEquipment(equipment: Equipment) {
         withContext(Dispatchers.IO) {
-            database.clearSingleInventoryObject(equipment)
+            database.clearEquipment(characterId, equipment.inventoryId)
+            if (!equipment.default)
+                database.clearInventory(equipment.inventoryId)
         }
     }
 
-    private suspend fun equipArmor(characterId: Long, equipment: Long) {
+    private suspend fun equipSingle(characterId: Long, equipment: Long, type: Int) {
         withContext(Dispatchers.IO) {
-            database.equipArmor(characterId, equipment)
-        }
-    }
-
-    private suspend fun equipShield(characterId: Long, equipment: Long) {
-        withContext(Dispatchers.IO) {
-            database.equipShield(characterId, equipment)
+            val unequipList = database.getEquippedByType(characterId, type)
+            database.unequipMultipleItems(unequipList)
+            database.equipItem(equipment)
         }
     }
 
@@ -208,8 +205,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     fun loadInventory() {
         viewModelScope.launch {
-            var myInventory = getEquipment()
-            var myEquipment = myInventory.map { inventory -> ExpandableEquipment(inventory, null) }
+            var myEquipment = getEquipment()
             myEquipment = myEquipment.sortedBy { it.type?.ordinal ?: 6}
             _expandableEquipmentList.value = myEquipment.toMutableList()
 

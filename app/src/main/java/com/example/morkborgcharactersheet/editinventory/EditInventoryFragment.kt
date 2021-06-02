@@ -1,7 +1,6 @@
 package com.example.morkborgcharactersheet.editinventory
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -132,20 +131,20 @@ class EditInventoryFragment : Fragment(){
          * LiveData observers
          */
 
-        editInventoryViewModel.itemType.observe(viewLifecycleOwner, Observer { newType ->
+        editInventoryViewModel.equipmentType.observe(viewLifecycleOwner, Observer { newType ->
             setVisibility(newType)
         })
 
-        editInventoryViewModel.limitedUse.observe(viewLifecycleOwner, Observer { limited ->
-            setUsesVisibility(limited, editInventoryViewModel.rolledMaxUses.value == true, editInventoryViewModel.refillableUses.value == true)
+        editInventoryViewModel.limitedUses.observe(viewLifecycleOwner, Observer { limited ->
+            setUsesVisibility(limited, editInventoryViewModel.rolledMaxUses.value == true, editInventoryViewModel.refillable.value == true)
         })
 
         editInventoryViewModel.rolledMaxUses.observe(viewLifecycleOwner, Observer { rolledUses ->
-            setUsesVisibility(editInventoryViewModel.limitedUse.value == true, rolledUses, editInventoryViewModel.refillableUses.value == true)
+            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, rolledUses, editInventoryViewModel.refillable.value == true)
         })
 
-        editInventoryViewModel.refillableUses.observe(viewLifecycleOwner, Observer { reusable ->
-            setUsesVisibility(editInventoryViewModel.limitedUse.value == true, editInventoryViewModel.rolledMaxUses.value == true, reusable)
+        editInventoryViewModel.refillable.observe(viewLifecycleOwner, Observer { reusable ->
+            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, editInventoryViewModel.rolledMaxUses.value == true, reusable)
         })
 
         /**
@@ -170,14 +169,14 @@ class EditInventoryFragment : Fragment(){
             }
         })
 
-        setVisibility(editInventoryViewModel.itemType.value)
+        setVisibility(editInventoryViewModel.equipment.value?.type ?: WEAPON)
 
         return binding.root
     }
 
     /**
      * Conditional visibility logic
-     * I could probably bind these directly to livedata that keeps track of the needed visibility
+     * I could probably bind these directly to a livedata that keeps track of the needed visibility
      * states of different parts of the view, but that doesn't seem to align with MVVM standards of
      * keeping the view-specific logic here in the view
      */
@@ -191,9 +190,9 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.VISIBLE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
                 setUsesVisibility(
-                        binding.editInventoryViewModel?.limitedUse?.value == true,
+                        binding.editInventoryViewModel?.limitedUses?.value == true,
                         binding.editInventoryViewModel?.rolledMaxUses?.value == true,
-                        binding.editInventoryViewModel?.refillableUses?.value == true)
+                        binding.editInventoryViewModel?.refillable?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_1_roll_description_tip)
                 binding.fragmentItemNewArmorTierLabel.visibility = View.GONE
@@ -214,7 +213,6 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewArmorTierRadioGroup.visibility = View.VISIBLE
             }
             POWER -> {
-                Log.i("Power", "Pow")
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
@@ -234,9 +232,9 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
                 setUsesVisibility(
-                        binding.editInventoryViewModel?.limitedUse?.value == true,
+                        binding.editInventoryViewModel?.limitedUses?.value == true,
                         binding.editInventoryViewModel?.rolledMaxUses?.value == true,
-                        binding.editInventoryViewModel?.refillableUses?.value == true)
+                        binding.editInventoryViewModel?.refillable?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
@@ -253,7 +251,7 @@ class EditInventoryFragment : Fragment(){
 
     private fun setUsesVisibility (limited: Boolean, rolled: Boolean, refillable: Boolean) {
         // Observers for toggles seem to fire off upon view creation, calling this too soon, so we need to better enforce calling this
-        if (binding.editInventoryViewModel?.itemType?.value != WEAPON && binding.editInventoryViewModel?.itemType?.value != OTHER) {
+        if (binding.editInventoryViewModel?.equipment?.value?.type != WEAPON && binding.editInventoryViewModel?.equipment?.value?.type != OTHER) {
             return
         }
 
