@@ -31,8 +31,8 @@ interface CharacterDatabaseDAO {
     @Query("DELETE FROM inventory WHERE inventoryId = :inventoryId")
     fun clearInventory(inventoryId: Long)
 
-    @Query("DELETE FROM character_inventory_join WHERE character_id = :characterId AND inventory_id = :inventoryId")
-    fun clearEquipment(characterId: Long, inventoryId: Long)
+    @Query("DELETE FROM character_inventory_join WHERE characterInventoryJoinId = :joinId")
+    fun clearEquipment(joinId: Long)
 
     @Query("SELECT * FROM characters WHERE characterId = :characterId")
     fun getCharacter(characterId: Long): Character?

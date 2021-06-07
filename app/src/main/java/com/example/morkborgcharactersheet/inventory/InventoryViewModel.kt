@@ -9,7 +9,6 @@ import com.example.morkborgcharactersheet.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-// TODO: reference equipment by JoinId instead of InventoryId
 class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
 
@@ -85,7 +84,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
 
     private fun onEquipmentExpand(equipment: ExpandableEquipment) {
-        _expandableEquipmentList.value!!.forEach { item -> item.expanded = if (item.inventoryId == equipment.inventoryId) !item.expanded else false }
+        _expandableEquipmentList.value!!.forEach { item -> item.expanded = if (item.joinId == equipment.joinId) !item.expanded else false }
         _expandableEquipmentList.value = expandableEquipmentList.value
     }
 
@@ -93,7 +92,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
         equipment.equipped = !equipment.equipped
         viewModelScope.launch {
             if (equipment.equipped && (equipment.type == ItemType.ARMOR || equipment.type == ItemType.SHIELD))
-                equipSingle(characterId, equipment.getInvJoin().characterInventoryJoinId, equipment.type!!.id)
+                equipSingle(characterId, equipment.joinId, equipment.type!!.id)
             else
                 updateEquipment(equipment)
         }
@@ -102,7 +101,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
 
     private fun onEquipmentEditClicked(equipment: ExpandableEquipment) {
-        _currentItem.value = equipment.inventoryId
+        _currentItem.value = equipment.joinId
         _newInventoryEvent.value = true
     }
 
@@ -121,10 +120,12 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
                 updateEquipment(equipment)
             }
             _expandableEquipmentList.value!![equipment.position] = equipment
+            // TODO: Use PropertyAwareMutableLiveData for expandableEquipmentList?
             _expandableEquipmentList.value = expandableEquipmentList.value
         }
     }
 
+    // TODO: User manually sets reload amounts
     private fun onEquipmentReloadClicked(equipment: ExpandableEquipment) {
         if (equipment.refillable) {
             viewModelScope.launch {
@@ -165,7 +166,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     private suspend fun deleteEquipment(equipment: Equipment) {
         withContext(Dispatchers.IO) {
-            database.clearEquipment(characterId, equipment.inventoryId)
+            database.clearEquipment(equipment.joinId)
             if (!equipment.default)
                 database.clearInventory(equipment.inventoryId)
         }

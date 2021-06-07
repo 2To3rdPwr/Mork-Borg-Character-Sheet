@@ -64,7 +64,7 @@ class EquipmentListener(val clickListener: (equipment: ExpandableEquipment, type
 
 class EquipmentDiffCallback : DiffUtil.ItemCallback<ExpandableEquipment>() {
     override fun areItemsTheSame(oldItem: ExpandableEquipment, newItem: ExpandableEquipment): Boolean {
-        return oldItem.inventoryId == newItem.inventoryId
+        return oldItem.joinId == newItem.joinId
     }
 
     override fun areContentsTheSame(oldItem: ExpandableEquipment, newItem: ExpandableEquipment): Boolean {

@@ -1,6 +1,5 @@
 package com.example.morkborgcharactersheet.editinventory
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.morkborgcharactersheet.database.*
 import com.example.morkborgcharactersheet.models.*
@@ -10,11 +9,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.IllegalArgumentException
 
-// TODO: Parameter is CharacterInventoryJoinId
-class EditInventoryViewModel (private var inventoryId: Long, private val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
+class EditInventoryViewModel (private var inventoryJoinId: Long, private val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
 
-    private var newItem: Boolean = inventoryId == -1L
+    private var newItem: Boolean = inventoryJoinId == -1L
 
     /**
      * LiveData
@@ -161,10 +159,9 @@ class EditInventoryViewModel (private var inventoryId: Long, private val charact
                     }
                 }
 
-                Log.i("Equipment", myEquipment.type.toString())
                 if (newItem) {
-                    inventoryId = newInventory(myEquipment.getInventory())
-                    myEquipment.initialize(characterId, inventoryId)
+                    inventoryJoinId = newInventory(myEquipment.getInventory())
+                    myEquipment.initialize(characterId, inventoryJoinId)
                     newInventoryJoin(myEquipment.getInvJoin())
                 } else {
                     updateInventory(myEquipment.getInventory())
@@ -210,9 +207,9 @@ class EditInventoryViewModel (private var inventoryId: Long, private val charact
         }
     }
 
-    private suspend fun getEquipment(inventoryId: Long): Equipment {
+    private suspend fun getEquipment(joinId: Long): Equipment {
         return withContext(Dispatchers.IO){
-            val myData = database.getEquipment(characterId, inventoryId) ?: throw IllegalArgumentException("Invalid equipment")
+            val myData = database.getEquipment(joinId) ?: throw IllegalArgumentException("Invalid equipment")
             Equipment(myData)
         }
     }
@@ -226,7 +223,7 @@ class EditInventoryViewModel (private var inventoryId: Long, private val charact
 
                 Equipment(newInventory, newJoin)
             } else {
-                getEquipment(inventoryId)
+                getEquipment(inventoryJoinId)
             }
 
             rolledMaxUses.value = !(myEquipment.refillDice.amount == 0 || myEquipment.refillDice.diceValue == DiceValue.D0)
