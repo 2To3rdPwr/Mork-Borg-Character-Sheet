@@ -27,7 +27,6 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
     private val characterSheetViewModel: CharacterSheetViewModel by viewModels(ownerProducer = { this }) { CharacterSheetViewModelFactory(characterId, requireNotNull(this.activity).application) }
     private lateinit var binding: FragmentCharacterSheetBinding
 
-    // TODO: Save all data onStop
     override fun onResume() {
         // Reload character onResume to catch changes made by other fragments in the ViewPager
         characterSheetViewModel.loadCharacter()
@@ -124,7 +123,7 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
 
         characterSheetViewModel.editCharacterEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                characterSheetViewModel.oneditCharacterEventDone()
+                characterSheetViewModel.onEditCharacterEventDone()
                 findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditCharacterFragment(characterSheetViewModel.character.value?.characterId?:-1))
             }
         })

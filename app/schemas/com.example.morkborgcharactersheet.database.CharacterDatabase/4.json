@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "b7a766d3ab9f3551907e7aae5c22aed3",
+    "version": 4,
+    "identityHash": "86b5a139b2a0af7e157c770e133aecf3",
     "entities": [
       {
         "tableName": "characters",
@@ -98,7 +98,7 @@
       },
       {
         "tableName": "inventory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `limited_uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `refill_dice_amount` INTEGER NOT NULL, `refill_dice_value` INTEGER NOT NULL, `refill_dice_bonus` INTEGER NOT NULL, `refill_dice_ability` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `limited_uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `refill_dice_amount` INTEGER NOT NULL, `refill_dice_value` INTEGER NOT NULL, `refill_dice_bonus` INTEGER NOT NULL, `refill_dice_ability` INTEGER NOT NULL, `default_item` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "inventoryId",
@@ -219,6 +219,12 @@
             "columnName": "refill_dice_ability",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "defaultItem",
+            "columnName": "default_item",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -284,7 +290,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b7a766d3ab9f3551907e7aae5c22aed3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86b5a139b2a0af7e157c770e133aecf3')"
     ]
   }
 }

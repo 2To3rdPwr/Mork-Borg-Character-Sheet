@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.morkborgcharactersheet.database.Character
-import com.example.morkborgcharactersheet.database.CharacterDatabase
 import com.example.morkborgcharactersheet.database.CharacterDatabaseDAO
 import com.example.morkborgcharactersheet.models.AbilityType
 import com.example.morkborgcharactersheet.models.Dice

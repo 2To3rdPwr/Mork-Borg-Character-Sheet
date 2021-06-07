@@ -1,38 +1,41 @@
 package com.example.morkborgcharactersheet.editinventory
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.morkborgcharactersheet.database.*
 import com.example.morkborgcharactersheet.models.*
+import com.example.morkborgcharactersheet.util.PropertyAwareMutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 
-class EditInventoryViewModel (private val inventoryId: Long, private val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
+class EditInventoryViewModel (private var inventoryJoinId: Long, private val characterId: Long, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
 
-    private var newInventory: Boolean = inventoryId == -1L
+    private var newItem: Boolean = inventoryJoinId == -1L
 
-    private var previouslyEquipped = false
     /**
      * LiveData
      */
+    private val _equipment = PropertyAwareMutableLiveData<Equipment>()
+    val equipment: LiveData<Equipment>
+        get() = _equipment
 
-    // Can't really encapsulate 2-way databinded LiveData.
-    val itemName = MutableLiveData<String>()
-    val itemDescription = MutableLiveData<String>()
-    val itemType = MutableLiveData<ItemType>()
+    val rolledMaxUses = MutableLiveData<Boolean>(false)
+    val staticUses = MutableLiveData<Int>(0)
 
-    val weaponAbilityUsed = MutableLiveData<AbilityType>()
-    val armorTier = MutableLiveData<ArmorTier>()
+    // Transformed liveData for observers
+    val equipmentType: LiveData<ItemType> = Transformations.map(equipment) {
+        it.type
+    }
+    val limitedUses: LiveData<Boolean> = Transformations.map(equipment) {
+        it.limitedUses
+    }
+    val refillable: LiveData<Boolean> = Transformations.map(equipment) {
+        it.refillable
+    }
 
-    val limitedUse = MutableLiveData<Boolean>(false)
-    val rolledMaxUses = MutableLiveData<Boolean>()
-    val refillableUses = MutableLiveData<Boolean>()
-    val staticUses = MutableLiveData<Int>()
-
-    // I'd love to figure out how to create a MutableLiveData<Dice> and two-way bind them to my includes
+    // TODO: Might be able to replace all these with PropertyAwareMutableLiveData<Dice>
     val damageRollerAmount = MutableLiveData<Int>()
     val damageRollerValue = MutableLiveData<DiceValue>()
     val damageRollerBonus = MutableLiveData<String>()
@@ -53,13 +56,13 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     val description2RollerBonus = MutableLiveData<String>()
     val description2RollerAbility = MutableLiveData<AbilityType>()
 
-    val dice1InDescriptionVisibility: LiveData<Boolean> = Transformations.map(itemDescription) {
-        it.contains("\$D1")
+    val dice1InDescriptionVisibility: LiveData<Boolean> = Transformations.map(equipment) {
+        it.description.contains("\$D1")
     }
 
     // TODO: MediatorLiveData to enforce ItemType != WEAPON for description2Dice
-    val dice2InDescriptionVisibility: LiveData<Boolean> = Transformations.map(itemDescription) {
-        it.contains("\$D2")
+    val dice2InDescriptionVisibility: LiveData<Boolean> = Transformations.map(equipment) {
+        it.description.contains("\$D2")
     }
 
     /**
@@ -117,86 +120,52 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
 
 
     fun onItemSaved() {
-        if (itemName.value == null || itemName.value == "") {
+        var myEquipment = equipment.value
+        if (myEquipment == null) {
+            throw IllegalArgumentException("Null equipment")
+        }
+
+        if (myEquipment.name == "") {
             _showToastEvent.value = true
         } else {
             //  Setting values by item type
             //  EX: Don't set ArmorTier for weapons
 
-            var newItemDice1Amount: Int; var newItemDice1Value: Int; var newItemDice1Ability: Int; var newItemDice1Bonus: Int
-            var newItemDice2Amount: Int; var newItemDice2Value: Int; var newItemDice2Ability: Int; var newItemDice2Bonus: Int
-            var newUsesDiceAmount: Int; var newUsesDiceValue: Int; var newUsesDiceAbility: Int; var newUsesDiceBonus: Int
-            var currentUses: Int = -1
-
-            if (itemType.value == ItemType.WEAPON) {
-                newItemDice1Amount = damageRollerAmount.value?:0
-                newItemDice1Value = damageRollerValue.value?.value?:DiceValue.D0.value
-                newItemDice1Bonus = damageRollerBonus.value?.toIntOrNull()?:0
-                newItemDice1Ability = damageRollerAbility.value?.id?:AbilityType.UNTYPED.id
-
-                newItemDice2Amount = description1RollerAmount.value?:0
-                newItemDice2Value = description1RollerValue.value?.value?:DiceValue.D0.value
-                newItemDice2Bonus = description1RollerBonus.value?.toIntOrNull()?:0
-                newItemDice2Ability = description1RollerAbility.value?.id?:AbilityType.UNTYPED.id
+            if (myEquipment.type == ItemType.WEAPON) {
+                myEquipment.dice1 = Dice(damageRollerAmount.value?:0, damageRollerValue.value?:DiceValue.D0, damageRollerBonus.value?.toIntOrNull()?:0, damageRollerAbility.value?:AbilityType.UNTYPED)
+                myEquipment.dice2 = Dice(description1RollerAmount.value?:0, description1RollerValue.value?:DiceValue.D0, description1RollerBonus.value?.toIntOrNull()?:0, description1RollerAbility.value?:AbilityType.UNTYPED)
             } else {
-                newItemDice1Amount = description1RollerAmount.value?:0
-                newItemDice1Value = description1RollerValue.value?.value?:DiceValue.D0.value
-                newItemDice1Bonus = description1RollerBonus.value?.toIntOrNull()?:0
-                newItemDice1Ability = description1RollerAbility.value?.id?:AbilityType.UNTYPED.id
-
-                newItemDice2Amount = description2RollerAmount.value?:0
-                newItemDice2Value = description2RollerValue.value?.value?:DiceValue.D0.value
-                newItemDice2Bonus = description2RollerBonus.value?.toIntOrNull()?:0
-                newItemDice2Ability = description2RollerAbility.value?.id?:AbilityType.UNTYPED.id
+                myEquipment.dice1 = Dice(description1RollerAmount.value?:0, description1RollerValue.value?:DiceValue.D0, description1RollerBonus.value?.toIntOrNull()?:0, description1RollerAbility.value?:AbilityType.UNTYPED)
+                myEquipment.dice2 = Dice(description2RollerAmount.value?:0, description2RollerValue.value?:DiceValue.D0, description2RollerBonus.value?.toIntOrNull()?:0, description2RollerAbility.value?:AbilityType.UNTYPED)
             }
 
-            if ((itemType.value == ItemType.WEAPON || itemType.value == ItemType.OTHER) && limitedUse.value == true) {
+            if ((myEquipment.type == ItemType.WEAPON || myEquipment.type == ItemType.OTHER) && myEquipment.limitedUses) {
                 if (rolledMaxUses.value == true) {
-                    newUsesDiceAmount = usesRollerAmount.value?:1
-                    newUsesDiceValue = usesRollerValue.value!!.id
-                    newUsesDiceBonus = usesRollerBonus.value?.toIntOrNull()?:0
-                    newUsesDiceAbility = usesRollerAbility.value?.id?:0
+                    myEquipment.refillDice = Dice(usesRollerAmount.value?:1, usesRollerValue.value?:DiceValue.D0, usesRollerBonus.value?.toIntOrNull()?:0, usesRollerAbility.value?:AbilityType.UNTYPED)
                 } else {
-                    newUsesDiceAmount = 0
-                    newUsesDiceValue = 0
-                    newUsesDiceBonus = staticUses.value?:1
-                    newUsesDiceAbility = 0
+                    myEquipment.refillDice = Dice(0, DiceValue.D0, staticUses.value?:0, AbilityType.UNTYPED)
                 }
             } else {
-                newUsesDiceAmount = 0
-                newUsesDiceValue = 0
-                newUsesDiceBonus = 0
-                newUsesDiceAbility = 0
+                myEquipment.refillDice = Dice(0, DiceValue.D0, 0, AbilityType.UNTYPED)
             }
 
-            val newArmorTier = if (itemType.value == ItemType.ARMOR) armorTier.value!!.id else 0
-            val newAbilityUsed = if (itemType.value == ItemType.WEAPON) weaponAbilityUsed.value!!.id else 0
-            val newRefillable = limitedUse.value == true && refillableUses.value == true
-
             viewModelScope.launch {
-                if (limitedUse.value == true) {
+                if (myEquipment.limitedUses) {
                     if (rolledMaxUses.value == true) {
-                        val abilityScore = if (usesRollerAbility.value != null && usesRollerAbility.value != AbilityType.UNTYPED) getAbilityScoreForCharacter(characterId, usesRollerAbility.value!!) else 0
-                        currentUses = Dice(usesRollerAmount.value?:0, usesRollerValue.value?:DiceValue.D0, usesRollerBonus.value?.toIntOrNull()?:0).roll(abilityScore)
+                        val abilityScore = if (myEquipment.refillDice.ability != AbilityType.UNTYPED) getAbilityScoreForCharacter(characterId, myEquipment.refillDice.ability) else 0
+                        myEquipment.uses = myEquipment.refillDice.roll(abilityScore)
                     } else {
-                        currentUses = staticUses.value?:0
+                        myEquipment.uses = staticUses.value?:0
                     }
                 }
 
-                val newItem = Inventory(
-                    characterId = characterId, name = itemName.value!!, description = itemDescription.value?:"",
-                    type = itemType.value!!.id, armorTier = newArmorTier, ability = newAbilityUsed,
-                    dice1Amount = newItemDice1Amount, dice1Value = newItemDice1Value, dice1Bonus = newItemDice1Bonus, dice1Ability = newItemDice1Ability,
-                    dice2Amount = newItemDice2Amount, dice2Value = newItemDice2Value, dice2Bonus = newItemDice2Bonus, dice2Ability = newItemDice2Ability,
-                    refillDiceAmount = newUsesDiceAmount, refillDiceValue = newUsesDiceValue, refillDiceBonus = newUsesDiceBonus, refillDiceAbility = newUsesDiceAbility,
-                    uses = currentUses, refillable = newRefillable, equipped = previouslyEquipped
-                )
-
-                if (newInventory) {
-                    newInventory(newItem)
+                if (newItem) {
+                    inventoryJoinId = newInventory(myEquipment.getInventory())
+                    myEquipment.initialize(characterId, inventoryJoinId)
+                    newInventoryJoin(myEquipment.getInvJoin())
                 } else {
-                    newItem.inventoryId = inventoryId
-                    updateInventory(newItem)
+                    updateInventory(myEquipment.getInventory())
+                    updateInventoryJoin(myEquipment.getInvJoin())
                 }
 
                 _saveItemEvent.value = true
@@ -207,15 +176,27 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
     /**
      * Suspend functions for database access
      */
-    private suspend fun newInventory(inventory: Inventory) {
-        withContext(Dispatchers.IO) {
+    private suspend fun newInventory(inventory: Inventory): Long {
+        return withContext(Dispatchers.IO) {
             database.insertInventory(inventory)
+        }
+    }
+
+    private suspend fun newInventoryJoin(inventoryJoin: CharacterInventoryJoin) {
+        withContext(Dispatchers.IO) {
+            database.insertInventoryJoin(inventoryJoin)
         }
     }
 
     private suspend fun updateInventory(inventory: Inventory) {
         withContext(Dispatchers.IO) {
             database.updateInventory(inventory)
+        }
+    }
+
+    private suspend fun updateInventoryJoin(characterInventoryJoin: CharacterInventoryJoin) {
+        withContext(Dispatchers.IO) {
+            database.updateInventoryJoin(characterInventoryJoin)
         }
     }
 
@@ -226,93 +207,56 @@ class EditInventoryViewModel (private val inventoryId: Long, private val charact
         }
     }
 
-    private suspend fun getExistingInventory(inventoryId: Long): Inventory? {
+    private suspend fun getEquipment(joinId: Long): Equipment {
         return withContext(Dispatchers.IO){
-            database.getInventory(inventoryId)
+            val myData = database.getEquipment(joinId) ?: throw IllegalArgumentException("Invalid equipment")
+            Equipment(myData)
         }
     }
 
-
     init {
         // Setting initial values
-        itemType.value = ItemType.WEAPON
-        weaponAbilityUsed.value = AbilityType.STRENGTH
-        armorTier.value = ArmorTier.LIGHT
-        staticUses.value = 0
+        viewModelScope.launch {
+            val myEquipment = if (newItem) {
+                val newInventory = Inventory(name = "", description = "", type = 1, ability = 1, dice1Amount = 1, dice1Value = 6, dice2Amount = 1, dice2Value = 2, refillable = true)
+                val newJoin = CharacterInventoryJoin(inventoryId = 0L, characterId = characterId)
 
-        damageRollerAmount.value = 1
-        damageRollerValue.value = DiceValue.D6
-        damageRollerBonus.value = "0"
-        damageRollerAbility.value = AbilityType.UNTYPED
-
-        usesRollerAmount.value = 1
-        usesRollerValue.value = DiceValue.D2
-        usesRollerBonus.value = "0"
-        usesRollerAbility.value = AbilityType.UNTYPED
-
-        description1RollerAmount.value = 1
-        description1RollerValue.value = DiceValue.D2
-        description1RollerBonus.value = "0"
-        description1RollerAbility.value = AbilityType.UNTYPED
-
-        description2RollerAmount.value = 1
-        description2RollerValue.value = DiceValue.D2
-        description2RollerBonus.value = "0"
-        description2RollerAbility.value = AbilityType.UNTYPED
-
-        if (inventoryId > 0) {
-            // Updating existing item
-            viewModelScope.launch {
-                val item = getExistingInventory(inventoryId)
-
-                if (item != null) {
-                    itemName.value = item.name
-                    itemDescription.value = item.description
-                    itemType.value = ItemType.get(item.type)
-                    armorTier.value = ArmorTier.get(item.armorTier)
-                    weaponAbilityUsed.value = AbilityType.get(item.ability)
-                    limitedUse.value = item.uses != -1
-                    refillableUses.value = item.refillable
-                    previouslyEquipped = item.equipped
-
-                    if (item.uses != -1 && item.refillDiceAmount == 0 && item.refillDiceAbility == AbilityType.UNTYPED.id) {
-                        // Static Uses
-                        rolledMaxUses.value = false
-                        staticUses.value = item.refillDiceBonus
-                    } else {
-                        // Rolled Uses
-                        rolledMaxUses.value = true
-                        usesRollerAmount.value = item.refillDiceAmount
-                        usesRollerValue.value = DiceValue.get(item.refillDiceValue)
-                        usesRollerBonus.value = item.refillDiceBonus.toString()
-                        usesRollerAbility.value = AbilityType.get(item.refillDiceAbility)
-                    }
-
-                    if (itemType.value == ItemType.WEAPON) {
-                        damageRollerAmount.value = item.dice1Amount
-                        damageRollerValue.value = DiceValue.getByValue(item.dice1Value)
-                        damageRollerBonus.value = item.dice1Bonus.toString()
-                        damageRollerAbility.value = AbilityType.get(item.dice1Ability)
-
-                        description1RollerAmount.value = item.dice2Amount
-                        description1RollerValue.value = DiceValue.getByValue(item.dice2Value)
-                        description1RollerBonus.value = item.dice2Bonus.toString()
-                        description1RollerAbility.value = AbilityType.get(item.dice2Ability)
-                    } else {
-                        description1RollerAmount.value = item.dice1Amount
-                        description1RollerValue.value = DiceValue.getByValue(item.dice1Value)
-                        description1RollerBonus.value = item.dice1Bonus.toString()
-                        description1RollerAbility.value = AbilityType.get(item.dice1Ability)
-
-                        description2RollerAmount.value = item.dice2Amount
-                        description2RollerValue.value = DiceValue.getByValue(item.dice2Value)
-                        description2RollerBonus.value = item.dice2Bonus.toString()
-                        description2RollerAbility.value = AbilityType.get(item.dice2Ability)
-                    }
-                } else {
-                    throw IllegalArgumentException("Invalid inventoryId")
-                }
+                Equipment(newInventory, newJoin)
+            } else {
+                getEquipment(inventoryJoinId)
             }
+
+            rolledMaxUses.value = !(myEquipment.refillDice.amount == 0 || myEquipment.refillDice.diceValue == DiceValue.D0)
+
+            staticUses.value = if (rolledMaxUses.value == false) myEquipment.refillDice.bonus else 0
+
+            damageRollerAmount.value = myEquipment.dice1.amount
+            damageRollerValue.value = myEquipment.dice1.diceValue
+            damageRollerBonus.value = myEquipment.dice1.bonus.toString()
+            damageRollerAbility.value = myEquipment.dice1.ability
+
+            usesRollerAmount.value = myEquipment.refillDice.amount
+            usesRollerValue.value = myEquipment.refillDice.diceValue
+            usesRollerBonus.value = myEquipment.refillDice.bonus.toString()
+            usesRollerAbility.value = myEquipment.refillDice.ability
+
+            if (myEquipment.type == ItemType.WEAPON) {
+                description1RollerAmount.value = myEquipment.dice2.amount
+                description1RollerValue.value = myEquipment.dice2.diceValue
+                description1RollerBonus.value = myEquipment.dice2.bonus.toString()
+                description1RollerAbility.value = myEquipment.dice2.ability
+            } else {
+                description1RollerAmount.value = myEquipment.dice1.amount
+                description1RollerValue.value = myEquipment.dice1.diceValue
+                description1RollerBonus.value = myEquipment.dice1.bonus.toString()
+                description1RollerAbility.value = myEquipment.dice1.ability
+            }
+            description2RollerAmount.value = myEquipment.dice2.amount
+            description2RollerValue.value = myEquipment.dice2.diceValue
+            description2RollerBonus.value = myEquipment.dice2.bonus.toString()
+            description2RollerAbility.value = myEquipment.dice2.ability
+
+            _equipment.value = myEquipment
         }
     }
 }

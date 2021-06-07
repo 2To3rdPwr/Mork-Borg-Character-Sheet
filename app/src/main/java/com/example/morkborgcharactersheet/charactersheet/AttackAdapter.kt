@@ -47,7 +47,7 @@ class AttackListener(val clickListener: (attack: Equipment) -> Unit) {
 
 class AttackDiffCallback : DiffUtil.ItemCallback<Equipment>() {
     override fun areItemsTheSame(oldItem: Equipment, newItem: Equipment): Boolean {
-        return oldItem.inventoryId == newItem.inventoryId
+        return oldItem.joinId == newItem.joinId
     }
 
     override fun areContentsTheSame(oldItem: Equipment, newItem: Equipment): Boolean {

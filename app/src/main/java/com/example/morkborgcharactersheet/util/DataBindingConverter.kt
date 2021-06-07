@@ -15,13 +15,14 @@ class DataBindingConverter {
          * One-Way bindings
          */
         @JvmStatic
-        fun convertItemTypeToImage(type: ItemType): Int {
+        fun convertItemTypeToImage(type: ItemType?): Int {
             return when(type) {
                 ItemType.WEAPON -> R.drawable.sword
                 ItemType.ARMOR -> R.drawable.armor
                 ItemType.SHIELD -> R.drawable.shield
                 ItemType.POWER -> R.drawable.ancient_scroll_2
                 ItemType.OTHER -> R.drawable.broken
+                else -> R.drawable.broken
             }
         }
 
@@ -30,7 +31,10 @@ class DataBindingConverter {
          */
         /**
          * Parse strings to ints and vice-versa for data binding purposes, allowing for negative values.
-         * Parses invalid data as 0
+         *
+         * It's typically better to bind an edittext that can potentially be negative to a string
+         *  LiveData instead of using this due to quirks with input reading - as null and thus
+         *  converting it to emptystring unless it's already a valid int
          */
         @InverseMethod("convertStringToInt")
         @JvmStatic
@@ -40,6 +44,28 @@ class DataBindingConverter {
 
         @JvmStatic
         fun convertStringToInt(value: String): Int? {
+            if (TextUtils.isEmpty(value) || !value.matches(Regex("-?\\d+"))) {
+                return null
+            }
+            return value.toIntOrNull()
+        }
+
+        /**
+         * Parse strings to ints and vice-versa for data binding purposes, allowing for negative values.
+         * Default to 0 if passed an invalid value
+         *
+         * It's typically better to bind an edittext that can potentially be negative to a string
+         *  LiveData instead of using this due to quirks with input reading - as null and thus
+         *  converting it to 0 unless it's already a valid int
+         */
+        @InverseMethod("convertStringToIntNotNull")
+        @JvmStatic
+        fun convertIntToStringNotNull(value: Int): String {
+            return value?.toString() ?: ""
+        }
+
+        @JvmStatic
+        fun convertStringToIntNotNull(value: String): Int {
             if (TextUtils.isEmpty(value) || !value.matches(Regex("-?\\d+"))) {
                 return 0
             }

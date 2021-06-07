@@ -10,8 +10,6 @@ import com.example.morkborgcharactersheet.databinding.ListItemInventoryBinding
 import com.example.morkborgcharactersheet.models.ExpandableEquipment
 
 class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<ExpandableEquipment, EquipmentAdapter.ViewHolder>(EquipmentDiffCallback()) {
-    // TODO: Instead of Inventory, use a custom model specifically for this recyclerview.
-    //      Custom model would contain expandability info as well as replace ${D1} and ${D2} in the description
 
     // TODO: Allow OTHER items to be used
 
@@ -66,7 +64,7 @@ class EquipmentListener(val clickListener: (equipment: ExpandableEquipment, type
 
 class EquipmentDiffCallback : DiffUtil.ItemCallback<ExpandableEquipment>() {
     override fun areItemsTheSame(oldItem: ExpandableEquipment, newItem: ExpandableEquipment): Boolean {
-        return oldItem.inventoryId == newItem.inventoryId
+        return oldItem.joinId == newItem.joinId
     }
 
     override fun areContentsTheSame(oldItem: ExpandableEquipment, newItem: ExpandableEquipment): Boolean {

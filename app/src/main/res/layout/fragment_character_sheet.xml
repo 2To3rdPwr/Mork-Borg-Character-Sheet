@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/zombie"
             android:inputType="numberSigned|number"
-            android:text="@={DataBindingConverter.convertIntToString(characterSheetViewModel.character.currentHP)}"
+            android:text="@={DataBindingConverter.convertIntToStringNotNull(characterSheetViewModel.character.currentHP)}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/health_image"
             app:layout_constraintEnd_toStartOf="@+id/max_hp_text"

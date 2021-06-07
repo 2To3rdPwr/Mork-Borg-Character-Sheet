@@ -1,33 +1,77 @@
 package com.example.morkborgcharactersheet.models
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.example.morkborgcharactersheet.BR
 import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.database.CharacterInventoryJoin
+import com.example.morkborgcharactersheet.database.EquipmentData
 import com.example.morkborgcharactersheet.database.Inventory
-import kotlin.random.Random
 
 /**
- * Equipment objects bridge the gap between Inventory and CharacterInventoryJoin
- * Could probably subclass this into the different inventory types TBH
+ * Equipment objects contain data on individual instances of an inventory item
  */
-// TODO: Finish transitioning to inventoryJoin ovr Inventory
-open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin?) {
-    val joinId = Random.nextLong()
+open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin) : BaseObservable() {
+    val joinId = invJoin.characterInventoryJoinId
     val inventoryId = inventory.inventoryId
-    val characterId = inventory.characterId
+    val characterId = invJoin.characterId
     var name = inventory.name
+    @Bindable
     var description = inventory.description
-    val type = ItemType.get(inventory.type)
-    var equipped = inventory.equipped
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.description)
+    }
+    @Bindable
+    var type = ItemType.get(inventory.type)
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.type)
+    }
+    @Bindable
+    var equipped = invJoin.equipped
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.equipped)
+    }
+    @Bindable
     var armorTier = ArmorTier.get(inventory.armorTier)
-    val weaponAbility = AbilityType.get(inventory.ability)
-    val dice1 = Dice(inventory.dice1Amount, DiceValue.getByValue(inventory.dice1Value)?:DiceValue.D0, inventory.dice1Bonus, AbilityType.get(inventory.dice1Ability)!!)
-    val dice2 = Dice(inventory.dice2Amount, DiceValue.getByValue(inventory.dice2Value)?:DiceValue.D0, inventory.dice2Bonus, AbilityType.get(inventory.dice2Ability)!!)
-    val limitedUses = inventory.uses != -1
-    val refillable = inventory.refillable
-    var uses = inventory.uses
-    val refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D0, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
-    var broken = false
-    val formattedDescription = formatDescription()
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.armorTier)
+    }
+    @Bindable
+    var weaponAbility = AbilityType.get(inventory.ability)
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.weaponAbility)
+    }
+    var dice1 = Dice(inventory.dice1Amount, DiceValue.getByValue(inventory.dice1Value)?:DiceValue.D0, inventory.dice1Bonus, AbilityType.get(inventory.dice1Ability)!!)
+    var dice2 = Dice(inventory.dice2Amount, DiceValue.getByValue(inventory.dice2Value)?:DiceValue.D0, inventory.dice2Bonus, AbilityType.get(inventory.dice2Ability)!!)
+    @Bindable
+    var limitedUses = inventory.limitedUses
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.limitedUses)
+    }
+    @Bindable
+    var refillable = inventory.refillable
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.refillable)
+    }
+    @Bindable
+    var uses = invJoin.uses
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.uses)
+    }
+    var refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D0, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
+    var broken = invJoin.broken
+    val default = inventory.defaultItem
+    var formattedDescription = formatDescription()
+
+    constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
 
     // TODO: Later allow user to choose
     val equipmentImage = when (type) {
@@ -38,12 +82,40 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         else -> R.drawable.broken
     }
 
+    fun initialize(characterId: Long, inventoryId: Long) {
+        inventory.inventoryId = inventoryId
+        invJoin.inventoryId = inventoryId
+        invJoin.characterId = characterId
+    }
+
     fun getInventory(): Inventory {
         inventory.name = name
         inventory.description = description
-        inventory.equipped = equipped
-        inventory.uses = uses
+        inventory.type = type!!.id
+        inventory.ability = weaponAbility!!.id
+        inventory.armorTier = armorTier!!.id
+        inventory.limitedUses = limitedUses
+        inventory.refillable = refillable
+        inventory.dice1Amount = dice1.amount
+        inventory.dice1Value = dice1.diceValue.value
+        inventory.dice1Bonus = dice1.bonus
+        inventory.dice1Ability = dice1.ability.id
+        inventory.dice2Amount = dice2.amount
+        inventory.dice2Value = dice2.diceValue.value
+        inventory.dice2Bonus = dice2.bonus
+        inventory.dice2Ability = dice2.ability.id
+        inventory.refillDiceAmount = refillDice.amount
+        inventory.refillDiceValue = refillDice.diceValue.value
+        inventory.refillDiceBonus = refillDice.bonus
+        inventory.refillDiceAbility = refillDice.ability.id
         return inventory
+    }
+
+    fun getInvJoin(): CharacterInventoryJoin {
+        invJoin.equipped = equipped
+        invJoin.broken = broken
+        invJoin.uses = uses
+        return invJoin
     }
 
     fun reload(abilityScore: Int) {
@@ -68,7 +140,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
 
     override fun hashCode(): Int {
         var result = inventory.hashCode()
-        result = 31 * result + (invJoin?.hashCode() ?: 0)
+        result = 31 * result + invJoin.hashCode()
         result = 31 * result + inventoryId.hashCode()
         result = 31 * result + characterId.hashCode()
         result = 31 * result + name.hashCode()

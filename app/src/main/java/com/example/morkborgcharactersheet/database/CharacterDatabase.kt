@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 2, exportSchema = true)
+@Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 4, exportSchema = true)
 @TypeConverters(com.example.morkborgcharactersheet.util.DatabaseConverter::class)
 abstract class CharacterDatabase : RoomDatabase() {
     /** Connect to database using DAO */
