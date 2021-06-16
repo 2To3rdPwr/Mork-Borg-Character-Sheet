@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 4, exportSchema = true)
+@Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 1)
 @TypeConverters(com.example.morkborgcharactersheet.util.DatabaseConverter::class)
 abstract class CharacterDatabase : RoomDatabase() {
     /** Connect to database using DAO */
@@ -42,7 +42,6 @@ abstract class CharacterDatabase : RoomDatabase() {
                             CharacterDatabase::class.java,
                             "character_database"
                     )
-//                            .createFromAsset("")  TODO: Pre-populate Inventory with weapons and powers from the book.
                             .fallbackToDestructiveMigration()
                             .build()
                     INSTANCE = instance

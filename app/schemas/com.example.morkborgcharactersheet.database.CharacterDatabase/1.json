@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4ec2da95f41a82971737637477b5b636",
+    "identityHash": "86b5a139b2a0af7e157c770e133aecf3",
     "entities": [
       {
         "tableName": "characters",
@@ -98,17 +98,11 @@
       },
       {
         "tableName": "inventory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `character_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `equipped` INTEGER NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `refill_dice_amount` INTEGER NOT NULL, `refill_dice_value` INTEGER NOT NULL, `refill_dice_bonus` INTEGER NOT NULL, `refill_dice_ability` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `limited_uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `refill_dice_amount` INTEGER NOT NULL, `refill_dice_value` INTEGER NOT NULL, `refill_dice_bonus` INTEGER NOT NULL, `refill_dice_ability` INTEGER NOT NULL, `default_item` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "inventoryId",
             "columnName": "inventoryId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "characterId",
-            "columnName": "character_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -122,12 +116,6 @@
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "equipped",
-            "columnName": "equipped",
-            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -197,8 +185,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "uses",
-            "columnName": "uses",
+            "fieldPath": "limitedUses",
+            "columnName": "limited_uses",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -231,6 +219,12 @@
             "columnName": "refill_dice_ability",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "defaultItem",
+            "columnName": "default_item",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -241,12 +235,62 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "character_inventory_join",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`characterInventoryJoinId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `character_id` INTEGER NOT NULL, `inventory_id` INTEGER NOT NULL, `equipped` INTEGER NOT NULL, `uses` INTEGER NOT NULL, `broken` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "characterInventoryJoinId",
+            "columnName": "characterInventoryJoinId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "character_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventoryId",
+            "columnName": "inventory_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipped",
+            "columnName": "equipped",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uses",
+            "columnName": "uses",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "broken",
+            "columnName": "broken",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "characterInventoryJoinId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ec2da95f41a82971737637477b5b636')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86b5a139b2a0af7e157c770e133aecf3')"
     ]
   }
 }
