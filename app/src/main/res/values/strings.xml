@@ -1,3 +1,4 @@
+<!-- TODO: Organize and root out unused strings -->
 <resources>
     <string name="app_name">MÖRK BORG Character Sheet</string>
     <string name="omens_string">Omens</string>
@@ -34,6 +35,7 @@
     <string name="new_inventory_string">Add New</string>
     <string name="shield_string">Shield</string>
     <string name="armor_tier_string">Armor Tier</string>
+    <string name="no_armor_string">No Armor</string>
     <string name="light_armor_string">Light Armor</string>
     <string name="medium_armor_string">Medium Armor</string>
     <string name="heavy_armor_string">Heavy Armor</string>
@@ -80,6 +82,133 @@
     <string name="uses">Uses</string>
     <string name="item_description_hint">Item description</string>
     <string name="item_name_hint">Item Name</string>
+    <string name="unarmed_attack_name">Unarmed</string>
+    <!-- Default inventory items -->
+    <!-- weapons -->
+    <string name="femur_weapon_name">Femur</string>
+    <string name="staff_weapon_name">Staff</string>
+    <string name="shortsword_weapon_name">Shortsword</string>
+    <string name="knife_weapon_name">Knife</string>
+    <string name="warhammer_weapon_name">Warhammer</string>
+    <string name="sword_weapon_name">Sword</string>
+    <string name="bow_weapon_name">Bow</string>
+    <string name="flail_weapon_name">Flail</string>
+    <string name="crossbow_weapon_name">Crossbow</string>
+    <string name="zweihander_weapon_name">Zweihänder</string>
+    <string name="zweihander_weapon_description">A massive two-handed sword. Its unwieldiness prevents the use of scrolls.</string>
+    <!-- scrolls -->
+    <!-- unclean -->
+    <string name="fireball_scroll_name">Palms Open the Southern Gate</string>
+    <string name="fireball_scroll_description">A ball of fire hits $D1 creatures dealing $D2 damage per creature.</string>
+    <string name="confusion_scroll_name">Tongue of Eris</string>
+    <string name="confusion_scroll_description">A creature of your choice becomes confused for 10 minutes.</string>
+    <string name="telekinesis_scroll_name">Te-le-kin-esis</string>
+    <string name="telekinesis_scroll_description">Move an object up to $D1 square feet for $D2 minutes.</string>
+    <string name="levetation_scroll_name">Lucy-fires Levitation</string>
+    <string name="levetation_scroll_description">Hover for $D1 rounds.</string>
+    <string name="suffocation_scroll_name">Daemon of Capillaries</string>
+    <string name="suffocation_scroll_description">One creature suffocates for $D1 rounds, losing 1D4 HP per round.</string>
+    <string name="lightning_scroll_name">Nine Violet Signs Unknot the Storm</string>
+    <string name="lightning_scroll_description">Produce $D1 lightning bolts dealing $D2 damage each.</string>
+    <string name="summon_scroll_name">Foul Psychopomp</string>
+    <string name="summon_scroll_description">If $D1 is even, summon $D2 skeletons. Otherwise, summon $D2 zombies.</string>
+    <string name="invisibility_scroll_name">Metzhuotl Blind Your Eye</string>
+    <string name="invisibility_scroll_description">A creature becomes invisible for $D1 rounds or until it is damaged, attacking/defending with DR6.</string>
+    <string name="sleep_scroll_name">Eyelid Blinds the Mind</string>
+    <string name="sleep_scroll_description">$D1 creatures fall asleep for one hour unless they succeed a DR 14 test.</string>
+    <string name="death_scroll_string">All creatures within 30 feet lose a total of $D1 HP.</string>
+    <!-- clean -->
+    <string name="heal_scroll_name">Grace of a Dead Saint</string>
+    <string name="heal_scroll_description">$D1 creatures regain $D2 HP each.</string>
+    <string name="bonus_scroll_name">Grace for a Sinner</string>
+    <string name="bonus_scroll_description">A creature of your choice gats +$D1 on one roll (damage, test, etc.)</string>
+    <string name="deadspeak_scroll_name">Whispers Pass the Gate</string>
+    <string name="deadspeak_scroll_description">Ask three questions to a deceased creature.</string>
+    <string name="temphealth_scroll_name">Aegis of Sorrow</string>
+    <string name="temphealth_scroll_description">A creature of your choice gains $D1 extra HP for 10 rounds.</string>
+    <string name="revive_scroll_name">Unmet Fate</string>
+    <string name="revive_scroll_description">One creature, dead for no more than a week, is awakened with terrible memories,.</string>
+    <string name="animalspeak_scroll_name">Bestial Speech</string>
+    <string name="animalspeak_scroll_description">You may speak with animals for $D1 minutes.</string>
+    <string name="light_scroll_name">False Dawn/Night\'s Chariot</string>
+    <string name="light_scroll_description">Light or pitch black for $D1 minutes.</string>
+    <string name="trapfind_scroll_name">Hermetic Step</string>
+    <string name="trapfind_scroll_description">You find all traps in your path for $D1 minutes.</string>
+    <string name="glare_scroll_name">Roskoe\'s Consuming Glare</string>
+    <string name="glare_scroll_description">$D1 creatures lose $D2 HP each.</string>
+    <string name="command_scroll_name">Enochian Sytar</string>
+    <string name="command_scroll_description">One creature blindly obeys a single command.</string>
+    <!-- animals -->
+    <string name="dog_trained_name">Trained Dog</string>
+    <string name="dog_trained_description">$D1 HP, bites for $D2. Only obeys you.</string>
+    <string name="dog_wild_name">Wild Dog</string>
+    <string name="dog_wild_description">$D1 HP, bites for $D2. Obeys no one.</string>
+    <string name="horse_name">Horse</string>
+    <string name="mule_name">Mule</string>
+    <string name="rat_name">Tamed Rat</string>
+    <string name="monkey_name">Monkey</string>
+    <string name="monkey_description">An untrained monkey that loves you, but does not obey any orders. $D1 HP, punch/bite for $D2.</string>
+    <!--miscellaneous -->
+    <string name="backpack_name">Backpack</string>
+    <string name="backpack_description">Holds 7 normal-sized items.</string>
+    <string name="beartrap_name">Bear Trap</string>
+    <string name="beartrap_description">Presence DR14 to spot. $D1 damage.</string>
+    <string name="blanket_name">Blanket</string>
+    <string name="caltrops_name">Caltrops</string>
+    <string name="caltrops_description">$D1 damage + infection on 1 of $D2</string>
+    <string name="chalk_name">Chalk</string>
+    <string name="tobacco_name">Chewing Tobacco</string>
+    <string name="crowbar_name">Crowbar</string>
+    <string name="silver_crucifix_name">Silver Crucifix</string>
+    <string name="wood_crucifix_name">Wooden Crucifix</string>
+    <string name="food_ration_name">Dried Food</string>
+    <string name="food_ration_description">One ration lasts one day for a single person.</string>
+    <string name="perfume_name">Exquisite Perfume</string>
+    <string name="firestarter_name">Firesteel</string>
+    <string name="grappling_hook_name">Grappling Hook</string>
+    <string name="hammer_name">Hammer</string>
+    <string name="chain_name">Heavy Chain</string>
+    <string name="nails_name">Iron Nails</string>
+    <string name="ladder_name">Ladder</string>
+    <string name="oil_name">Lantern Oil</string>
+    <string name="oil_description">One unit lasts $D1 hours</string>
+    <string name="lard_name">Lard</string>
+    <string name="lard_description">Can serve as 5 disgusting meals.</string>
+    <string name="hook_name">Large Iron Hook</string>
+    <string name="lockpick_name">Lockpicks</string>
+    <string name="magnesium_name">Magnesium Strip</string>
+    <string name="manacles_name">Manacles</string>
+    <string name="mattress_name">Mattress</string>
+    <string name="cleaver_name">MEat Cleaver</string>
+    <string name="healthkit_name">Medicine Box</string>
+    <string name="healthkit_description">Stops bleeding/infection and +$D1 HP.</string>
+    <string name="file_name">Metal File</string>
+    <string name="mirror_name">Mirror</string>
+    <string name="muzzle_name">Muzzle</string>
+    <string name="noose_name">Noose</string>
+    <string name="lamp_name">Oil Lamp</string>
+    <string name="poison_black_name">Black Poison</string>
+    <string name="poison_black_description">Toughness DR 14 or $D1 damage and blind for one hour.</string>
+    <string name="poison_red_name">Red Poison</string>
+    <string name="poison_red_description">Toughness DR 12 or $D1 damage.</string>
+    <string name="corpse_name">Preserved Corpse</string>
+    <string name="rope_name">Rope</string>
+    <string name="wagon_name">Small Wagon</string>
+    <string name="tent_name">Tent</string>
+    <string name="toolbox_name">Toolbox</string>
+    <string name="toolbox_description">10 nails, hammer, small saw, tongs</string>
+    <string name="torch_name">Torch</string>
+    <string name="sack_name">Sack</string>
+    <string name="sack_description">Holds 10 normal-sized items.</string>
+    <string name="sail_name">Sail</string>
+    <string name="scissors_name">Scissors</string>
+    <string name="needle_name">Sharp Needle</string>
+    <string name="waterskin_name">Waterskin</string>
+    <string name="bomb_name">Bomb</string>
+    <string name="bomb_description">$D1 damage</string>
+    <string name="elixir_name">Life Elixir</string>
+    <string name="elixir_description">Heal $D1 HP and remove infection.</string>
+
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>

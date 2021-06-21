@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(entities = [Character::class, Inventory::class, CharacterInventoryJoin::class], version = 1)
 @TypeConverters(com.example.morkborgcharactersheet.util.DatabaseConverter::class)
@@ -24,9 +25,6 @@ abstract class CharacterDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: CharacterDatabase? = null
 
-        /**
-         * Singleton to return the database
-         */
         fun getInstance(context: Context): CharacterDatabase {
             /**
              * Use synchronized since it's possible that multiple threads may ask for a database at
@@ -42,8 +40,21 @@ abstract class CharacterDatabase : RoomDatabase() {
                             CharacterDatabase::class.java,
                             "character_database"
                     )
-                            .fallbackToDestructiveMigration()
-                            .build()
+                        .fallbackToDestructiveMigration()
+                        .addCallback(object : Callback() {
+                            // Prepopulate inventory table with default items on the first time the app runs
+                            override fun onCreate(db: SupportSQLiteDatabase) {
+                                super.onCreate(db)
+                                val defaultInventory = DefaultInventoryList(context).defaultInventoryList
+                                ioThread {
+                                    val datasource = getInstance(context).characterDatabaseDAO
+                                    defaultInventory.forEach { inventory ->
+                                        datasource.insertInventory(inventory)
+                                    }
+                                }
+                            }
+                        })
+                        .build()
                     INSTANCE = instance
                 }
                 return instance
