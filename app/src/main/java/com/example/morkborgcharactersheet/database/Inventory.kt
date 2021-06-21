@@ -27,6 +27,7 @@ data class Inventory (
      *      2: Armor
      *      3: Shield
      *      4: Power
+     *      TODO: 5: Creature/ally
      *      0: Other
      */
     @ColumnInfo(name = "type")
@@ -62,7 +63,7 @@ data class Inventory (
      * amount D value + bonus + ability
      */
     @ColumnInfo(name = "dice1_amount")
-    var dice1Amount: Int = 0,
+    var dice1Amount: Int = 1,
 
     @ColumnInfo(name = "dice1_value")
     var dice1Value: Int = 0,
@@ -74,7 +75,7 @@ data class Inventory (
     var dice1Ability: Int = 0,
 
     @ColumnInfo(name = "dice2_amount")
-    var dice2Amount: Int = 0,
+    var dice2Amount: Int = 1,
 
     @ColumnInfo(name = "dice2_value")
     var dice2Value: Int = 0,
@@ -93,9 +94,7 @@ data class Inventory (
     var limitedUses: Boolean = false,
 
     /**
-     * Dictates behavior upon all uses consumed.
-     * Refillable = false: Item removed from inventory (TODO)
-     * Refillable = true: Item just can't be used
+     * TODO: Remove and allow all items to be refilled.
      */
     @ColumnInfo(name = "refillable")
     var refillable: Boolean = false,
@@ -109,7 +108,7 @@ data class Inventory (
      * Not applicable beyond creating new instances of default items.
      */
     @ColumnInfo(name = "uses_dice_amount")
-    val InitialUsesDiceAmount: Int = 0,
+    val InitialUsesDiceAmount: Int = 1,
 
     @ColumnInfo(name = "uses_dice_value")
     val InitialUsesDiceValue: Int = 0,

@@ -46,6 +46,9 @@ interface CharacterDatabaseDAO {
     @Query("UPDATE characters SET powers = :newPowers, omens = :newOmens WHERE characterId = :characterId")
     fun refreshPowersAndOmens(characterId: Long, newPowers: Int, newOmens: Int)
 
+    @Query("SELECT * FROM inventory WHERE inventoryId = :inventoryId")
+    fun getInventory(inventoryId: Long): Inventory?
+
     @Transaction
     @Query("SELECT * FROM character_inventory_join WHERE characterInventoryJoinId = :invJoinId")
     fun getEquipment(invJoinId: Long): EquipmentData?

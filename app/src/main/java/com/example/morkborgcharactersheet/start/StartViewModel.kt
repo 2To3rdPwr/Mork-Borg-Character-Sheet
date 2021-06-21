@@ -31,7 +31,7 @@ class StartViewModel(dataSource: CharacterDatabaseDAO) : ViewModel() {
     private suspend fun getMostRecentCharacter(): Long? {
         return withContext(Dispatchers.IO) {
             // Pause on start screen for a second to allow user to read license
-            Thread.sleep(2_000)
+            Thread.sleep(1_000)
             database.getMostRecentCharacterId()
         }
     }

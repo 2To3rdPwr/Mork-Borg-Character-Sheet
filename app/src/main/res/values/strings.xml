@@ -116,7 +116,8 @@
     <string name="invisibility_scroll_description">A creature becomes invisible for $D1 rounds or until it is damaged, attacking/defending with DR6.</string>
     <string name="sleep_scroll_name">Eyelid Blinds the Mind</string>
     <string name="sleep_scroll_description">$D1 creatures fall asleep for one hour unless they succeed a DR 14 test.</string>
-    <string name="death_scroll_string">All creatures within 30 feet lose a total of $D1 HP.</string>
+    <string name="death_scroll_name">Death</string>
+    <string name="death_scroll_description">All creatures within 30 feet lose a total of $D1 HP.</string>
     <!-- clean -->
     <string name="heal_scroll_name">Grace of a Dead Saint</string>
     <string name="heal_scroll_description">$D1 creatures regain $D2 HP each.</string>
@@ -171,7 +172,7 @@
     <string name="nails_name">Iron Nails</string>
     <string name="ladder_name">Ladder</string>
     <string name="oil_name">Lantern Oil</string>
-    <string name="oil_description">One unit lasts $D1 hours</string>
+    <string name="oil_description">One unit lasts one hour</string>
     <string name="lard_name">Lard</string>
     <string name="lard_description">Can serve as 5 disgusting meals.</string>
     <string name="hook_name">Large Iron Hook</string>
@@ -179,7 +180,7 @@
     <string name="magnesium_name">Magnesium Strip</string>
     <string name="manacles_name">Manacles</string>
     <string name="mattress_name">Mattress</string>
-    <string name="cleaver_name">MEat Cleaver</string>
+    <string name="cleaver_name">Meat Cleaver</string>
     <string name="healthkit_name">Medicine Box</string>
     <string name="healthkit_description">Stops bleeding/infection and +$D1 HP.</string>
     <string name="file_name">Metal File</string>
