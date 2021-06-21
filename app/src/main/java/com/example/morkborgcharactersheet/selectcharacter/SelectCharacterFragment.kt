@@ -1,7 +1,6 @@
 package com.example.morkborgcharactersheet.selectcharacter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,19 +13,33 @@ import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.example.morkborgcharactersheet.database.CharacterDatabase
 import com.example.morkborgcharactersheet.databinding.FragmentSelectCharacterBinding
-import com.example.morkborgcharactersheet.inventory.EquipmentAdapter
-import com.example.morkborgcharactersheet.inventory.EquipmentListener
 
-class SelectCharacterFragment(var characterId: Long) : Fragment() {
+class SelectCharacterFragment : Fragment() {
+    companion object {
+        private const val CHARACTER_ID = "characterId"
+
+        fun newInstance(characterId: Long) = SelectCharacterFragment().apply {
+            arguments = Bundle(1).apply {
+                putLong(CHARACTER_ID, characterId)
+            }
+        }
+    }
+
     private lateinit var viewModel: SelectCharacterViewModel
     private lateinit var binding: FragmentSelectCharacterBinding
+    private var characterId: Long? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_character, container, false)
         val application = requireNotNull(this.activity).application
 
+        arguments?.let {
+            characterId = it.getLong(CHARACTER_ID)
+        }
+
         // Create an instance of the ViewModel Factory.
         val dataSource = CharacterDatabase.getInstance(application).characterDatabaseDAO
-        val viewModelFactory = SelectCharacterViewModelFactory(characterId, dataSource)
+        val viewModelFactory = SelectCharacterViewModelFactory(characterId!!, dataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(SelectCharacterViewModel::class.java)
 

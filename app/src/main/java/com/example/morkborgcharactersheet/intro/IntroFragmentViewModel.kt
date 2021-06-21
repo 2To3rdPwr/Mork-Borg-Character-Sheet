@@ -1,6 +1,5 @@
 package com.example.morkborgcharactersheet.intro
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,13 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.morkborgcharactersheet.database.Character
 import com.example.morkborgcharactersheet.database.CharacterDatabaseDAO
 import com.example.morkborgcharactersheet.database.CharacterInventoryJoin
-import com.example.morkborgcharactersheet.database.Inventory
 import com.example.morkborgcharactersheet.models.Dice
 import com.example.morkborgcharactersheet.models.DiceValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.logging.Logger
 import kotlin.random.Random
 
 class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
@@ -259,7 +256,6 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
 
         return withContext(Dispatchers.IO) {
             val inventory = database.getInventory(inventoryId) ?: throw IllegalArgumentException("Invalid Inventory Id")
-            Log.i("inv", inventory.toString())
             if (inventory.limitedUses) {
                 val abilityBonus = when (inventory.InitialUsesDiceAbility) {
                     1 -> str
@@ -269,7 +265,6 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
                     else -> 0
                 }
                 val uses = Dice(amount = inventory.InitialUsesDiceAmount, diceValue = DiceValue.getByValue(inventory.InitialUsesDiceValue)?:DiceValue.D0, bonus = inventory.InitialUsesDiceBonus).roll(abilityBonus)
-                Log.i("Uses", uses.toString())
                 gear.uses = uses
             }
             gear

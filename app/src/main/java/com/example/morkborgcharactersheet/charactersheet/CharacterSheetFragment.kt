@@ -22,20 +22,32 @@ import com.example.morkborgcharactersheet.models.DiceValue
 import com.example.morkborgcharactersheet.util.DataBindingConverter
 import com.google.android.material.snackbar.Snackbar
 
-class CharacterSheetFragment(var characterId: Long) : Fragment(){
-    // Creating a viewmodel without ViewModelProvider allows me to share it with other fragments
-    private val characterSheetViewModel: CharacterSheetViewModel by viewModels(ownerProducer = { this }) { CharacterSheetViewModelFactory(characterId, requireNotNull(this.activity).application) }
-    private lateinit var binding: FragmentCharacterSheetBinding
+class CharacterSheetFragment : Fragment(){
+    // Companion object allows us to pass args from ViewPager
+    companion object {
+        private const val CHARACTER_ID = "characterId"
 
-    override fun onResume() {
-        // Reload character onResume to catch changes made by other fragments in the ViewPager
-        characterSheetViewModel.loadCharacter()
-        super.onResume()
+        fun newInstance(characterId: Long) = CharacterSheetFragment().apply {
+            arguments = Bundle(1).apply {
+                putLong(CHARACTER_ID, characterId)
+            }
+        }
     }
+    private lateinit var characterSheetViewModel: CharacterSheetViewModel
+    private lateinit var binding: FragmentCharacterSheetBinding
+    private var characterId: Long? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Get a reference to the binding object and inflate the fragment views.
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_character_sheet, container, false)
+
+        arguments?.let {
+            characterId = it.getLong(CHARACTER_ID)
+        }
+
+        // Creating a viewmodel without ViewModelProvider allows me to share it with other fragments
+        val mCharacterSheetViewModel: CharacterSheetViewModel by viewModels(ownerProducer = { this }) { CharacterSheetViewModelFactory(characterId!!, requireNotNull(this.activity).application) }
+        characterSheetViewModel = mCharacterSheetViewModel
 
         // To use the View Model with data binding, you have to explicitly
         // give the binding object a reference to it.
@@ -149,6 +161,12 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        // Reload character onResume to catch changes made by other fragments in the ViewPager
+        characterSheetViewModel.loadCharacter()
+        super.onResume()
     }
 
     // Ensure that changes made are saved when changing tabs

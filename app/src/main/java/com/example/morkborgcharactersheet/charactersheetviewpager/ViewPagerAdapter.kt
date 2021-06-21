@@ -13,9 +13,9 @@ class ViewPagerAdapter(fragment: Fragment, var characterId: Long) : FragmentStat
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> SelectCharacterFragment(characterId)
-            1 -> CharacterSheetFragment(characterId)
-            else -> InventoryFragment(characterId)
+            0 -> SelectCharacterFragment.newInstance(characterId)
+            1 -> CharacterSheetFragment.newInstance(characterId)
+            else -> InventoryFragment.newInstance(characterId)
         }
     }
 }

@@ -14,17 +14,32 @@ import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheet
 import com.example.morkborgcharactersheet.database.CharacterDatabase
 import com.example.morkborgcharactersheet.databinding.FragmentInventoryBinding
 
-class InventoryFragment(var characterId: Long) : Fragment() {
+class InventoryFragment : Fragment() {
+    // Companion object allows us to pass args from ViewPager
+    companion object {
+        private const val CHARACTER_ID = "characterId"
+
+        fun newInstance(characterId: Long) = InventoryFragment().apply {
+            arguments = Bundle(1).apply {
+                putLong(CHARACTER_ID, characterId)
+            }
+        }
+    }
     private lateinit var inventoryViewModel: InventoryViewModel
     private lateinit var binding: FragmentInventoryBinding
+    private var characterId: Long? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
         val application = requireNotNull(this.activity).application
 
+        arguments?.let {
+            characterId = it.getLong(CHARACTER_ID)
+        }
+
         // Create an instance of the ViewModel Factory.
         val dataSource = CharacterDatabase.getInstance(application).characterDatabaseDAO
-        val viewModelFactory = InventoryViewModelFactory(characterId, dataSource)
+        val viewModelFactory = InventoryViewModelFactory(characterId!!, dataSource)
 
         inventoryViewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
 
