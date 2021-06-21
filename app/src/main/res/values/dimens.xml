@@ -6,4 +6,5 @@
     <dimen name="rolled_dice_icon_size">64dp</dimen>
     <dimen name="rolled_dice_font_size">24sp</dimen>
     <dimen name="portrait_size">100dp</dimen>
+    <dimen name="icon_size_small">24dp</dimen>
 </resources>

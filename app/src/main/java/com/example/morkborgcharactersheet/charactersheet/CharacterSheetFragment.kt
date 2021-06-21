@@ -154,6 +154,11 @@ class CharacterSheetFragment(var characterId: Long) : Fragment(){
     // Ensure that changes made are saved when changing tabs
     override fun onPause() {
         super.onPause()
-        characterSheetViewModel.onStop()
+        characterSheetViewModel.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        characterSheetViewModel.onPause()
     }
 }

@@ -39,7 +39,6 @@
     <string name="heavy_armor_string">Heavy Armor</string>
     <string name="infinite_uses_string">Infinite Uses</string>
     <string name="non_refillable_string">Non Refillable</string>
-    <string name="max_uses_string">Max Uses</string>
     <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
     <string name="name_string">Character Name</string>
     <string name="description_string">Description</string>
@@ -78,6 +77,9 @@
     <string name="death_title_string">DEAD</string>
     <string name="broken_eye_limb_string_2">" rounds."</string>
     <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
+    <string name="uses">Uses</string>
+    <string name="item_description_hint">Item description</string>
+    <string name="item_name_hint">Item Name</string>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>

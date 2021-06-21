@@ -47,10 +47,6 @@ interface CharacterDatabaseDAO {
     fun refreshPowersAndOmens(characterId: Long, newPowers: Int, newOmens: Int)
 
     @Transaction
-    @Query("SELECT * FROM character_inventory_join WHERE inventory_id = :inventoryId AND character_id = :characterId")
-    fun getEquipment(characterId: Long, inventoryId: Long): EquipmentData?
-
-    @Transaction
     @Query("SELECT * FROM character_inventory_join WHERE characterInventoryJoinId = :invJoinId")
     fun getEquipment(invJoinId: Long): EquipmentData?
 
@@ -83,7 +79,4 @@ interface CharacterDatabaseDAO {
 
     @Query("SELECT characterId FROM characters ORDER BY last_used DESC LIMIT 1")
     fun getMostRecentCharacterId(): Long?
-
-    @Query("UPDATE characters SET last_used = CURRENT_TIMESTAMP WHERE characterId = :characterId")
-    fun timestampCharacter(characterId: Long)
 }

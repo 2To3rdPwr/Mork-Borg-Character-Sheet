@@ -11,14 +11,11 @@ import com.example.morkborgcharactersheet.models.ExpandableEquipment
 
 class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<ExpandableEquipment, EquipmentAdapter.ViewHolder>(EquipmentDiffCallback()) {
 
-    // TODO: Allow OTHER items to be used
-
     // Enum used to tell InventoryViewModel which button was pressed in EquipmentListener.
     enum class EquipmentRecyclerViewButton {
         EQUIP,
         EXPAND,
         USE,
-        RELOAD,
         EDIT,
         DELETE
     }

@@ -15,9 +15,6 @@ data class Character (
 
     @ColumnInfo(name = "description")
     var description: String = "",
-//TODO
-//    @ColumnInfo(name = "portrait")
-//    var portrait: String,
 
     @ColumnInfo(name = "hp_current")
     var currentHP: Int = 0,

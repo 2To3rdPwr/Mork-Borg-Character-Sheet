@@ -330,7 +330,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _showDefenceEvent.value = false
     }
 
-    fun onStop() {
+    fun onPause() {
         viewModelScope.launch {
             saveCharacter()
         }
@@ -372,6 +372,9 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
     }
 
+    /**
+     * initialization
+     */
     fun loadCharacter() {
         viewModelScope.launch {
             val myCharacter: Character = getCharacter(characterId)

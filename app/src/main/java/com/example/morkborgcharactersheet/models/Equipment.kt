@@ -10,6 +10,7 @@ import com.example.morkborgcharactersheet.database.Inventory
 
 /**
  * Equipment objects contain data on individual instances of an inventory item
+ * TBH, Should probably have subclassed this into the different inventory types
  */
 open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin) : BaseObservable() {
     val joinId = invJoin.characterInventoryJoinId
@@ -66,9 +67,11 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         field = value
         notifyPropertyChanged(BR.uses)
     }
-    var refillDice = Dice(inventory.refillDiceAmount, DiceValue.getByValue(inventory.refillDiceValue)?:DiceValue.D0, inventory.refillDiceBonus, AbilityType.get(inventory.refillDiceAbility)!!)
+    val initialUseDice = Dice(inventory.InitialUsesDiceAmount, DiceValue.getByValue(inventory.InitialUsesDiceValue)?:DiceValue.D0, inventory.InitialUsesDiceBonus, AbilityType.get(inventory.InitialUsesDiceAbility)!!)
     var broken = invJoin.broken
-    val default = inventory.defaultItem
+    @Bindable
+    val defaultItem: Boolean = inventory.defaultItem
+
     var formattedDescription = formatDescription()
 
     constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
@@ -79,6 +82,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         ItemType.POWER -> R.drawable.ancient_scroll
         ItemType.ARMOR -> R.drawable.armor
         ItemType.SHIELD -> R.drawable.shield
+        ItemType.OTHER -> R.drawable.potion
         else -> R.drawable.broken
     }
 
@@ -104,10 +108,6 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         inventory.dice2Value = dice2.diceValue.value
         inventory.dice2Bonus = dice2.bonus
         inventory.dice2Ability = dice2.ability.id
-        inventory.refillDiceAmount = refillDice.amount
-        inventory.refillDiceValue = refillDice.diceValue.value
-        inventory.refillDiceBonus = refillDice.bonus
-        inventory.refillDiceAbility = refillDice.ability.id
         return inventory
     }
 
@@ -116,13 +116,6 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         invJoin.broken = broken
         invJoin.uses = uses
         return invJoin
-    }
-
-    fun reload(abilityScore: Int) {
-        if (!refillable)
-            throw IllegalArgumentException("This item incapable of reloading")
-
-        uses = Math.max(refillDice.roll(abilityScore), 1)
     }
 
     /**
@@ -154,7 +147,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         result = 31 * result + limitedUses.hashCode()
         result = 31 * result + refillable.hashCode()
         result = 31 * result + uses
-        result = 31 * result + refillDice.hashCode()
+        result = 31 * result + initialUseDice.hashCode()
         result = 31 * result + broken.hashCode()
         return result
     }

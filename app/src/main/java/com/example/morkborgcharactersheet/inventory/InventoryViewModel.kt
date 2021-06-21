@@ -2,7 +2,6 @@ package com.example.morkborgcharactersheet.inventory
 
 import androidx.lifecycle.*
 import com.example.morkborgcharactersheet.database.CharacterDatabaseDAO
-import com.example.morkborgcharactersheet.database.Inventory
 import kotlinx.coroutines.launch
 import com.example.morkborgcharactersheet.inventory.EquipmentAdapter.EquipmentRecyclerViewButton
 import com.example.morkborgcharactersheet.models.*
@@ -23,21 +22,18 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     val silver = MutableLiveData(0)
 
-    private val _currentItem = MutableLiveData<Long>()
-    val currentItem: LiveData<Long>
-        get() = _currentItem
-
     /**
      * Events
      */
-    private val _newInventoryEvent = MutableLiveData<Boolean>()
-    val newInventoryEvent: LiveData<Boolean>
-        get() = _newInventoryEvent
-    fun onNewInventoryEventDone() {
-        _newInventoryEvent.value = false
+    // Set editingItem to -1L to generate a new item
+    private val _editingItem = MutableLiveData<Long?>()
+    val editingItem: LiveData<Long?>
+        get() = _editingItem
+    fun onEditItem(joinId: Long) {
+        _editingItem.value = joinId
     }
-    fun onNewInventoryEvent() {
-        _newInventoryEvent.value = true
+    fun onEditItemDone() {
+        _editingItem.value = null
     }
 
     /**
@@ -48,7 +44,6 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     fun onEquipmentClick(equipment: ExpandableEquipment, action: EquipmentRecyclerViewButton) {
         when(action) {
             EquipmentRecyclerViewButton.USE -> onEquipmentUseClicked(equipment)
-            EquipmentRecyclerViewButton.RELOAD -> onEquipmentReloadClicked(equipment)
             EquipmentRecyclerViewButton.EQUIP -> onEquipmentEquipClicked(equipment)
             EquipmentRecyclerViewButton.EDIT -> onEquipmentEditClicked(equipment)
             EquipmentRecyclerViewButton.DELETE -> onEquipmentDeleteClicked(equipment)
@@ -77,14 +72,27 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
         }
     }
 
-    fun setCharactersSilver() {
+    fun onStop() {
+        // Save any currently expanded equipment when stopping
         viewModelScope.launch {
+            _expandableEquipmentList.value!!.forEach { item ->
+                if (item.expanded) {
+                    updateEquipment(item)
+                }
+            }
             setSilver(silver.value?:0)
         }
     }
 
     private fun onEquipmentExpand(equipment: ExpandableEquipment) {
-        _expandableEquipmentList.value!!.forEach { item -> item.expanded = if (item.joinId == equipment.joinId) !item.expanded else false }
+        _expandableEquipmentList.value!!.forEach { item ->
+            if (item.expanded) {
+                viewModelScope.launch {
+                    updateEquipment(item)
+                }
+            }
+            item.expanded = if (item.joinId == equipment.joinId) !item.expanded else false
+        }
         _expandableEquipmentList.value = expandableEquipmentList.value
     }
 
@@ -101,8 +109,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
 
     private fun onEquipmentEditClicked(equipment: ExpandableEquipment) {
-        _currentItem.value = equipment.joinId
-        _newInventoryEvent.value = true
+        _editingItem.value = equipment.joinId
     }
 
     private fun onEquipmentDeleteClicked(equipment: ExpandableEquipment) {
@@ -122,23 +129,6 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
             _expandableEquipmentList.value!![equipment.position] = equipment
             // TODO: Use PropertyAwareMutableLiveData for expandableEquipmentList?
             _expandableEquipmentList.value = expandableEquipmentList.value
-        }
-    }
-
-    // TODO: User manually sets reload amounts
-    private fun onEquipmentReloadClicked(equipment: ExpandableEquipment) {
-        if (equipment.refillable) {
-            viewModelScope.launch {
-                var abilityBonus = 0
-                if (equipment.refillDice.ability != AbilityType.UNTYPED)
-                    abilityBonus = getAbilityScore(equipment.characterId, equipment.refillDice.ability.id)
-                equipment.reload(abilityBonus)
-                updateEquipment(equipment)
-            }
-            _expandableEquipmentList.value!![equipment.position] = equipment
-            _expandableEquipmentList.value = expandableEquipmentList.value
-        } else {
-            throw IllegalArgumentException("This Equipment not capable of reloading")
         }
     }
 
@@ -167,7 +157,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     private suspend fun deleteEquipment(equipment: Equipment) {
         withContext(Dispatchers.IO) {
             database.clearEquipment(equipment.joinId)
-            if (!equipment.default)
+            if (!equipment.defaultItem)
                 database.clearInventory(equipment.inventoryId)
         }
     }
@@ -177,12 +167,6 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
             val unequipList = database.getEquippedByType(characterId, type)
             database.unequipMultipleItems(unequipList)
             database.equipItem(equipment)
-        }
-    }
-
-    private suspend fun getAbilityScore(characterId: Long, abilityType: Int): Int {
-        return withContext(Dispatchers.IO) {
-            database.getAbilityScoreForCharacter(characterId, abilityType)
         }
     }
 

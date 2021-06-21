@@ -85,32 +85,40 @@ data class Inventory (
     @ColumnInfo(name = "dice2_ability")
     var dice2Ability: Int = 0,
 
+    /**
+     * Does this item have a set number of uses available?
+     * Applicable to weapons and other
+     */
     @ColumnInfo(name = "limited_uses")
     var limitedUses: Boolean = false,
 
     /**
      * Dictates behavior upon all uses consumed.
-     * Refillable = false: Item removed from inventory
+     * Refillable = false: Item removed from inventory (TODO)
      * Refillable = true: Item just can't be used
      */
     @ColumnInfo(name = "refillable")
     var refillable: Boolean = false,
 
     /**
-     * Amount of uses an item can be automatically refilled to
-     * If an item has a static number of uses, only fill out refillDiceBonus
+     * Some default items start with a rolled number of uses
+     * (EX: rolled character can start with a bottle of Red Poison with d4 doses)
+     * Other items come with a set number of uses modified by an ability
+     * (Bows start with Presence + 10 arrows)
+     *
+     * Not applicable beyond creating new instances of default items.
      */
-    @ColumnInfo(name = "refill_dice_amount")
-    var refillDiceAmount: Int = 0,
+    @ColumnInfo(name = "uses_dice_amount")
+    val InitialUsesDiceAmount: Int = 0,
 
-    @ColumnInfo(name = "refill_dice_value")
-    var refillDiceValue: Int = 0,
+    @ColumnInfo(name = "uses_dice_value")
+    val InitialUsesDiceValue: Int = 0,
 
-    @ColumnInfo(name = "refill_dice_bonus")
-    var refillDiceBonus: Int = 0,
+    @ColumnInfo(name = "uses_dice_bonus")
+    val InitialUsesDiceBonus: Int = 0,
 
-    @ColumnInfo(name = "refill_dice_ability")
-    var refillDiceAbility: Int = 0,
+    @ColumnInfo(name = "uses_dice_ability")
+    val InitialUsesDiceAbility: Int = 0,
 
     @ColumnInfo(name = "default_item")
     val defaultItem: Boolean = false

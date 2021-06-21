@@ -65,7 +65,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/enchanted_land"
-            android:onClick="@{() -> inventoryViewModel.onNewInventoryEvent()}"
+            android:onClick="@{() -> inventoryViewModel.onEditItem(-1L)}"
             android:text="@string/new_inventory_string"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/silver_edit_text"

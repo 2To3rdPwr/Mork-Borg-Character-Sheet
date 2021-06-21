@@ -21,7 +21,6 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
     val equipment: LiveData<Equipment>
         get() = _equipment
 
-    val rolledMaxUses = MutableLiveData<Boolean>(false)
     val staticUses = MutableLiveData<Int>(0)
 
     // Transformed liveData for observers
@@ -40,11 +39,6 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
     val damageRollerValue = MutableLiveData<DiceValue>()
     val damageRollerBonus = MutableLiveData<String>()
     val damageRollerAbility = MutableLiveData<AbilityType>()
-
-    val usesRollerAmount = MutableLiveData<Int>()
-    val usesRollerValue = MutableLiveData<DiceValue>()
-    val usesRollerBonus = MutableLiveData<String>()
-    val usesRollerAbility = MutableLiveData<AbilityType>()
 
     val description1RollerAmount = MutableLiveData<Int>()
     val description1RollerValue = MutableLiveData<DiceValue>()
@@ -94,14 +88,6 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
         damageRollerAbility.value = abilityType
     }
 
-    fun setUsesRollerDiceValue(diceValue: DiceValue) {
-        usesRollerValue.value = diceValue
-    }
-
-    fun setUsesRollerAbility(abilityType: AbilityType) {
-        usesRollerAbility.value = abilityType
-    }
-
     fun setDescription1RollerDiceValue(diceValue: DiceValue) {
         description1RollerValue.value = diceValue
     }
@@ -120,10 +106,7 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
 
 
     fun onItemSaved() {
-        var myEquipment = equipment.value
-        if (myEquipment == null) {
-            throw IllegalArgumentException("Null equipment")
-        }
+        val myEquipment = equipment.value ?: throw IllegalArgumentException("Null equipment")
 
         if (myEquipment.name == "") {
             _showToastEvent.value = true
@@ -139,24 +122,9 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
                 myEquipment.dice2 = Dice(description2RollerAmount.value?:0, description2RollerValue.value?:DiceValue.D0, description2RollerBonus.value?.toIntOrNull()?:0, description2RollerAbility.value?:AbilityType.UNTYPED)
             }
 
-            if ((myEquipment.type == ItemType.WEAPON || myEquipment.type == ItemType.OTHER) && myEquipment.limitedUses) {
-                if (rolledMaxUses.value == true) {
-                    myEquipment.refillDice = Dice(usesRollerAmount.value?:1, usesRollerValue.value?:DiceValue.D0, usesRollerBonus.value?.toIntOrNull()?:0, usesRollerAbility.value?:AbilityType.UNTYPED)
-                } else {
-                    myEquipment.refillDice = Dice(0, DiceValue.D0, staticUses.value?:0, AbilityType.UNTYPED)
-                }
-            } else {
-                myEquipment.refillDice = Dice(0, DiceValue.D0, 0, AbilityType.UNTYPED)
-            }
-
             viewModelScope.launch {
                 if (myEquipment.limitedUses) {
-                    if (rolledMaxUses.value == true) {
-                        val abilityScore = if (myEquipment.refillDice.ability != AbilityType.UNTYPED) getAbilityScoreForCharacter(characterId, myEquipment.refillDice.ability) else 0
-                        myEquipment.uses = myEquipment.refillDice.roll(abilityScore)
-                    } else {
-                        myEquipment.uses = staticUses.value?:0
-                    }
+                    myEquipment.uses = staticUses.value?:0
                 }
 
                 if (newItem) {
@@ -200,13 +168,6 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
         }
     }
 
-    private suspend fun getAbilityScoreForCharacter(characterId: Long, abilityType: AbilityType): Int {
-        return withContext(Dispatchers.IO){
-            val abilityMod = database.getAbilityScoreForCharacter(characterId, abilityType.id)
-            abilityMod
-        }
-    }
-
     private suspend fun getEquipment(joinId: Long): Equipment {
         return withContext(Dispatchers.IO){
             val myData = database.getEquipment(joinId) ?: throw IllegalArgumentException("Invalid equipment")
@@ -226,19 +187,12 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
                 getEquipment(inventoryJoinId)
             }
 
-            rolledMaxUses.value = !(myEquipment.refillDice.amount == 0 || myEquipment.refillDice.diceValue == DiceValue.D0)
-
-            staticUses.value = if (rolledMaxUses.value == false) myEquipment.refillDice.bonus else 0
+            staticUses.value = myEquipment.initialUseDice.bonus
 
             damageRollerAmount.value = myEquipment.dice1.amount
             damageRollerValue.value = myEquipment.dice1.diceValue
             damageRollerBonus.value = myEquipment.dice1.bonus.toString()
             damageRollerAbility.value = myEquipment.dice1.ability
-
-            usesRollerAmount.value = myEquipment.refillDice.amount
-            usesRollerValue.value = myEquipment.refillDice.diceValue
-            usesRollerBonus.value = myEquipment.refillDice.bonus.toString()
-            usesRollerAbility.value = myEquipment.refillDice.ability
 
             if (myEquipment.type == ItemType.WEAPON) {
                 description1RollerAmount.value = myEquipment.dice2.amount

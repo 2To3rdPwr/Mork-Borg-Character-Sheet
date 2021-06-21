@@ -1,7 +1,6 @@
 package com.example.morkborgcharactersheet.inventory
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,10 @@ import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.example.morkborgcharactersheet.database.CharacterDatabase
 import com.example.morkborgcharactersheet.databinding.FragmentInventoryBinding
-import kotlinx.android.synthetic.main.fragment_inventory.view.*
 
 class InventoryFragment(var characterId: Long) : Fragment() {
     private lateinit var inventoryViewModel: InventoryViewModel
     private lateinit var binding: FragmentInventoryBinding
-    // TODO: Save changes to DB on stop (uses etc)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
@@ -46,6 +43,7 @@ class InventoryFragment(var characterId: Long) : Fragment() {
             it?.let {
                 equipmentAdapter.submitList(it)
                 // Sad I have to hit it with brute force like this ;_;
+                // Might be able to remedy with PropertyAwareMutableLiveData
                 equipmentAdapter.notifyDataSetChanged()
             }
         })
@@ -53,10 +51,10 @@ class InventoryFragment(var characterId: Long) : Fragment() {
         /**
          * Observers for events
          */
-        inventoryViewModel.newInventoryEvent.observe(viewLifecycleOwner, Observer { event ->
-            if(event) {
-                findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(inventoryViewModel.characterId, inventoryViewModel.currentItem.value?:-1L))
-                inventoryViewModel.onNewInventoryEventDone()
+        inventoryViewModel.editingItem.observe(viewLifecycleOwner, Observer { item ->
+            if(item !== null) {
+                findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(inventoryViewModel.characterId, item))
+                inventoryViewModel.onEditItemDone()
             }
         })
 
@@ -68,8 +66,8 @@ class InventoryFragment(var characterId: Long) : Fragment() {
         super.onResume()
     }
 
-    override fun onStop() {
-        inventoryViewModel.setCharactersSilver()
-        super.onStop()
+    override fun onPause() {
+        inventoryViewModel.onStop()
+        super.onPause()
     }
 }

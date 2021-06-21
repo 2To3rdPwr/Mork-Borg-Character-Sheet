@@ -8,6 +8,7 @@
         <import type="android.view.View" />
         <import type="android.text.TextUtils" />
         <import type="com.example.morkborgcharactersheet.models.ItemType" />
+        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
             name="equipment"
@@ -114,6 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="@{TextUtils.isEmpty(equipment.formattedDescription) ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -138,30 +140,20 @@
             </ScrollView>
 
             <ImageView
-                android:id="@+id/reload_equipment_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.RELOAD)}"
-                android:visibility="@{equipment.refillable ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toStartOf="@+id/delete_equipment_icon"
-                app:layout_constraintTop_toTopOf="@+id/delete_equipment_icon"
-                app:srcCompat="@drawable/refresh" />
-
-            <ImageView
                 android:id="@+id/edit_equipment_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:layout_marginEnd="8dp"
                 android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.EDIT)}"
-                app:layout_constraintEnd_toStartOf="@+id/reload_equipment_icon"
+                android:visibility="@{equipment.defaultItem ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toStartOf="@+id/delete_equipment_icon"
                 app:layout_constraintTop_toTopOf="@+id/delete_equipment_icon"
                 app:srcCompat="@drawable/pencil" />
 
             <ImageView
                 android:id="@+id/delete_equipment_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
@@ -170,6 +162,49 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/equipment_description_scrollable"
                 app:srcCompat="@drawable/close" />
+
+            <ImageView
+                android:id="@+id/use_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginStart="8dp"
+                android:visibility="@{equipment.limitedUses ? View.VISIBLE : View.GONE}"
+                android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.USE)}"
+                app:layout_constraintBottom_toBottomOf="@+id/delete_equipment_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/broken" />
+
+            <TextView
+                android:id="@+id/uses_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/uses"
+                android:visibility="@{equipment.limitedUses ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/delete_equipment_icon"
+                app:layout_constraintStart_toEndOf="@+id/use_icon" />
+
+            <TextView
+                android:id="@+id/uses_static_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="@{equipment.limitedUses &amp;&amp; !equipment.refillable ? View.VISIBLE : View.GONE}"
+                android:text="@{DataBindingConverter.convertIntToStringNotNull(equipment.uses)}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/uses_label"
+                app:layout_constraintStart_toEndOf="@+id/uses_label" />
+
+            <EditText
+                android:id="@+id/uses_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="3"
+                android:inputType="number"
+                android:text="@={DataBindingConverter.convertIntToStringNotNull(equipment.uses)}"
+                android:visibility="@{equipment.limitedUses &amp;&amp; equipment.refillable ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/uses_label"
+                app:layout_constraintStart_toEndOf="@+id/uses_label" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "86b5a139b2a0af7e157c770e133aecf3",
+    "identityHash": "36234dd8793dcaa8cf097e5f33016d0b",
     "entities": [
       {
         "tableName": "characters",
@@ -98,7 +98,7 @@
       },
       {
         "tableName": "inventory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `limited_uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `refill_dice_amount` INTEGER NOT NULL, `refill_dice_value` INTEGER NOT NULL, `refill_dice_bonus` INTEGER NOT NULL, `refill_dice_ability` INTEGER NOT NULL, `default_item` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `armor_tier` INTEGER NOT NULL, `ability` INTEGER NOT NULL, `dice1_amount` INTEGER NOT NULL, `dice1_value` INTEGER NOT NULL, `dice1_bonus` INTEGER NOT NULL, `dice1_ability` INTEGER NOT NULL, `dice2_amount` INTEGER NOT NULL, `dice2_value` INTEGER NOT NULL, `dice2_bonus` INTEGER NOT NULL, `dice2_ability` INTEGER NOT NULL, `limited_uses` INTEGER NOT NULL, `refillable` INTEGER NOT NULL, `uses_dice_amount` INTEGER NOT NULL, `uses_dice_value` INTEGER NOT NULL, `uses_dice_bonus` INTEGER NOT NULL, `uses_dice_ability` INTEGER NOT NULL, `default_item` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "inventoryId",
@@ -197,26 +197,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "refillDiceAmount",
-            "columnName": "refill_dice_amount",
+            "fieldPath": "InitialUsesDiceAmount",
+            "columnName": "uses_dice_amount",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "refillDiceValue",
-            "columnName": "refill_dice_value",
+            "fieldPath": "InitialUsesDiceValue",
+            "columnName": "uses_dice_value",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "refillDiceBonus",
-            "columnName": "refill_dice_bonus",
+            "fieldPath": "InitialUsesDiceBonus",
+            "columnName": "uses_dice_bonus",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "refillDiceAbility",
-            "columnName": "refill_dice_ability",
+            "fieldPath": "InitialUsesDiceAbility",
+            "columnName": "uses_dice_ability",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -290,7 +290,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86b5a139b2a0af7e157c770e133aecf3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '36234dd8793dcaa8cf097e5f33016d0b')"
     ]
   }
 }

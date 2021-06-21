@@ -21,7 +21,7 @@ class DataBindingConverter {
                 ItemType.ARMOR -> R.drawable.armor
                 ItemType.SHIELD -> R.drawable.shield
                 ItemType.POWER -> R.drawable.ancient_scroll_2
-                ItemType.OTHER -> R.drawable.broken
+                ItemType.OTHER -> R.drawable.potion
                 else -> R.drawable.broken
             }
         }

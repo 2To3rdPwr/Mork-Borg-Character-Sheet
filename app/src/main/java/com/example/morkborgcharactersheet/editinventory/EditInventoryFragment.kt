@@ -68,25 +68,6 @@ class EditInventoryFragment : Fragment(){
             }
         }
 
-        // Uses
-        binding.fragmentItemNewUsesRoller.customDiceRollerDiceValueSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Can't select nothing
-            }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setUsesRollerDiceValue(DataBindingConverter.convertSpinnerPositionToDiceValue(position)?:DiceValue.D0) // Probably better to throw an error instead of just defaulting to D0
-            }
-        }
-
-        binding.fragmentItemNewUsesRoller.customDiceRollerAbilitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Can't select nothing
-            }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                editInventoryViewModel.setUsesRollerAbility(DataBindingConverter.convertSpinnerPositionToAbilityType(position)?:AbilityType.UNTYPED)
-            }
-        }
-
         // Description1
         binding.fragmentItemNewDescriptionRoller1.customDiceRollerDiceValueSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -136,15 +117,11 @@ class EditInventoryFragment : Fragment(){
         })
 
         editInventoryViewModel.limitedUses.observe(viewLifecycleOwner, Observer { limited ->
-            setUsesVisibility(limited, editInventoryViewModel.rolledMaxUses.value == true, editInventoryViewModel.refillable.value == true)
-        })
-
-        editInventoryViewModel.rolledMaxUses.observe(viewLifecycleOwner, Observer { rolledUses ->
-            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, rolledUses, editInventoryViewModel.refillable.value == true)
+            setUsesVisibility(limited, editInventoryViewModel.refillable.value == true)
         })
 
         editInventoryViewModel.refillable.observe(viewLifecycleOwner, Observer { reusable ->
-            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, editInventoryViewModel.rolledMaxUses.value == true, reusable)
+            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, reusable)
         })
 
         /**
@@ -190,9 +167,8 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.VISIBLE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
                 setUsesVisibility(
-                        binding.editInventoryViewModel?.limitedUses?.value == true,
-                        binding.editInventoryViewModel?.rolledMaxUses?.value == true,
-                        binding.editInventoryViewModel?.refillable?.value == true)
+                    binding.editInventoryViewModel?.limitedUses?.value == true,
+                    binding.editInventoryViewModel?.refillable?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_1_roll_description_tip)
                 binding.fragmentItemNewArmorTierLabel.visibility = View.GONE
@@ -233,7 +209,6 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
                 setUsesVisibility(
                         binding.editInventoryViewModel?.limitedUses?.value == true,
-                        binding.editInventoryViewModel?.rolledMaxUses?.value == true,
                         binding.editInventoryViewModel?.refillable?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
@@ -249,31 +224,17 @@ class EditInventoryFragment : Fragment(){
         }
     }
 
-    private fun setUsesVisibility (limited: Boolean, rolled: Boolean, refillable: Boolean) {
+    private fun setUsesVisibility (limited: Boolean, refillable: Boolean) {
         // Observers for toggles seem to fire off upon view creation, calling this too soon, so we need to better enforce calling this
-        if (binding.editInventoryViewModel?.equipment?.value?.type != WEAPON && binding.editInventoryViewModel?.equipment?.value?.type != OTHER) {
+        if (binding.editInventoryViewModel?.equipment?.value?.type == WEAPON || binding.editInventoryViewModel?.equipment?.value?.type == OTHER) {
             return
         }
 
         if (limited) {
             binding.fragmentItemNewLimitedUsesToggle.text = getText(R.string.limited_uses_string)
-
-            binding.fragmentItemNewLimitedUsesGenerationToggle.visibility = View.VISIBLE
             binding.fragmentItemNewRefillableToggle.visibility = View.VISIBLE
-
-            if (rolled) {
-                binding.fragmentItemNewLimitedUsesGenerationToggle.text = getText(R.string.rolled_uses_string)
-
-                binding.fragmentItemNewStaticUsesLabel.visibility = View.GONE
-                binding.fragmentItemNewStaticUsesEditText.visibility = View.GONE
-                binding.fragmentItemNewUsesRoller.visible = true
-            } else {
-                binding.fragmentItemNewLimitedUsesGenerationToggle.text = getText(R.string.static_string)
-
-                binding.fragmentItemNewStaticUsesLabel.visibility = View.VISIBLE
-                binding.fragmentItemNewStaticUsesEditText.visibility = View.VISIBLE
-                binding.fragmentItemNewUsesRoller.visible = false
-            }
+            binding.fragmentItemNewStaticUsesLabel.visibility = View.VISIBLE
+            binding.fragmentItemNewStaticUsesEditText.visibility = View.VISIBLE
 
             if (refillable) {
                 binding.fragmentItemNewRefillableToggle.text = getText(R.string.refillable_string)
