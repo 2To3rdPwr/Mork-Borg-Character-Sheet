@@ -50,7 +50,7 @@
     <string name="hit_points">Hit Points</string>
     <string name="character_select_string">Characters</string>
     <string name="inventory">Inventory</string>
-    <string name="liscense">"MÖRK BORG is copyright Ockult Örtmästare Games and Stockholm Kartell. "</string>
+    <string name="liscense">"MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell. "</string>
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="name_required_string">Must set item name</string>
@@ -94,7 +94,7 @@
     <string name="bow_weapon_name">Bow</string>
     <string name="flail_weapon_name">Flail</string>
     <string name="crossbow_weapon_name">Crossbow</string>
-    <string name="zweihander_weapon_name">Zweihänder</string>
+    <string name="zweihander_weapon_name">Zweihander</string>
     <string name="zweihander_weapon_description">A massive two-handed sword. Its unwieldiness prevents the use of scrolls.</string>
     <!-- scrolls -->
     <!-- unclean -->
@@ -209,7 +209,245 @@
     <string name="bomb_description">$D1 damage</string>
     <string name="elixir_name">Life Elixir</string>
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
-
+    <string-array name="character_traits_array">
+        <item>Endlessly aggravated,</item>
+        <item>Suffering from an inferiority complex,</item>
+        <item>Rebellious,</item>
+        <item>Loud-mouthed,</item>
+        <item>A cruel individual,</item>
+        <item>Egocentric,</item>
+        <item>Nihilistic,</item>
+        <item>Prone to substance abuse,</item>
+        <item>Always conflicted,</item>
+        <item>Shrewd,</item>
+        <item>Vindictive,</item>
+        <item>Cowardly,</item>
+        <item>Lazy,</item>
+        <item>A suspicious individual,</item>
+        <item>A ruthless individual,</item>
+        <item>Always worrying,</item>
+        <item>Always bitter,</item>
+        <item>A deceitful individual,</item>
+        <item>Wasteful,</item>
+        <item>Arrogant,</item>
+    </string-array>
+    <string-array name="character_quirks_array">
+        <item>$ obsessively collects small sharp stones.</item>
+        <item>$ won\'t use a blade without first testing it on their own flesh. Their arms are knitted with scars.</item>
+        <item>$ can\'t stop drinking once they start.</item>
+        <item>$ is a gambling addict. They must bet every day. If they lose, they always raise and bet again.</item>
+        <item>$ cannot tolerate criticism of any kind, which often results in rage and weeping.</item>
+        <item>$ is unable to get to the point. They have never actually finished a story.</item>
+        <item>$\'s best friend is a skull. They always carry it with them and tell it everything. $ trusts no one more.</item>
+        <item>$ picks their nose so deep it bleeds.</item>
+        <item>$ laughs hysterically at their own jokes, which they always explain in detail.</item>
+        <item>$ insists on telling everyone they meet that they are a nihilist and explaining why.</item>
+        <item>$ is an inveterate bug eater.</item>
+        <item>$\'s stress response is aesthetic display. The worse things get, the fancier they need to be.</item>
+        <item>$ has a permanent phlegm deposit in their throat. They continuously cough, snort, spit, and swallow.</item>
+        <item>$ is a pyromaniac.</item>
+        <item>$ constantly loses important items and forgets vital facts.</item>
+        <item>$ is an insecure shit-stirrer. They will talk about whoever just left the room.</item>
+        <item>$ stutters when lying.</item>
+        <item>$ giggles insanely at the worst possible times.</item>
+        <item>$ whistles while trying to hide. $ denies this.</item>
+        <item>$ makes jewelry from the teeth of the dead.</item>
+    </string-array>
+    <string-array name="character_appearance_array">
+        <item>They have a staring, manic gaze.</item>
+        <item>They are covered in blasphemous tattoos.</item>
+        <item>$ wears a mask to cover their rotting face.</item>
+        <item>$ only has seven toes, causing them to walk with a limp.</item>
+        <item>They look starved, gaunt and pale.</item>
+        <item>$\'s hand is replaced with a rusting iron hook.</item>
+        <item>Their teeth are decaying.</item>
+        <item>$ is hauntingly beautiful and unnervingly clean.</item>
+        <item>Their hands are caked with sores.</item>
+        <item>$ has cataracts slowly but surely spreading in both eyes.</item>
+        <item>$ has long, tangled hair, with at least one cockroach in residence.</item>
+        <item>They have broken, crushed ears.</item>
+        <item>Their movements are jittery and they talk with a stutter from either nerve damage or stress.</item>
+        <item>$ is corpulent, raving, drooling.</item>
+        <item>One of $\'s hands lacks a thumb and index finger. They grip things like a lobster.</item>
+        <item>They have a red, swollen, alcoholic\'s nose.</item>
+        <item>Making friends is hard for $, possibly due to their resting maniac face.</item>
+        <item>$ has chronic athletes\' foot, which stinks.</item>
+        <item>They have a recently slashed and stinking eye covered by an eye-patch.</item>
+        <item>Their nails are cracked and black, threatening to fall off.</item>
+    </string-array>
+    <string-array name="character_backstories_array">
+        <item>$ is pursued for manslaughter. There is a bounty.</item>
+        <item>$ is in massive debt, with the debt being traded to successively more ruthless groups.</item>
+        <item>$ is in possession of a rare, sought after item.</item>
+        <item>One of $\'s wounds is cursed, never healing.</item>
+        <item>$ had an illegal, immoral, and secret affair with a member of the royalty. They hold onto proof of it.</item>
+        <item>Having escaped from a cult, $ is terrified and paranoid. Other cultists are everywhere.</item>
+        <item>$ isn\'t really $, but an identity thief who killed and replaced them.</item>
+        <item>$ can never go home, having been banished and disowned for unspecified deeds.</item>
+        <item>$ became a deserter from the military after witnessing a massacre. Now, with a bounty on their head, they find themself hunted by their former friends.</item>
+        <item>$ recently murdered a close relative. VERY recently.</item>
+        <item>Evil creatures love the scent of $\'s spoor and are drawn to it, bringing disaster in their wake.</item>
+        <item>A battle wound left a shard of metal slowly inching towards $\'s heart. Every day, there is a 2% chance it reaches it.</item>
+        <item>Violence forced $ into the wilderness. $ thinks waving trees are whispering. $ talks to, screams at, and attacks trees.</item>
+        <item>Cursed to share the nightmares of others, $ sleeps far, far away.</item>
+        <item>$ is at permanent war with all corvids. There can be no contact without some violence.</item>
+        <item>After dreaming of an underground temple to a forgotten god, $ understands the songs of insects and worms.</item>
+        <item>$ is being tracked and observed by a golem  after agreeing to a contract, the details of which have been wiped from their memory.</item>
+        <item>\"Burn or be burned\" is the fate that $ has accepted.</item>
+        <item>$\'s flesh heals twice as fast, but their companions\' heals twice as slow. $ can see a many-eyed \"guardian angel.\"</item>
+    </string-array>
+    <string-array name="character_names_array">
+        <item>Ablabius</item>
+        <item>Adolf</item>
+        <item>Agriwulf</item>
+        <item>Aidoingus</item>
+        <item>Amalaswinth</item>
+        <item>Ament</item>
+        <item>Anagastes</item>
+        <item>Anselm</item>
+        <item>Ardwulf</item>
+        <item>Argaith</item>
+        <item>Arika</item>
+        <item>Armond</item>
+        <item>Arthur</item>
+        <item>Aspar</item>
+        <item>Astolfo</item>
+        <item>Attala</item>
+        <item>Avina</item>
+        <item>Baza</item>
+        <item>Beray</item>
+        <item>Berimund</item>
+        <item>Bertio</item>
+        <item>Beucad</item>
+        <item>Bigelis</item>
+        <item>Brunihild</item>
+        <item>Cambulus</item>
+        <item>Cannabaudes</item>
+        <item>Chlotsuintha</item>
+        <item>Clyde</item>
+        <item>Cunigast</item>
+        <item>Cyne</item>
+        <item>Desiree</item>
+        <item>Devargo</item>
+        <item>Dirk</item>
+        <item>Donault</item>
+        <item>Draven</item>
+        <item>Duda</item>
+        <item>Eavoth</item>
+        <item>Edica</item>
+        <item>Elffric</item>
+        <item>Eraric</item>
+        <item>Erelieva</item>
+        <item>Euric</item>
+        <item>Farald</item>
+        <item>Farnobius</item>
+        <item>Feletheus</item>
+        <item>Feng</item>
+        <item>Filimer</item>
+        <item>Forde</item>
+        <item>Fredegar</item>
+        <item>Fredegonda</item>
+        <item>Fretela</item>
+        <item>Gailesvintha</item>
+        <item>Galindus</item>
+        <item>Gauterit</item>
+        <item>Geberic</item>
+        <item>Geloyra</item>
+        <item>Gery</item>
+        <item>Getica</item>
+        <item>Gianna</item>
+        <item>Giles</item>
+        <item>Glismoda</item>
+        <item>Godegisel</item>
+        <item>Grichye</item>
+        <item>Gundiok</item>
+        <item>Guntbert</item>
+        <item>Hamond</item>
+        <item>Hasbjornsdatter</item>
+        <item>Helchen</item>
+        <item>Hermangild</item>
+        <item>Heva</item>
+        <item>Hisarna</item>
+        <item>Horace</item>
+        <item>Hunigild</item>
+        <item>Hunulf</item>
+        <item>Ibba</item>
+        <item>Ildebad</item>
+        <item>Illeosa</item>
+        <item>Inna</item>
+        <item>Jeanne-Alice</item>
+        <item>Jordanes</item>
+        <item>Kaethe</item>
+        <item>Kriemhild</item>
+        <item>Kunibert</item>
+        <item>Lagariman</item>
+        <item>Leofre</item>
+        <item>Leovigild</item>
+        <item>Litucca</item>
+        <item>Liuva</item>
+        <item>Mandelana</item>
+        <item>Marcomir</item>
+        <item>Mary</item>
+        <item>Matasuntha</item>
+        <item>Megan-Laureen</item>
+        <item>Melle</item>
+        <item>Modaharius</item>
+        <item>Narmer</item>
+        <item>Naulabates</item>
+        <item>Odoin</item>
+        <item>Ostrogotha</item>
+        <item>Patza</item>
+        <item>Pegg</item>
+        <item>Phamas</item>
+        <item>Rancent</item>
+        <item>Rautgundis</item>
+        <item>Recared</item>
+        <item>Rechiar</item>
+        <item>Rechimund</item>
+        <item>Respa</item>
+        <item>Rikiar</item>
+        <item>Rocco</item>
+        <item>Rook</item>
+        <item>Saba</item>
+        <item>Safrax</item>
+        <item>Sansalas</item>
+        <item>Seda</item>
+        <item>Siegfried</item>
+        <item>Sigibald</item>
+        <item>Sigismund</item>
+        <item>Skytsav</item>
+        <item>Suatrius</item>
+        <item>Sunigilda</item>
+        <item>Tanca</item>
+        <item>Teja</item>
+        <item>Theoderid</item>
+        <item>Theudegisklos</item>
+        <item>Thiudimir</item>
+        <item>Thorismud</item>
+        <item>Thrasaric</item>
+        <item>Tomath</item>
+        <item>Unigild</item>
+        <item>Unila</item>
+        <item>Ursula</item>
+        <item>Valaravans</item>
+        <item>Valdamerca</item>
+        <item>Vetericus</item>
+        <item>Viliaris</item>
+        <item>Vitigis</item>
+        <item>Walahmar</item>
+        <item>Wearda</item>
+        <item>Wella</item>
+        <item>Werner</item>
+        <item>Wilgefortis</item>
+        <item>Wine</item>
+        <item>Witherspoon</item>
+        <item>Wittiza</item>
+        <item>Xiduguan</item>
+        <item>Yuliana</item>
+        <item>Zarko</item>
+        <item>Zeke</item>
+        <item>Zivek</item>
+    </string-array>
     <string-array name="abilities_array">
         <item>None</item>
         <item>Strength</item>

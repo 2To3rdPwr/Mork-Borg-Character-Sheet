@@ -26,7 +26,6 @@
             android:text="@string/auto_character_string"
             android:textColor="@color/mb_yellow"
             android:textSize="18sp"
-            android:onClick="@{() -> viewModel.onAutoGenerateClicked()}"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/manual_generate_character_button"

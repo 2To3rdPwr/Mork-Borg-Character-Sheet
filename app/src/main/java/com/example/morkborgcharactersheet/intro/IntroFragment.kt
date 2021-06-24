@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.morkborgcharactersheet.R
 import com.example.morkborgcharactersheet.database.CharacterDatabase
@@ -25,6 +24,10 @@ class IntroFragment : Fragment() {
         val viewModelFactory = IntroViewModelFactory(dataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(IntroFragmentViewModel::class.java)
+
+        binding.autoGenerateCharacterButton.setOnClickListener{
+            genNewCharacter()
+        }
 
         binding.setLifecycleOwner(viewLifecycleOwner)
         binding.viewModel = viewModel
@@ -47,5 +50,15 @@ class IntroFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun genNewCharacter() {
+        val names = resources.getStringArray(R.array.character_names_array)
+        val backstories = resources.getStringArray(R.array.character_backstories_array)
+        val traits = resources.getStringArray(R.array.character_traits_array)
+        val quirks = resources.getStringArray(R.array.character_quirks_array)
+        val appearance = resources.getStringArray(R.array.character_appearance_array)
+
+        viewModel.generateNewCharacter(names, backstories, traits, quirks, appearance)
     }
 }

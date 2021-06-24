@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
+// Not really intro. More intro to new character creation.
 class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
 
@@ -46,27 +47,22 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
     /**
      * FE Functions
      */
-    fun onAutoGenerateClicked() {
-        generateNewCharacter()
-    }
 
     fun onManualGenerateClicked() {
         _manualGenerateEvent.value = true
     }
 
-    private fun generateNewCharacter() {
-        // TODO: Figure out a better way to hold this random data
-        //      Ideally in a way that lets us localize it
-        val namesArray: Array<String> = arrayOf("Eavoth", "Wearda", "Ardwulf", "Hamond", "Rythey", "Ryany", "Skytsav", "Gery", "Beray", "Wine", "Ament", "Forde", "Cyne", "Leofre", "Elffric", "Giles", "Grichye", "Tomath", "Sone", "Phamas", "Rancent", "Arthur", "Bertio")
-        val desc1Array: Array<String> = arrayOf("Endlessly Aggravated\n", "Inferiority Complex\n", "Problems with Authority\n", "Loud Mouth\n", "Cruel\n", "Egocentric\n", "Nihilistic\n", "Prone to Substance Abuse\n", "Conflicted\n", "Shrewd\n", "Vindictive\n", "Cowardly\n", "Lazy\n", "Suspicious\n", "Ruthless\n", "Worried\n", "Bitter\n", "Deceitful\n", "Wasteful\n", "Arrogant\n")
-        val desc2Array: Array<String> = arrayOf("Staring, Manic Gaze\n", "Covered in Blasphemous Tattoos\n", "Rotting Face, Wears a Mask\n", "Lost Three Toes, Limps\n", "Starved: Gaunt and Pale\n", "One Hand Replaced with Rusting Hook\n", "Decaying Teeth\n", "Hauntingly Beautiful, Unnervingly Clean\n", "Hands Caked with Sores\n", "Cataract Slowly but Surely Spreading in Both Eyes\n", "Long Tangled Hair, at least one cockroach in residence.\n", "Broken, crushed ears\n", "Juddering and stuttering from nerve damage or stress\n", "Corpulent, ravenous, drooling\n", "One hand lacks thumb and index finger, grips like a lobster\n", "Red, swollen alcoholic's nose\n", "Resting maniac face, making friends is hard\n", "Chronic athelete's fook. Stinks\n", "Recently slashed and stinking eye covered with a patch\n", "Nails cracked and black, maybe about to drop off\n")
+    fun generateNewCharacter(names: Array<String>, backstories: Array<String>, traits: Array<String>, quirks: Array<String>, appearances: Array<String>) {
+        // Pass arrays of strings up from fragment
+        // resources
 
-        val charName = namesArray.get(Random.nextInt(namesArray.size))
-        val charDescription = desc1Array.get(Random.nextInt(desc1Array.size)) + desc2Array.get(Random.nextInt(desc2Array.size))
-        str = rollAbilityScore()
-        agl = rollAbilityScore()
-        pres = rollAbilityScore()
-        tgh = rollAbilityScore()
+        val charName = names[Random.nextInt(names.size)]
+        var charDescription = backstories[Random.nextInt(backstories.size)] + "\n" + traits[Random.nextInt(traits.size)] + " " + quirks[Random.nextInt(quirks.size)] + "\n" + appearances[Random.nextInt(appearances.size)]
+        charDescription = charDescription.replace("\$", charName)
+        val str = rollAbilityScore()
+        val agl = rollAbilityScore()
+        val pres = rollAbilityScore()
+        val tgh = rollAbilityScore()
         val hp = Math.max(Dice(diceValue = DiceValue.D8).roll(tgh), 1)
         val powers = Math.max(Dice(diceValue = DiceValue.D4).roll(pres), 0)
 
@@ -252,10 +248,14 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
     }
 
     private suspend fun createInvJoin(characterId: Long, inventoryId: Long): CharacterInventoryJoin {
-        var gear = CharacterInventoryJoin(characterId = characterId, inventoryId = inventoryId)
+        val gear = CharacterInventoryJoin(characterId = characterId, inventoryId = inventoryId)
 
         return withContext(Dispatchers.IO) {
             val inventory = database.getInventory(inventoryId) ?: throw IllegalArgumentException("Invalid Inventory Id")
+
+            // Only equip weapons, armor, shield, power
+            gear.equipped = inventory.type == 1 || inventory.type == 2 || inventory.type == 3 || inventory.type == 4
+
             if (inventory.limitedUses) {
                 val abilityBonus = when (inventory.InitialUsesDiceAbility) {
                     1 -> str
