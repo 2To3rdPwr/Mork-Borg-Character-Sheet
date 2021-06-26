@@ -18,6 +18,8 @@ out/
 release/
 debug/
 schemas/
+test/
+androidTest/
 # Gradle files
 .gradle/
 build/
