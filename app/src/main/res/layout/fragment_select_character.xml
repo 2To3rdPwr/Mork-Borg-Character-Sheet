@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.morkborgcharactersheet.selectcharacter.SelectCharacterViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.selectcharacter.SelectCharacterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

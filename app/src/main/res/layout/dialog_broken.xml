@@ -7,8 +7,8 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
-        <import type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel.BrokenEventType"/>
+            type="com.twotothirdpower.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.charactersheet.CharacterSheetViewModel.BrokenEventType"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

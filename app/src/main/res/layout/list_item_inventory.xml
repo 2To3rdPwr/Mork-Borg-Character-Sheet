@@ -7,20 +7,20 @@
     <data>
         <import type="android.view.View" />
         <import type="android.text.TextUtils" />
-        <import type="com.example.morkborgcharactersheet.models.ItemType" />
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.models.ItemType" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
             name="equipment"
-            type="com.example.morkborgcharactersheet.models.ExpandableEquipment" />
+            type="com.twotothirdpower.morkborgcharactersheet.models.ExpandableEquipment" />
 
         <variable
             name="clickListener"
-            type="com.example.morkborgcharactersheet.inventory.EquipmentListener" />
+            type="com.twotothirdpower.morkborgcharactersheet.inventory.EquipmentListener" />
 
         <variable
             name="buttonTypeEnum"
-            type="com.example.morkborgcharactersheet.inventory.EquipmentAdapter.EquipmentRecyclerViewButton" />
+            type="com.twotothirdpower.morkborgcharactersheet.inventory.EquipmentAdapter.EquipmentRecyclerViewButton" />
     </data>
 
     <LinearLayout

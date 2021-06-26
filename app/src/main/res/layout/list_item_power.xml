@@ -7,11 +7,11 @@
     <data>
         <variable
             name="inventory"
-            type="com.example.morkborgcharactersheet.models.Equipment" />
+            type="com.twotothirdpower.morkborgcharactersheet.models.Equipment" />
 
         <variable
             name="clickListener"
-            type="com.example.morkborgcharactersheet.charactersheet.PowerListener" />
+            type="com.twotothirdpower.morkborgcharactersheet.charactersheet.PowerListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

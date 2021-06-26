@@ -7,15 +7,15 @@
     <data>
         <variable
             name="character"
-            type="com.example.morkborgcharactersheet.database.ListedCharacter" />
+            type="com.twotothirdpower.morkborgcharactersheet.database.ListedCharacter" />
 
         <variable
             name="clickListener"
-            type="com.example.morkborgcharactersheet.selectcharacter.CharacterSelectListener" />
+            type="com.twotothirdpower.morkborgcharactersheet.selectcharacter.CharacterSelectListener" />
 
         <variable
             name="buttonTypeEnum"
-            type="com.example.morkborgcharactersheet.selectcharacter.CharacterSelectListener.CharacterSelectButton" />
+            type="com.twotothirdpower.morkborgcharactersheet.selectcharacter.CharacterSelectListener.CharacterSelectButton" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

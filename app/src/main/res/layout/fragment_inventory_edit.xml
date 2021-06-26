@@ -8,11 +8,11 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
             name="editInventoryViewModel"
-            type="com.example.morkborgcharactersheet.editinventory.EditInventoryViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.editinventory.EditInventoryViewModel" />
     </data>
 
     <ScrollView

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data class=".databinding.LiveDataBinding">
         <import type="android.view.View" />
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
-        <import type="com.example.morkborgcharactersheet.models.DiceValue" />
-        <import type="com.example.morkborgcharactersheet.models.AbilityType" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.models.DiceValue" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.models.AbilityType" />
 
         <variable
             name="diceAmount"

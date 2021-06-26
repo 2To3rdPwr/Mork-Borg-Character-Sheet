@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.morkborgcharactersheet.intro.IntroFragment">
+    tools:context="com.twotothirdpower.morkborgcharactersheet.intro.IntroFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.example.morkborgcharactersheet.intro.IntroFragmentViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.intro.IntroFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

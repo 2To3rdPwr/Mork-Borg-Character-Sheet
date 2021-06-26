@@ -6,12 +6,12 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
-        <import type="com.example.morkborgcharactersheet.models.AbilityType"/>
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.models.AbilityType"/>
 
         <variable
             name="viewModel"
-            type="com.example.morkborgcharactersheet.editcharacter.EditCharacterViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.editcharacter.EditCharacterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

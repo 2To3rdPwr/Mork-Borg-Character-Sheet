@@ -6,11 +6,11 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
             name="characterSheetViewModel"
-            type="com.example.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.charactersheet.CharacterSheetViewModel" />
     </data>
 
 

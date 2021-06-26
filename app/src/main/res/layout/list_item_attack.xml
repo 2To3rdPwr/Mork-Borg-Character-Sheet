@@ -9,10 +9,10 @@
 
         <variable
             name="inventory"
-            type="com.example.morkborgcharactersheet.models.Equipment" />
+            type="com.twotothirdpower.morkborgcharactersheet.models.Equipment" />
         <variable
             name="clickListener"
-            type="com.example.morkborgcharactersheet.charactersheet.AttackListener" />
+            type="com.twotothirdpower.morkborgcharactersheet.charactersheet.AttackListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

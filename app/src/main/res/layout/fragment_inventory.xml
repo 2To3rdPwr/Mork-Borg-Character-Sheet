@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.example.morkborgcharactersheet.util.DataBindingConverter"/>
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter"/>
         <variable
             name="inventoryViewModel"
-            type="com.example.morkborgcharactersheet.inventory.InventoryViewModel" />
+            type="com.twotothirdpower.morkborgcharactersheet.inventory.InventoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
