@@ -30,9 +30,6 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
     val limitedUses: LiveData<Boolean> = Transformations.map(equipment) {
         it.limitedUses
     }
-    val refillable: LiveData<Boolean> = Transformations.map(equipment) {
-        it.refillable
-    }
 
     // TODO: Might be able to replace all these with PropertyAwareMutableLiveData<Dice>
     val damageRollerAmount = MutableLiveData<Int>()
@@ -179,7 +176,7 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
         // Setting initial values
         viewModelScope.launch {
             val myEquipment = if (newItem) {
-                val newInventory = Inventory(name = "", description = "", type = 1, ability = 1, dice1Amount = 1, dice1Value = 6, dice2Amount = 1, dice2Value = 2, refillable = true)
+                val newInventory = Inventory(name = "", description = "", type = 1, armorTier = 1, ability = 1, dice1Amount = 1, dice1Value = 6, dice2Amount = 1, dice2Value = 2)
                 val newJoin = CharacterInventoryJoin(inventoryId = 0L, characterId = characterId)
 
                 Equipment(newInventory, newJoin)

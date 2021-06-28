@@ -94,12 +94,6 @@ data class Inventory (
     var limitedUses: Boolean = false,
 
     /**
-     * TODO: Remove and allow all items to be refilled.
-     */
-    @ColumnInfo(name = "refillable")
-    var refillable: Boolean = false,
-
-    /**
      * Some default items start with a rolled number of uses
      * (EX: rolled character can start with a bottle of Red Poison with d4 doses)
      * Other items come with a set number of uses modified by an ability

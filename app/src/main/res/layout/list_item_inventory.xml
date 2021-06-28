@@ -168,11 +168,11 @@
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
                 android:layout_marginStart="8dp"
-                android:visibility="@{equipment.limitedUses ? View.VISIBLE : View.GONE}"
                 android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.USE)}"
+                android:visibility="@{equipment.hasRandomDescription ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/delete_equipment_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/broken" />
+                app:srcCompat="@drawable/dice" />
 
             <TextView
                 android:id="@+id/uses_label"
@@ -184,16 +184,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/delete_equipment_icon"
                 app:layout_constraintStart_toEndOf="@+id/use_icon" />
 
-            <TextView
-                android:id="@+id/uses_static_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:visibility="@{equipment.limitedUses &amp;&amp; !equipment.refillable ? View.VISIBLE : View.GONE}"
-                android:text="@{DataBindingConverter.convertIntToStringNotNull(equipment.uses)}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/uses_label"
-                app:layout_constraintStart_toEndOf="@+id/uses_label" />
-
             <EditText
                 android:id="@+id/uses_edit_text"
                 android:layout_width="wrap_content"
@@ -202,7 +192,7 @@
                 android:ems="3"
                 android:inputType="number"
                 android:text="@={DataBindingConverter.convertIntToStringNotNull(equipment.uses)}"
-                android:visibility="@{equipment.limitedUses &amp;&amp; equipment.refillable ? View.VISIBLE : View.GONE}"
+                android:visibility="@{equipment.limitedUses ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/uses_label"
                 app:layout_constraintStart_toEndOf="@+id/uses_label" />
 

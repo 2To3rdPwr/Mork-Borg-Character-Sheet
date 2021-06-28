@@ -56,12 +56,6 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         notifyPropertyChanged(BR.limitedUses)
     }
     @Bindable
-    var refillable = inventory.refillable
-    set(value) {
-        field = value
-        notifyPropertyChanged(BR.refillable)
-    }
-    @Bindable
     var uses = invJoin.uses
     set(value) {
         field = value
@@ -99,7 +93,6 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         inventory.ability = weaponAbility!!.id
         inventory.armorTier = armorTier!!.id
         inventory.limitedUses = limitedUses
-        inventory.refillable = refillable
         inventory.dice1Amount = dice1.amount
         inventory.dice1Value = dice1.diceValue.value
         inventory.dice1Bonus = dice1.bonus
@@ -145,7 +138,6 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         result = 31 * result + dice1.hashCode()
         result = 31 * result + dice2.hashCode()
         result = 31 * result + limitedUses.hashCode()
-        result = 31 * result + refillable.hashCode()
         result = 31 * result + uses
         result = 31 * result + initialUseDice.hashCode()
         result = 31 * result + broken.hashCode()

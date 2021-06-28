@@ -117,11 +117,7 @@ class EditInventoryFragment : Fragment(){
         })
 
         editInventoryViewModel.limitedUses.observe(viewLifecycleOwner, Observer { limited ->
-            setUsesVisibility(limited, editInventoryViewModel.refillable.value == true)
-        })
-
-        editInventoryViewModel.refillable.observe(viewLifecycleOwner, Observer { reusable ->
-            setUsesVisibility(editInventoryViewModel.equipment.value?.limitedUses == true, reusable)
+            setUsesVisibility(limited)
         })
 
         /**
@@ -166,9 +162,7 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewDamageRoller.visible = true
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.VISIBLE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
-                setUsesVisibility(
-                    binding.editInventoryViewModel?.limitedUses?.value == true,
-                    binding.editInventoryViewModel?.refillable?.value == true)
+                setUsesVisibility(binding.editInventoryViewModel?.limitedUses?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_1_roll_description_tip)
                 binding.fragmentItemNewArmorTierLabel.visibility = View.GONE
@@ -181,7 +175,6 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewDamageRoller.visible = false
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
-                binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.VISIBLE
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
@@ -192,7 +185,6 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
-                binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
@@ -200,16 +192,13 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
-                binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
             OTHER -> {
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.VISIBLE
-                setUsesVisibility(
-                        binding.editInventoryViewModel?.limitedUses?.value == true,
-                        binding.editInventoryViewModel?.refillable?.value == true)
+                setUsesVisibility(binding.editInventoryViewModel?.limitedUses?.value == true)
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
@@ -217,34 +206,26 @@ class EditInventoryFragment : Fragment(){
                 binding.fragmentItemNewLimitedUsesToggle.visibility = View.GONE
                 binding.fragmentItemNewTypeSpecificLayout.visibility = View.GONE
                 binding.fragmentItemNewUsesGroup.visibility = View.GONE
-                binding.fragmentItemNewUsesTogglesGroup.visibility = View.GONE
 
                 binding.fragmentItemNewDescriptionTutorialText.text = getString(R.string.new_item_2_roll_description_tip)
             }
         }
     }
 
-    private fun setUsesVisibility (limited: Boolean, refillable: Boolean) {
+    private fun setUsesVisibility (limited: Boolean) {
         // Observers for toggles seem to fire off upon view creation, calling this too soon, so we need to better enforce calling this
-        if (binding.editInventoryViewModel?.equipment?.value?.type == WEAPON || binding.editInventoryViewModel?.equipment?.value?.type == OTHER) {
+        if (binding.editInventoryViewModel?.equipment?.value?.type !== WEAPON && binding.editInventoryViewModel?.equipment?.value?.type !== OTHER) {
             return
         }
 
         if (limited) {
             binding.fragmentItemNewLimitedUsesToggle.text = getText(R.string.limited_uses_string)
-            binding.fragmentItemNewRefillableToggle.visibility = View.VISIBLE
-            binding.fragmentItemNewStaticUsesLabel.visibility = View.VISIBLE
             binding.fragmentItemNewStaticUsesEditText.visibility = View.VISIBLE
-
-            if (refillable) {
-                binding.fragmentItemNewRefillableToggle.text = getText(R.string.refillable_string)
-            } else {
-                binding.fragmentItemNewRefillableToggle.text = getText(R.string.non_refillable_string)
-            }
+            binding.fragmentItemNewStaticUsesLabel.visibility = View.VISIBLE
         } else {
-            binding.fragmentItemNewUsesTogglesGroup.visibility = View.INVISIBLE
-            binding.fragmentItemNewUsesGroup.visibility = View.GONE
             binding.fragmentItemNewLimitedUsesToggle.text = getText(R.string.infinite_uses_string)
+            binding.fragmentItemNewStaticUsesEditText.visibility = View.GONE
+            binding.fragmentItemNewStaticUsesLabel.visibility = View.GONE
         }
     }
 }

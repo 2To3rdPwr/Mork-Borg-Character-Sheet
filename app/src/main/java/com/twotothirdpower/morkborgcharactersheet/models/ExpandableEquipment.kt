@@ -7,6 +7,7 @@ import com.twotothirdpower.morkborgcharactersheet.database.Inventory
 class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventoryJoin) : Equipment(inventory, inventoryJoin){
     var expanded = false
     var position = -1
+    var hasRandomDescription = description.contains("\$D1")
 
     constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
 

@@ -209,6 +209,7 @@
     <string name="bomb_description">$D1 damage</string>
     <string name="elixir_name">Life Elixir</string>
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
+    <string name="starting_uses">Starting Uses</string>
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>
         <item>Suffering from an inferiority complex,</item>
