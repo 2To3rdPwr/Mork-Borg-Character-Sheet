@@ -70,6 +70,10 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val attackDamage: LiveData<Int>
         get() = _attackDamage
 
+    private val _attackDescription = MutableLiveData<String>("")
+    val attackDescription: LiveData<String>
+        get() = _attackDescription
+
     // Power Dialog
     private val _powerName = MutableLiveData<String>()
     val powerName: LiveData<String>
@@ -214,6 +218,12 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             }
         }
 
+        if (attack.hasRandomDescription) {
+            _attackDescription.value = attack.rolledDescription(character.value ?: throw IllegalStateException("No character"))
+        } else {
+            _attackDescription.value = ""
+        }
+
         _attackDamage.value = damage
         _showAttackEvent.value = true
     }
@@ -230,12 +240,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
         // Presence test to see if power fires off or fails.
         _powerUseRoll.value = abilityRoll(PRESENCE)
-
-        // Other rolled values are determined on a power-by-power basis
-        val roll1 = abilityRoll(power.dice1)
-        val roll2 = abilityRoll(power.dice2)
-
-        _powerDescription.value = power.description.replace("\$D1", roll1.toString()).replace("\$D2", roll2.toString())
+        _powerDescription.value = power.rolledDescription(character.value ?: throw IllegalStateException("No character"))
 
         _showPowerEvent.value = true
     }

@@ -169,7 +169,7 @@
                 android:layout_height="@dimen/icon_size_small"
                 android:layout_marginStart="8dp"
                 android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.USE)}"
-                android:visibility="@{equipment.hasRandomDescription ? View.VISIBLE : View.GONE}"
+                android:visibility="@{equipment.hasRandomDescription &amp;&amp; equipment.type == ItemType.OTHER ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/delete_equipment_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/dice" />

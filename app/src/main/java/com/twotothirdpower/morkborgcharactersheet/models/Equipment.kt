@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.twotothirdpower.morkborgcharactersheet.BR
 import com.twotothirdpower.morkborgcharactersheet.R
+import com.twotothirdpower.morkborgcharactersheet.database.Character
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterInventoryJoin
 import com.twotothirdpower.morkborgcharactersheet.database.EquipmentData
 import com.twotothirdpower.morkborgcharactersheet.database.Inventory
@@ -67,6 +68,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     val defaultItem: Boolean = inventory.defaultItem
 
     var formattedDescription = formatDescription()
+    var hasRandomDescription = description.contains("\$D1")
 
     constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
 
@@ -118,6 +120,31 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         val d1 = if (type == ItemType.WEAPON) dice2.toString() else dice1.toString()
         val d2 = dice2.toString()
         return description.replace("\$D1", d1).replace("\$D2", d2)
+    }
+
+    /**
+     * Inserts rolled values into the equipment's description
+     * Dice doesn't have access to a character's ability scores on its own, so they have to be passed in here
+     */
+    fun rolledDescription(character: Character): String {
+        val a1 = when (dice1.ability) {
+            AbilityType.STRENGTH -> character.strength
+            AbilityType.AGILITY -> character.agility
+            AbilityType.PRESENCE -> character.presence
+            AbilityType.TOUGHNESS -> character.toughness
+            else -> 0
+        }
+        val a2 = when (dice2.ability) {
+            AbilityType.STRENGTH -> character.strength
+            AbilityType.AGILITY -> character.agility
+            AbilityType.PRESENCE -> character.presence
+            AbilityType.TOUGHNESS -> character.toughness
+            else -> 0
+        }
+
+        val d1 = if (type == ItemType.WEAPON) dice2.roll(a1) else dice1.roll(a2)
+        val d2 = dice1.roll(a2)
+        return description.replace("\$D1", d1.toString()).replace("\$D2", d2.toString())
     }
 
     override fun equals(other: Any?): Boolean {

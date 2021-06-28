@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.twotothirdpower.morkborgcharactersheet.inventory.InventoryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <TextView
+            android:id="@+id/equipment_use_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/the_dark"
+            android:text="@{viewModel.usedEquipment.name}"
+            android:textColor="@color/mb_yellow"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/equipment_use_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Flaming Sword" />
+
+        <ImageView
+            android:id="@+id/equipment_use_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:src="@{viewModel.usedEquipment.equipmentImage}"
+            tools:srcCompat="@drawable/ancient_scroll_2"
+            app:tint="@color/mb_pink" />
+
+        <TextView
+            android:id="@+id/equipment_use_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/nu_century_gothic"
+            android:text="@{viewModel.usedEquipmentDescription}"
+            android:textColor="@color/mb_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_use_icon"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Do an extra 6 damage on hit" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

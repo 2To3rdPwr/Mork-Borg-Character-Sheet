@@ -13,6 +13,7 @@ import com.twotothirdpower.morkborgcharactersheet.databinding.DialogAttackResult
 
 
 class AttackResultDialogFragment : DialogFragment() {
+    // TODO: Display attack description if appropriate
     // Use parent's viewModel
     val viewModel: CharacterSheetViewModel by viewModels(ownerProducer = { requireParentFragment() })
 

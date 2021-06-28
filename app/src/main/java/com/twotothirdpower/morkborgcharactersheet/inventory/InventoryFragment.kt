@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import com.twotothirdpower.morkborgcharactersheet.R
 import com.twotothirdpower.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabase
 import com.twotothirdpower.morkborgcharactersheet.databinding.FragmentInventoryBinding
+import com.twotothirdpower.morkborgcharactersheet.dialogs.UseEquipmentDialogFragment
 
 class InventoryFragment : Fragment() {
     // Companion object allows us to pass args from ViewPager
@@ -41,9 +43,10 @@ class InventoryFragment : Fragment() {
         val dataSource = CharacterDatabase.getInstance(application).characterDatabaseDAO
         val viewModelFactory = InventoryViewModelFactory(characterId!!, dataSource)
 
-        inventoryViewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
+        val mInventoryViewModel: InventoryViewModel by viewModels(ownerProducer = { this }) { viewModelFactory }
+        inventoryViewModel = mInventoryViewModel
 
-        binding.setLifecycleOwner(this)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         binding.inventoryViewModel = inventoryViewModel
 
         /**
@@ -67,9 +70,15 @@ class InventoryFragment : Fragment() {
          * Observers for events
          */
         inventoryViewModel.editingItem.observe(viewLifecycleOwner, Observer { item ->
-            if(item !== null) {
+            if (item !== null) {
                 findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(inventoryViewModel.characterId, item))
                 inventoryViewModel.onEditItemDone()
+            }
+        })
+
+        inventoryViewModel.usedEquipmentDescription.observe(viewLifecycleOwner, Observer { equipment ->
+            if (equipment !== null) {
+                UseEquipmentDialogFragment().show(childFragmentManager, "Use")
             }
         })
 

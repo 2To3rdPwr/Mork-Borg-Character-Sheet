@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 
 class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabaseDAO) : ViewModel() {
     val database = dataSource
+    private lateinit var character: com.twotothirdpower.morkborgcharactersheet.database.Character
 
     /**
      * LiveData
@@ -18,7 +19,9 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     val expandableEquipmentList: LiveData<MutableList<ExpandableEquipment>>
         get() = _expandableEquipmentList
 
-    private lateinit var character: com.twotothirdpower.morkborgcharactersheet.database.Character
+    private val _usedEquipment = MutableLiveData<Equipment>()
+    val usedEquipment: LiveData<Equipment>
+        get() = _usedEquipment
 
     val silver = MutableLiveData(0)
 
@@ -34,6 +37,13 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
     fun onEditItemDone() {
         _editingItem.value = null
+    }
+
+    private val _usedEquipmentDescription = MutableLiveData<String?>()
+    val usedEquipmentDescription: LiveData<String?>
+        get() = _usedEquipmentDescription
+    fun onUseItemDone() {
+        _usedEquipmentDescription.value = null
     }
 
     /**
@@ -121,13 +131,17 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
 
     private fun onEquipmentUseClicked(equipment: ExpandableEquipment) {
+        if (equipment.type == ItemType.OTHER && equipment.uses > 0 || !equipment.limitedUses) {
+            _usedEquipment.value = equipment
+            _usedEquipmentDescription.value = equipment.rolledDescription(character)
+        }
+
         if (equipment.limitedUses && equipment.uses > 0) {
             equipment.uses --
             viewModelScope.launch {
                 updateEquipment(equipment)
             }
             _expandableEquipmentList.value!![equipment.position] = equipment
-            // TODO: Use PropertyAwareMutableLiveData for expandableEquipmentList?
             _expandableEquipmentList.value = expandableEquipmentList.value
         }
     }
