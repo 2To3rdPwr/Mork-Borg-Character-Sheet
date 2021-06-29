@@ -67,7 +67,8 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
         val powers = Math.max(Dice(diceValue = DiceValue.D4).roll(pres), 0)
 
         viewModelScope.launch {
-            val newCharacter = Character(characterName = charName, description = charDescription, silver = Dice(2, DiceValue.D6).roll() * 10,
+            val newCharacter = Character(characterName = charName, description = charDescription,
+                silver = Dice(2, DiceValue.D6).roll() * 10,
                 currentHP = hp, maxHP = hp, omens = Dice(diceValue = DiceValue.D2).roll(), powers = powers,
                 strength = str, presence = pres, agility = agl, toughness = tgh)
             _newCharacterId.value = saveNewCharacter(newCharacter)

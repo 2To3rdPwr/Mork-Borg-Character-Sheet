@@ -44,7 +44,7 @@ data class Character (
     var silver: Int = 0,
 
     @ColumnInfo(name = "last_used")
-    var lastUsed: Date? = Date()
+    var lastUsed: Date? = null
 )
 
 /**

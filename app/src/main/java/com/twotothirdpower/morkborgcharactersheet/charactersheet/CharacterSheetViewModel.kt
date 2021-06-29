@@ -169,6 +169,16 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _snackbarText.value = null
     }
 
+    private val _showDescriptionEvent = MutableLiveData<Boolean>(false)
+    val showDescriptionEvent: LiveData<Boolean>
+        get() = _showDescriptionEvent
+    fun onShowDescription() {
+        _showDescriptionEvent.value = true
+    }
+    fun onShowDescriptionDone() {
+        _showDescriptionEvent.value = false
+    }
+
     /**
      * FE functions
      */
@@ -402,6 +412,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
             _shield.value = myEquipment.find { equipment ->
                 equipment.equipped && equipment.type == SHIELD
+            }
+
+            // If this character is brand new (lastUsed set to null) or hasn't been used in over a week, pop the character description
+            if (myCharacter.lastUsed == null || (Date().time - myCharacter.lastUsed!!.time) / (1000 * 60 * 60 * 24) > 7) {
+                _showDescriptionEvent.value = true
             }
         }
     }

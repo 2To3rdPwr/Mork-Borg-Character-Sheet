@@ -13,14 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.twotothirdpower.morkborgcharactersheet.R
 import com.twotothirdpower.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.twotothirdpower.morkborgcharactersheet.databinding.FragmentCharacterSheetBinding
-import com.twotothirdpower.morkborgcharactersheet.dialogs.AttackResultDialogFragment
-import com.twotothirdpower.morkborgcharactersheet.dialogs.BrokenDialogFragment
-import com.twotothirdpower.morkborgcharactersheet.dialogs.DefenceDialogFragment
-import com.twotothirdpower.morkborgcharactersheet.dialogs.PowerResultDialogFragment
 import com.twotothirdpower.morkborgcharactersheet.models.AbilityType
 import com.twotothirdpower.morkborgcharactersheet.models.DiceValue
 import com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter
 import com.google.android.material.snackbar.Snackbar
+import com.twotothirdpower.morkborgcharactersheet.dialogs.*
 
 class CharacterSheetFragment : Fragment(){
     // Companion object allows us to pass args from ViewPager
@@ -140,6 +137,13 @@ class CharacterSheetFragment : Fragment(){
             }
         })
 
+        characterSheetViewModel.showDescriptionEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                CharacterDescriptionDialogFragment.newInstance(characterSheetViewModel.character.value?.characterName ?: throw IllegalArgumentException("No character name"), characterSheetViewModel.character.value?.description ?: throw IllegalArgumentException("No description")).show(childFragmentManager, CharacterDescriptionDialogFragment.TAG)
+                characterSheetViewModel.onShowDescriptionDone()
+            }
+        })
+
         /**
          * Snackbar
          */
@@ -161,6 +165,10 @@ class CharacterSheetFragment : Fragment(){
         })
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {
