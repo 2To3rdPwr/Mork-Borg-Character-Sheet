@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
+
+        <variable
+            name="editInventoryViewModel"
+            type="com.twotothirdpower.morkborgcharactersheet.editinventory.EditInventoryViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/fragment_item_new_icon"
+                android:layout_width="@dimen/rolled_dice_icon_size"
+                android:layout_height="@dimen/rolled_dice_icon_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:src="@{DataBindingConverter.convertItemTypeToImage(editInventoryViewModel.equipment.type)}" />
+
+            <EditText
+                android:id="@+id/fragment_item_new_name_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:fontFamily="@font/the_dark"
+                android:hint="@string/item_name_hint"
+                android:inputType="textPersonName|textCapWords"
+                android:text="@={editInventoryViewModel.equipment.name}"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_item_new_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fragment_item_new_icon"
+                app:layout_constraintTop_toTopOf="@id/fragment_item_new_icon" />
+
+            <TextView
+                android:id="@+id/fragment_item_new_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/dark_college"
+                android:text="@string/type_string"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_icon" />
+
+            <RadioGroup
+                android:id="@+id/fragment_item_new_item_type_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@={DataBindingConverter.convertItemTypeToRadioButton(editInventoryViewModel.equipment.type)}"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_text"
+                tools:layout_editor_absoluteX="8dp">
+
+                <RadioButton
+                    android:id="@+id/fragment_item_new_weapon_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abandon"
+                    android:text="@string/attack_string"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/fragment_item_new_power_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abandon"
+                    android:text="@string/power_string"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/fragment_item_new_armor_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abandon"
+                    android:text="@string/armor_string"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/fragment_item_new_shield_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abandon"
+                    android:text="@string/shield_string"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/fragment_item_new_other_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abandon"
+                    android:text="@string/other_string"
+                    android:textSize="10sp" />
+            </RadioGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_item_new_type_specific_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_item_type_radio_group">
+
+                <TextView
+                    android:id="@+id/fragment_item_new_ability_select_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dark_college"
+                    android:text="@string/weapon_type_label"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/fragment_item_new_item_ability_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@={DataBindingConverter.convertAbilityTypeToRadioButton(editInventoryViewModel.equipment.weaponAbility)}"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_item_new_ability_select_text">
+
+                    <RadioButton
+                        android:id="@+id/fragment_item_new_strength_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abandon"
+                        android:text="@string/weapon_type_melee"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/fragment_item_new_presence_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abandon"
+                        android:text="@string/weapon_type_ranged"
+                        android:textSize="12sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/fragment_item_new_damage_roller_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/the_dark"
+                    android:text="@string/damage_string"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_item_ability_radio_group" />
+
+                <include
+                    android:id="@+id/fragment_item_new_damage_roller"
+                    layout="@layout/custom_edit_dice_roll_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_item_new_damage_roller_label"
+                    bind:abilityType="@{editInventoryViewModel.damageRollerAbility}"
+                    bind:diceAmount="@={editInventoryViewModel.damageRollerAmount}"
+                    bind:diceBonus="@={editInventoryViewModel.damageRollerBonus}"
+                    bind:diceValue="@{editInventoryViewModel.damageRollerValue}" />
+
+                <TextView
+                    android:id="@+id/fragment_item_new_armor_tier_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dark_college"
+                    android:text="@string/armor_tier_string"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/fragment_item_new_armor_tier_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@={DataBindingConverter.convertArmorTierToRadioButton(editInventoryViewModel.equipment.armorTier)}"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_item_new_armor_tier_label">
+
+                    <RadioButton
+                        android:id="@+id/fragment_item_new_light_armor_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abandon"
+                        android:text="@string/light_armor_string" />
+
+                    <RadioButton
+                        android:id="@+id/fragment_tiem_new_medium_armor_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abandon"
+                        android:text="@string/medium_armor_string" />
+
+                    <RadioButton
+                        android:id="@+id/fragment_item_new_heavy_armor_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abandon"
+                        android:text="@string/heavy_armor_string" />
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/fragment_item_new_description_scrollable"
+                android:layout_width="0dp"
+                android:layout_height="86dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_specific_layout"
+                tools:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_specific_layout">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="86dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/fragment_item_new_description_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nu_century_gothic"
+                        android:gravity="start|top"
+                        android:hint="@string/item_description_hint"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:minHeight="80dp"
+                        android:text="@={editInventoryViewModel.equipment.description}"
+                        android:textSize="14sp"
+                        tools:text="@string/laurem_ipsum_long" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <TextView
+                android:id="@+id/fragment_item_new_description_tutorial_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/new_item_2_roll_description_tip"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_item_new_description_scrollable"
+                app:layout_constraintStart_toStartOf="@+id/fragment_item_new_description_scrollable"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_scrollable" />
+
+            <TextView
+                android:id="@+id/fragment_item_new_description_roller_1_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nu_century_gothic"
+                android:text="$D1"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_tutorial_text" />
+
+            <include
+                android:id="@+id/fragment_item_new_description_roller_1"
+                layout="@layout/custom_edit_dice_roll_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_1_label"
+                bind:abilityType="@{editInventoryViewModel.description1RollerAbility}"
+                bind:diceAmount="@={editInventoryViewModel.description1RollerAmount}"
+                bind:diceBonus="@={editInventoryViewModel.description1RollerBonus}"
+                bind:diceValue="@{editInventoryViewModel.description1RollerValue}" />
+
+            <TextView
+                android:id="@+id/fragment_item_new_description_roller_2_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nu_century_gothic"
+                android:text="$D2"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/fragment_item_new_description_roller_1_label"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_1" />
+
+            <include
+                android:id="@+id/fragment_item_new_description_roller_2"
+                layout="@layout/custom_edit_dice_roll_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_2_label"
+                bind:abilityType="@{editInventoryViewModel.description2RollerAbility}"
+                bind:diceAmount="@={editInventoryViewModel.description2RollerAmount}"
+                bind:diceBonus="@={editInventoryViewModel.description2RollerBonus}"
+                bind:diceValue="@{editInventoryViewModel.description2RollerValue}" />
+
+            <Switch
+                android:id="@+id/fragment_item_new_limited_uses_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:checked="@={editInventoryViewModel.equipment.limitedUses}"
+                android:fontFamily="@font/white_on_black"
+                android:text="@string/infinite_uses_string"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_2"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <EditText
+                android:id="@+id/fragment_item_new_static_uses_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="2"
+                android:fontFamily="@font/dark_college"
+                android:inputType="number"
+                android:text="@={DataBindingConverter.convertIntToString(editInventoryViewModel.staticUses)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_limited_uses_toggle" />
+
+            <TextView
+                android:id="@+id/fragment_item_new_static_uses_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/cut_the_crap"
+                android:text="@string/starting_uses"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/fragment_item_new_static_uses_edit_text"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_item_new_static_uses_edit_text" />
+
+            <Button
+                android:id="@+id/fragment_item_new_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/the_dark"
+                android:onClick="@{() -> editInventoryViewModel.onItemSaved()}"
+                android:text="@string/save_string"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_static_uses_edit_text"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/fragment_item_new_description_dice_1_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{editInventoryViewModel.dice1InDescriptionVisibility ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="fragment_item_new_description_roller_1_label,fragment_item_new_description_roller_1"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/fragment_item_new_description_dice_2_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{editInventoryViewModel.dice2InDescriptionVisibility ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="fragment_item_new_description_roller_2_label,fragment_item_new_description_roller_2"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/fragment_item_new_uses_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="fragment_item_new_static_uses_edit_text,fragment_item_new_static_uses_label"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>
