@@ -1,5 +1,6 @@
 package com.twotothirdpower.morkborgcharactersheet.editcharacter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -78,9 +79,11 @@ class EditCharacterViewModel(private val characterId: Long, dataSource: Characte
 
     fun onLevelUp() {
         // Leveling HP: Roll 6D10. If >= current max HP, increase max HP by d6
-        if (hp.value!! <= Dice(6, DiceValue.D10).roll()) {
-            hp.value = hp.value?:0 + Dice(diceValue = DiceValue.D6).roll()
+        var myHP = hp.value ?: 0
+        if (myHP <= Dice(6, DiceValue.D10).roll()) {
+            myHP += Dice(diceValue = DiceValue.D6).roll()
         }
+        hp.value = myHP
 
         // Leveling abilities: Roll 1D6. If greater than the ability, increase it by 1. If less, decrease it by one
         //      Abilities from -3 to +1 always increase except when a 1 is rolled, in which case they are decreased
