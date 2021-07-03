@@ -219,11 +219,9 @@ class EditInventoryFragment : Fragment(){
         }
 
         if (limited) {
-            binding.fragmentItemNewLimitedUsesToggle.text = getText(R.string.limited_uses_string)
             binding.fragmentItemNewStaticUsesEditText.visibility = View.VISIBLE
             binding.fragmentItemNewStaticUsesLabel.visibility = View.VISIBLE
         } else {
-            binding.fragmentItemNewLimitedUsesToggle.text = getText(R.string.infinite_uses_string)
             binding.fragmentItemNewStaticUsesEditText.visibility = View.GONE
             binding.fragmentItemNewStaticUsesLabel.visibility = View.GONE
         }
