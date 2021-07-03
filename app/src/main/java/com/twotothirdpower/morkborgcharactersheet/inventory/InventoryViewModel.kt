@@ -131,7 +131,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     }
 
     private fun onEquipmentUseClicked(equipment: ExpandableEquipment) {
-        if (equipment.type == ItemType.OTHER && equipment.uses > 0 || !equipment.limitedUses) {
+        if (equipment.type == ItemType.OTHER && (equipment.uses > 0 || !equipment.limitedUses)) {
             _usedEquipment.value = equipment
             _usedEquipmentDescription.value = equipment.rolledDescription(character)
         }

@@ -184,7 +184,7 @@ class EditInventoryViewModel (private var inventoryJoinId: Long, private val cha
                 getEquipment(inventoryJoinId)
             }
 
-            staticUses.value = myEquipment.initialUseDice.bonus
+            staticUses.value = myEquipment.uses
 
             damageRollerAmount.value = myEquipment.dice1.amount
             damageRollerValue.value = myEquipment.dice1.diceValue

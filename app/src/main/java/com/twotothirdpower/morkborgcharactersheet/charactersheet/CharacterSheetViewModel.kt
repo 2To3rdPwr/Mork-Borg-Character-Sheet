@@ -203,7 +203,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         }
 
         // Decrement attack's uses, if applicable
-        if(attack.uses > 0) {
+        if(attack.uses > 0 && attack.limitedUses) {
             attack.uses --
             viewModelScope.launch {
                 updateEquipment(attack)
