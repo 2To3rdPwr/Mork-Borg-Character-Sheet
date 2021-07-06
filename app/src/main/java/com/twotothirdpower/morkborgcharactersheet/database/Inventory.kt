@@ -102,16 +102,22 @@ data class Inventory (
      * Not applicable beyond creating new instances of default items.
      */
     @ColumnInfo(name = "uses_dice_amount")
-    val InitialUsesDiceAmount: Int = 1,
+    val initialUsesDiceAmount: Int = 1,
 
     @ColumnInfo(name = "uses_dice_value")
-    val InitialUsesDiceValue: Int = 0,
+    val initialUsesDiceValue: Int = 0,
 
+    /**
+     * If an item starts with a set amount of uses, only initialUsesDiceBonus needs to be set
+     */
     @ColumnInfo(name = "uses_dice_bonus")
-    val InitialUsesDiceBonus: Int = 0,
+    val initialUsesDiceBonus: Int = 0,
 
     @ColumnInfo(name = "uses_dice_ability")
-    val InitialUsesDiceAbility: Int = 0,
+    val initialUsesDiceAbility: Int = 0,
+
+    @ColumnInfo(name = "silver")
+    val silver: Int = 0,
 
     @ColumnInfo(name = "default_item")
     val defaultItem: Boolean = false

@@ -62,10 +62,12 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         field = value
         notifyPropertyChanged(BR.uses)
     }
-    val initialUseDice = Dice(inventory.InitialUsesDiceAmount, DiceValue.getByValue(inventory.InitialUsesDiceValue)?:DiceValue.D0, inventory.InitialUsesDiceBonus, AbilityType.get(inventory.InitialUsesDiceAbility)!!)
+    val initialUseDice = Dice(inventory.initialUsesDiceAmount, DiceValue.getByValue(inventory.initialUsesDiceValue)?:DiceValue.D0, inventory.initialUsesDiceBonus, AbilityType.get(inventory.initialUsesDiceAbility)!!)
     var broken = invJoin.broken
     @Bindable
     val defaultItem: Boolean = inventory.defaultItem
+    @Bindable
+    val silver: Int = inventory.silver
 
     var formattedDescription = formatDescription()
     var hasRandomDescription = description.contains("\$D1")

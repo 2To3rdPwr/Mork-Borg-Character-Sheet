@@ -1,47 +1,24 @@
 <!-- TODO: Organize and root out unused strings -->
 <resources>
     <string name="app_name">MÖRK BORG Character Sheet</string>
-    <string name="omens_string">Omens</string>
+    <!-- Dummy text string for testing. Does not require translation. -->
+    <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
     <string name="to_hit_string">To Hit</string>
     <string name="damage_string">Damage</string>
     <string name="power_pres_dr_text">DR 12</string>
-    <string name="defence_dialog_tohit_label">DR 12</string>
     <string name="defence_dialog_blocked_label">Blocked</string>
     <string name="silver_string">Silver</string>
     <string name="short_rest_string">Short Rest</string>
     <string name="long_rest_string">Long Rest</string>
     <string name="level_up_string">Improve</string>
-    <string name="strength_string">Strength</string>
-    <string name="agility_string">Agility</string>
-    <string name="presence_string">Presence</string>
-    <string name="toughness_string">Toughness</string>
     <string name="rolled_character_button_text">Resign yourself to Fate</string>
     <string name="manual_character_button_text">Decide for yourself</string>
     <string name="roll_string">Roll</string>
-    <string name="reusable_string">Limited Uses</string>
-    <string name="refillable_string">Refillable</string>
-    <string name="static_string">Static Amount</string>
-    <string name="rolled_uses_string">Rolled Amount</string>
     <string name="limited_uses_string">Limited Uses</string>
-    <string name="attack_string">Attack</string>
-    <string name="power_string">Power</string>
-    <string name="armor_string">Armor</string>
-    <string name="other_string">Other</string>
     <string name="new_item_2_roll_description_tip">You can embed up to two dice rolls into the description of this item with $D1 and $D2</string>
     <string name="new_item_1_roll_description_tip">You can embed a dice roll into the description with $D1</string>
-    <string name="type_string">Type</string>
-    <string name="ability_used_string">Ability Used</string>
     <string name="save_string">Save</string>
     <string name="new_inventory_string">Add New</string>
-    <string name="shield_string">Shield</string>
-    <string name="armor_tier_string">Armor Tier</string>
-    <string name="no_armor_string">No Armor</string>
-    <string name="light_armor_string">Light Armor</string>
-    <string name="medium_armor_string">Medium Armor</string>
-    <string name="heavy_armor_string">Heavy Armor</string>
-    <string name="infinite_uses_string">Infinite Uses</string>
-    <string name="non_refillable_string">Non Refillable</string>
-    <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
     <string name="name_string">Character Name</string>
     <string name="description_string">Description</string>
     <string name="auto_character_string">Resign yourself to Fate</string>
@@ -54,9 +31,6 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="name_required_string">Must set item name</string>
-    <string name="weapon_type_melee">Melee</string>
-    <string name="weapon_type_ranged">Ranged</string>
-    <string name="weapon_type_label">Weapon Type</string>
     <string name="no_uses_snackbar_string">This attack has no uses remaining</string>
     <string name="no_powers_snackbar_string">Out of power uses for the day</string>
     <string name="no_power_wearing_armor_string">Cannot use powers while wearing tier 2 or 3 armor</string>
@@ -65,24 +39,52 @@
     <string name="apply_armor">Apply Armor</string>
     <string name="take_it">Take It</string>
     <string name="use_shield">Use Shield</string>
-    <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
-    <string name="broken_unconscious_string_2">" rounds."</string>
-    <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
-    <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
-    <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
-    <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
-    <string name="defence_crit_string">CRIT Free attack on attacker</string>
-    <string name="defence_fumble_string">FUMBLE Double damage and armr reduced by one tier!</string>
-    <string name="attack_crit_string">CRIT Double damage!</string>
-    <string name="attack_fumble_string">FUMBLE Weapon lost or broken!</string>
-    <string name="broken_title_string">BROKEN</string>
-    <string name="death_title_string">DEAD</string>
-    <string name="broken_eye_limb_string_2">" rounds."</string>
-    <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
     <string name="uses">Uses</string>
     <string name="item_description_hint">Item description</string>
     <string name="item_name_hint">Item Name</string>
-    <string name="unarmed_attack_name">Unarmed</string>
+    <!-- Crits and Fumbles -->
+    <string name="defence_crit_string">CRIT! Free attack on attacker</string>
+    <string name="defence_fumble_string">FUMBLE! Double damage and armor reduced by one tier!</string>
+    <string name="attack_crit_string">CRIT! Double damage!</string>
+    <string name="attack_fumble_string">FUMBLE! Weapon lost or broken!</string>
+    <!-- 0 HP/death popup text -->
+    <string name="broken_title_string">BROKEN</string>
+    <string name="death_title_string">DEAD</string>
+    <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
+    <!-- 0 HP messages. These are typically combined around a rolled variable. -->
+    <!-- Fall unconscious for X rounds -->
+    <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
+    <string name="broken_unconscious_string_2">" rounds."</string>
+    <!-- Broken or severed limb. Can't act for X rounds -->
+    <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
+    <string name="broken_eye_limb_string_2">" rounds."</string>
+    <!-- Lost an eye. Can't act for X rounds -->
+    <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
+    <!-- Bleeding out. Death in X hours. All tests are DR 16 in the first hour and DR 18 in the final hour -->
+    <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
+    <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
+    <!-- Abilities -->
+    <string name="strength_string">Strength</string>
+    <string name="agility_string">Agility</string>
+    <string name="presence_string">Presence</string>
+    <string name="toughness_string">Toughness</string>
+    <!-- Item types -->
+    <string name="type_string">Type</string>
+    <string name="attack_string">Attack</string>
+    <string name="power_string">Power</string>
+    <string name="armor_string">Armor</string>
+    <string name="shield_string">Shield</string>
+    <string name="other_string">Other</string>
+    <!-- Weapon types -->
+    <string name="weapon_type_label">Weapon Type</string>
+    <string name="weapon_type_melee">Melee</string>
+    <string name="weapon_type_ranged">Ranged</string>
+    <!-- Armor Tiers -->
+    <string name="armor_tier_string">Armor Tier</string>
+    <string name="no_armor_string">No Armor</string>
+    <string name="light_armor_string">Light Armor</string>
+    <string name="medium_armor_string">Medium Armor</string>
+    <string name="heavy_armor_string">Heavy Armor</string>
     <!-- Default inventory items -->
     <!-- weapons -->
     <string name="femur_weapon_name">Femur</string>
@@ -174,7 +176,7 @@
     <string name="oil_name">Lantern Oil</string>
     <string name="oil_description">One unit lasts one hour</string>
     <string name="lard_name">Lard</string>
-    <string name="lard_description">Can serve as 5 disgusting meals.</string>
+    <string name="lard_description">Can serve as a disgusting meal.</string>
     <string name="hook_name">Large Iron Hook</string>
     <string name="lockpick_name">Lockpicks</string>
     <string name="magnesium_name">Magnesium Strip</string>
@@ -201,7 +203,7 @@
     <string name="torch_name">Torch</string>
     <string name="sack_name">Sack</string>
     <string name="sack_description">Holds 10 normal-sized items.</string>
-    <string name="sail_name">Sail</string>
+    <string name="salt_name">Salt</string>
     <string name="scissors_name">Scissors</string>
     <string name="needle_name">Sharp Needle</string>
     <string name="waterskin_name">Waterskin</string>
@@ -209,7 +211,12 @@
     <string name="bomb_description">$D1 damage</string>
     <string name="elixir_name">Life Elixir</string>
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
+    <!-- End inventory -->
     <string name="starting_uses">Starting Uses</string>
+    <string name="unit_length_string">One use = one foot of length.</string>
+    <string name="current_silver_string">Current Silver: </string>
+    <string name="no_purchase">Free</string>
+    <string name="add_custom">Add Custom</string>
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>
         <item>Suffering from an inferiority complex,</item>

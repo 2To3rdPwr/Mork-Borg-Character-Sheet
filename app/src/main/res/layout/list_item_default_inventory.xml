@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.models.ItemType" />
+        <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
+
+        <variable
+            name="equipment"
+            type="com.twotothirdpower.morkborgcharactersheet.models.ExpandableEquipment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inventory_default_item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/inventory_default_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:src="@{equipment.equipmentImage}"
+                tools:srcCompat="@drawable/bow" />
+
+            <TextView
+                android:id="@+id/inventory_default_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{equipment.name}"
+                app:layout_constraintBottom_toBottomOf="@+id/inventory_default_icon"
+                app:layout_constraintStart_toEndOf="@+id/inventory_default_icon"
+                app:layout_constraintTop_toTopOf="@+id/inventory_default_icon"
+                tools:text="Bow" />
+
+            <TextView
+                android:id="@+id/inventory_default_silver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="1sp"
+                android:text="@{DataBindingConverter.convertIntToStringNotNull(equipment.silver)}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inventory_default_silver_label"
+                app:layout_constraintEnd_toStartOf="@+id/inventory_default_silver_label"
+                tools:text="25" />
+
+            <TextView
+                android:id="@+id/inventory_default_silver_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/silver_string"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inventory_default_name"
+                app:layout_constraintEnd_toStartOf="@+id/inventory_default_add_icon" />
+
+            <ImageView
+                android:id="@+id/inventory_default_add_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/inventory_default_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/inventory_default_icon"
+                app:srcCompat="@drawable/plus" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/default_inventory_item_body"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="@{equipment.expanded &amp;&amp; equipment.description != `` ? View.VISIBLE : View.GONE}">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/inventory_default_item_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/colorButtonNormal"
+                        android:padding="8dp"
+                        android:text="@{equipment.formattedDescription}"
+                        tools:text="@string/laurem_ipsum_long" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

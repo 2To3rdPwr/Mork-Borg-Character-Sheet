@@ -258,14 +258,14 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
             gear.equipped = inventory.type == 1 || inventory.type == 2 || inventory.type == 3 || inventory.type == 4
 
             if (inventory.limitedUses) {
-                val abilityBonus = when (inventory.InitialUsesDiceAbility) {
+                val abilityBonus = when (inventory.initialUsesDiceAbility) {
                     1 -> str
                     2 -> agl
                     3 -> pres
                     4 -> tgh
                     else -> 0
                 }
-                val uses = Dice(amount = inventory.InitialUsesDiceAmount, diceValue = DiceValue.getByValue(inventory.InitialUsesDiceValue)?:DiceValue.D0, bonus = inventory.InitialUsesDiceBonus).roll(abilityBonus)
+                val uses = Dice(amount = inventory.initialUsesDiceAmount, diceValue = DiceValue.getByValue(inventory.initialUsesDiceValue)?:DiceValue.D0, bonus = inventory.initialUsesDiceBonus).roll(abilityBonus)
                 gear.uses = uses
             }
             gear
