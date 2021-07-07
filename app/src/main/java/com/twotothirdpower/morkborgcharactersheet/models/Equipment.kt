@@ -73,6 +73,7 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
     var hasRandomDescription = description.contains("\$D1")
 
     constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
+    constructor(inventory: Inventory, characterId: Long) : this(inventory, CharacterInventoryJoin(inventoryId = inventory.inventoryId, characterId = characterId))
 
     // TODO: Later allow user to choose
     val equipmentImage = when (type) {

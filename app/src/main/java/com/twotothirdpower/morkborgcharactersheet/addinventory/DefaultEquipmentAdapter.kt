@@ -1,15 +1,15 @@
-package com.twotothirdpower.morkborgcharactersheet.inventory
+package com.twotothirdpower.morkborgcharactersheet.addinventory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.twotothirdpower.morkborgcharactersheet.databinding.ListItemInventoryBinding
+import com.twotothirdpower.morkborgcharactersheet.databinding.ListItemDefaultInventoryBinding
 import com.twotothirdpower.morkborgcharactersheet.models.ExpandableEquipment
 import com.twotothirdpower.morkborgcharactersheet.util.EquipmentDiffCallback
 import com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener
 
-class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<ExpandableEquipment, EquipmentAdapter.ViewHolder>(
+class DefaultEquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<ExpandableEquipment, DefaultEquipmentAdapter.ViewHolder>(
     EquipmentDiffCallback()
 ) {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,12 +22,12 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Expand
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder private constructor(val binding: ListItemInventoryBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: ListItemDefaultInventoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(clickListener: EquipmentListener, item: ExpandableEquipment) {
             binding.equipment = item
             // Override Recyclerview's touch to allow description scrolling
-            binding.equipmentDescriptionText.setOnTouchListener{ v, event ->
-                binding.equipmentDescriptionScrollable.onTouchEvent(event)
+            binding.inventoryDefaultItemDescription.setOnTouchListener{ v, event ->
+                binding.defaultInventoryDescriptionScrollable.onTouchEvent(event)
                 v.parent.requestDisallowInterceptTouchEvent(true)
                 true
             }
@@ -38,7 +38,7 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Expand
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemInventoryBinding.inflate(layoutInflater, parent, false)
+                val binding = ListItemDefaultInventoryBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }

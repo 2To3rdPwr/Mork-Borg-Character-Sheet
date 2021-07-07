@@ -47,6 +47,9 @@ interface CharacterDatabaseDAO {
     @Query("SELECT * FROM inventory WHERE inventoryId = :inventoryId")
     fun getInventory(inventoryId: Long): Inventory?
 
+    @Query("SELECT * FROM inventory WHERE default_item = 1")
+    fun getDefaultInventory(): List<Inventory>
+
     @Transaction
     @Query("SELECT * FROM character_inventory_join WHERE characterInventoryJoinId = :invJoinId")
     fun getEquipment(invJoinId: Long): EquipmentData?
@@ -54,6 +57,9 @@ interface CharacterDatabaseDAO {
     @Transaction
     @Query("SELECT * FROM character_inventory_join WHERE character_id = :characterId")
     fun getCharactersEquipment(characterId: Long): List<EquipmentData>
+
+    @Query("SELECT * FROM character_inventory_join WHERE character_id = :characterId AND inventory_id = :inventoryId")
+    fun getCharactersEquipmentByType(characterId: Long, inventoryId: Long): CharacterInventoryJoin?
 
     // Can't seem to get cross-table joins working for update statements, so I'll have to handle the
     //  more complex queries manually

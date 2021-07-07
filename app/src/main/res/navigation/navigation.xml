@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_characterSheetViewPagerFragment_self"
             app:destination="@id/characterSheetViewPagerFragment" />
+        <action
+            android:id="@+id/action_characterSheetViewPagerFragment_to_addInventoryFragment"
+            app:destination="@id/addInventoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editInventoryFragment"
@@ -80,5 +83,18 @@
             app:destination="@id/introFragment"
             app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addInventoryFragment"
+        android:name="com.twotothirdpower.morkborgcharactersheet.addinventory.AddInventoryFragment"
+        android:label="AddInventoryFragment" >
+        <argument
+            android:name="characterId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_addInventoryFragment_to_editInventoryFragment"
+            app:destination="@id/editInventoryFragment"
+            app:popUpTo="@id/characterSheetViewPagerFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

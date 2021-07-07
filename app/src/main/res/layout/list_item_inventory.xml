@@ -16,11 +16,11 @@
 
         <variable
             name="clickListener"
-            type="com.twotothirdpower.morkborgcharactersheet.inventory.EquipmentListener" />
+            type="com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener" />
 
         <variable
             name="buttonTypeEnum"
-            type="com.twotothirdpower.morkborgcharactersheet.inventory.EquipmentAdapter.EquipmentRecyclerViewButton" />
+            type="com.twotothirdpower.morkborgcharactersheet.util.EquipmentRecyclerViewButton" />
     </data>
 
     <LinearLayout
@@ -84,6 +84,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/abandon"
                 android:text="@{equipment.name}"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/equipment_icon"
                 app:layout_constraintEnd_toStartOf="@+id/using_check_box"
                 app:layout_constraintStart_toEndOf="@+id/equipment_icon"

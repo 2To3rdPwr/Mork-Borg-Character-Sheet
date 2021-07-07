@@ -3,6 +3,10 @@
     <string name="app_name">MÖRK BORG Character Sheet</string>
     <!-- Dummy text string for testing. Does not require translation. -->
     <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
+    <string name="unit_length_string">One use = one foot of length.</string>
+    <string name="current_silver_string">Current Silver: </string>
+    <string name="no_purchase">Free</string>
+    <string name="search">Search</string>
     <string name="to_hit_string">To Hit</string>
     <string name="damage_string">Damage</string>
     <string name="power_pres_dr_text">DR 12</string>
@@ -19,6 +23,7 @@
     <string name="new_item_1_roll_description_tip">You can embed a dice roll into the description with $D1</string>
     <string name="save_string">Save</string>
     <string name="new_inventory_string">Add New</string>
+    <string name="add_custom">Add Custom</string>
     <string name="name_string">Character Name</string>
     <string name="description_string">Description</string>
     <string name="auto_character_string">Resign yourself to Fate</string>
@@ -211,12 +216,9 @@
     <string name="bomb_description">$D1 damage</string>
     <string name="elixir_name">Life Elixir</string>
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
+    <string name="arrows_name">20 Arrows</string>
+    <string name="bolts_name">10 Bolts</string>
     <!-- End inventory -->
-    <string name="starting_uses">Starting Uses</string>
-    <string name="unit_length_string">One use = one foot of length.</string>
-    <string name="current_silver_string">Current Silver: </string>
-    <string name="no_purchase">Free</string>
-    <string name="add_custom">Add Custom</string>
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>
         <item>Suffering from an inferiority complex,</item>
@@ -239,6 +241,7 @@
         <item>Wasteful,</item>
         <item>Arrogant,</item>
     </string-array>
+    <!-- $ gets replaced by the character's name -->
     <string-array name="character_quirks_array">
         <item>$ obsessively collects small sharp stones.</item>
         <item>$ won\'t use a blade without first testing it on their own flesh. Their arms are knitted with scars.</item>
@@ -300,7 +303,7 @@
         <item>Cursed to share the nightmares of others, $ sleeps far, far away.</item>
         <item>$ is at permanent war with all corvids. There can be no contact without some violence.</item>
         <item>After dreaming of an underground temple to a forgotten god, $ understands the songs of insects and worms.</item>
-        <item>$ is being tracked and observed by a golem  after agreeing to a contract, the details of which have been wiped from their memory.</item>
+        <item>$ is being tracked and observed by a golem after agreeing to a contract, the details of which have been wiped from their memory.</item>
         <item>\"Burn or be burned\" is the fate that $ has accepted.</item>
         <item>$\'s flesh heals twice as fast, but their companions\' heals twice as slow. $ can see a many-eyed \"guardian angel.\"</item>
     </string-array>

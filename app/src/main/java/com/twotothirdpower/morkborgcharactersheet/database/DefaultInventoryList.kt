@@ -96,7 +96,8 @@ class DefaultInventoryList(val context: Context) {
         Inventory(inventoryId = 83L, name = context.getString(R.string.needle_name), type = 0, silver = 3, defaultItem = true),
         Inventory(inventoryId = 84L, name = context.getString(R.string.waterskin_name), type = 0, limitedUses = true, initialUsesDiceBonus = 4, silver = 4, defaultItem = true),
         Inventory(inventoryId = 85L, name = context.getString(R.string.bomb_name), description = context.getString(R.string.bomb_description), type = 0, dice1Value = 10, limitedUses = true, initialUsesDiceBonus = 1, defaultItem = true),
-        Inventory(inventoryId = 86L, name = context.getString(R.string.elixir_name), description = context.getString(R.string.elixir_description), type = 0, dice1Value = 6, limitedUses = true, initialUsesDiceValue = 4, defaultItem = true)
-        // TODO: Arrows and bolts
+        Inventory(inventoryId = 86L, name = context.getString(R.string.elixir_name), description = context.getString(R.string.elixir_description), type = 0, dice1Value = 6, limitedUses = true, initialUsesDiceValue = 4, defaultItem = true),
+        Inventory(inventoryId = 87L, name = context.getString(R.string.arrows_name), type = 0, limitedUses = true, initialUsesDiceBonus = 20, silver = 10, defaultItem = true),
+        Inventory(inventoryId = 88L, name = context.getString(R.string.bolts_name), type = 0, limitedUses = true, initialUsesDiceBonus = 10, silver = 10, defaultItem = true)
     )
 }

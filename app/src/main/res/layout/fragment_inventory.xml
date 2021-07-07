@@ -6,6 +6,7 @@
 
     <data>
         <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter"/>
+
         <variable
             name="inventoryViewModel"
             type="com.twotothirdpower.morkborgcharactersheet.inventory.InventoryViewModel" />

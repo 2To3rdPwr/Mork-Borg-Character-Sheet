@@ -3,8 +3,8 @@ package com.twotothirdpower.morkborgcharactersheet.inventory
 import androidx.lifecycle.*
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabaseDAO
 import kotlinx.coroutines.launch
-import com.twotothirdpower.morkborgcharactersheet.inventory.EquipmentAdapter.EquipmentRecyclerViewButton
 import com.twotothirdpower.morkborgcharactersheet.models.*
+import com.twotothirdpower.morkborgcharactersheet.util.EquipmentRecyclerViewButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -58,6 +58,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
             EquipmentRecyclerViewButton.EDIT -> onEquipmentEditClicked(equipment)
             EquipmentRecyclerViewButton.DELETE -> onEquipmentDeleteClicked(equipment)
             EquipmentRecyclerViewButton.EXPAND -> onEquipmentExpand(equipment)
+            else -> throw IllegalStateException("Illegal button type")
         }
     }
 

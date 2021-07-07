@@ -9,6 +9,7 @@ class ExpandableEquipment(inventory: Inventory, inventoryJoin: CharacterInventor
     var position = -1
 
     constructor(equipmentData: EquipmentData) : this(equipmentData.inventory, equipmentData.inventoryJoin)
+    constructor(inventory: Inventory, characterId: Long) : this(inventory, CharacterInventoryJoin(inventoryId = inventory.inventoryId, characterId = characterId))
 
     override fun hashCode(): Int {
         var result = super.hashCode()

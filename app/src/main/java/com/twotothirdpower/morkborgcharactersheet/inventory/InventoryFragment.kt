@@ -8,13 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.twotothirdpower.morkborgcharactersheet.R
 import com.twotothirdpower.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabase
 import com.twotothirdpower.morkborgcharactersheet.databinding.FragmentInventoryBinding
 import com.twotothirdpower.morkborgcharactersheet.dialogs.UseEquipmentDialogFragment
+import com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener
 
 class InventoryFragment : Fragment() {
     // Companion object allows us to pass args from ViewPager
@@ -71,7 +71,16 @@ class InventoryFragment : Fragment() {
          */
         inventoryViewModel.editingItem.observe(viewLifecycleOwner, Observer { item ->
             if (item !== null) {
-                findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(inventoryViewModel.characterId, item))
+                if (item == -1L) {
+                    findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToAddInventoryFragment(inventoryViewModel.characterId))
+                } else {
+                    findNavController().navigate(
+                        CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToEditInventoryFragment(
+                            inventoryViewModel.characterId,
+                            item
+                        )
+                    )
+                }
                 inventoryViewModel.onEditItemDone()
             }
         })

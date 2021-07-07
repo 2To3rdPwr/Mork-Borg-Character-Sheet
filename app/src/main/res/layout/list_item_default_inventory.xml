@@ -6,12 +6,21 @@
 
     <data>
         <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
         <import type="com.twotothirdpower.morkborgcharactersheet.models.ItemType" />
         <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
             name="equipment"
             type="com.twotothirdpower.morkborgcharactersheet.models.ExpandableEquipment" />
+
+        <variable
+            name="clickListener"
+            type="com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener" />
+
+        <variable
+            name="buttonTypeEnum"
+            type="com.twotothirdpower.morkborgcharactersheet.util.EquipmentRecyclerViewButton" />
     </data>
 
     <LinearLayout
@@ -22,7 +31,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/inventory_default_item_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.EXPAND)}">
 
             <ImageView
                 android:id="@+id/inventory_default_icon"
@@ -39,13 +50,16 @@
 
             <TextView
                 android:id="@+id/inventory_default_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/abandon"
                 android:text="@{equipment.name}"
-                app:layout_constraintBottom_toBottomOf="@+id/inventory_default_icon"
+                android:textSize="20sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inventory_default_silver_label"
+                app:layout_constraintEnd_toStartOf="@+id/inventory_default_silver"
                 app:layout_constraintStart_toEndOf="@+id/inventory_default_icon"
-                app:layout_constraintTop_toTopOf="@+id/inventory_default_icon"
                 tools:text="Bow" />
 
             <TextView
@@ -53,7 +67,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="1sp"
+                android:fontFamily="@font/enchanted_land"
                 android:text="@{DataBindingConverter.convertIntToStringNotNull(equipment.silver)}"
+                android:textSize="16sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/inventory_default_silver_label"
                 app:layout_constraintEnd_toStartOf="@+id/inventory_default_silver_label"
                 tools:text="25" />
@@ -63,30 +79,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:fontFamily="@font/enchanted_land"
                 android:text="@string/silver_string"
-                app:layout_constraintBaseline_toBaselineOf="@+id/inventory_default_name"
-                app:layout_constraintEnd_toStartOf="@+id/inventory_default_add_icon" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/inventory_default_add_icon"
+                app:layout_constraintEnd_toStartOf="@+id/inventory_default_add_icon"
+                app:layout_constraintTop_toTopOf="@+id/inventory_default_add_icon" />
 
             <ImageView
                 android:id="@+id/inventory_default_add_icon"
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
                 android:layout_marginEnd="16dp"
+                android:onClick="@{() -> clickListener.onClick(equipment, buttonTypeEnum.ADD)}"
                 app:layout_constraintBottom_toBottomOf="@+id/inventory_default_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/inventory_default_icon"
                 app:srcCompat="@drawable/plus" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/default_inventory_item_body"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:visibility="@{equipment.expanded &amp;&amp; equipment.description != `` ? View.VISIBLE : View.GONE}">
+
             <ScrollView
+                android:id="@+id/default_inventory_description_scrollable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:visibility="visible">
+                android:visibility="@{TextUtils.isEmpty(equipment.formattedDescription) ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,12 +125,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/colorButtonNormal"
+                        android:fontFamily="@font/nu_century_gothic"
                         android:padding="8dp"
                         android:text="@{equipment.formattedDescription}"
                         tools:text="@string/laurem_ipsum_long" />
                 </LinearLayout>
             </ScrollView>
-        </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>
