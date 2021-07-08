@@ -218,6 +218,9 @@
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
     <string name="arrows_name">Arrows</string>
     <string name="bolts_name">Bolts</string>
+    <string name="added">added</string>
+    <string name="cant_add_ammo_without_weapon">No weapon using this ammo owned. Add one first.</string>
+    <string name="cant_afford">You can\'t afford this item</string>
     <!-- End inventory -->
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>

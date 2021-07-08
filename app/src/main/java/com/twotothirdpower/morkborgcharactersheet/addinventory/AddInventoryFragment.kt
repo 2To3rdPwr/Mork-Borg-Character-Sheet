@@ -10,7 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.twotothirdpower.morkborgcharactersheet.R
+import com.twotothirdpower.morkborgcharactersheet.charactersheet.CharacterSheetViewModel
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabase
 import com.twotothirdpower.morkborgcharactersheet.databinding.FragmentInventoryAddBinding
 import com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener
@@ -60,6 +62,22 @@ class AddInventoryFragment : Fragment() {
             if (item) {
                 findNavController().navigate(AddInventoryFragmentDirections.actionAddInventoryFragmentToEditInventoryFragment(viewModel.characterId, -1L))
                 viewModel.onCustomInventoryEventDone()
+            }
+        })
+
+        viewModel.addInventoryEvent.observe(viewLifecycleOwner, Observer { item ->
+            if (item !== null) {
+                val snackbarText = when (item) {
+                    "No Weapon For Ammo" -> getString(R.string.cant_add_ammo_without_weapon)
+                    "No Silver" -> getString(R.string.cant_afford)
+                    else -> item + " " + getString(R.string.added)
+                }
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    snackbarText,
+                    Snackbar.LENGTH_LONG
+                ).show()
+                viewModel.onAddInventoryEventDone()
             }
         })
 

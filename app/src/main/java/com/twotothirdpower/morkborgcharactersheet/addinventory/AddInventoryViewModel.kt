@@ -50,7 +50,13 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
         _customInventoryEvent.value = false
     }
 
-    // TODO: Event for toast pop for user feedback on adding equipment
+    // Observed by FE to display user feedback when adding a new item9
+    private val _addInventoryEvent = MutableLiveData<String?>()
+    val addInventoryEvent: LiveData<String?>
+        get() = _addInventoryEvent
+    fun onAddInventoryEventDone() {
+        _addInventoryEvent.value = null
+    }
 
     fun onEquipmentClick(equipment: ExpandableEquipment, action: EquipmentRecyclerViewButton) {
         when(action) {
@@ -70,38 +76,11 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
         searchString.value = searchString.value
     }
 
-    private fun filterInventoryList(query: String): LiveData<List<ExpandableEquipment>>? {
-        val inventoryList = expandableEquipmentList.value
-        if (inventoryList == null) {
-            return null
-        } else {
-            // Create a MutableLiveData to set the value, then reference it in the LiveData that we return
-            val filteredInventoryList = MutableLiveData<List<ExpandableEquipment>>()
-            filteredInventoryList.value = inventoryList.filter { item ->
-                item.name.contains(query)
-            }
-            return filteredInventoryList
-        }
-    }
-
     private fun addEquipment(equipment: Equipment) {
-        /**
-         * 1. subtract silver if necessary
-         * 2. If limited uses and type = other, or item is arrows or bolts, check if the character already owns the item
-         *      if so, add purchased uses to the item and update it. Return.
-         *      else, add uses to inventoryJoin. Continue.
-         * 3. Save equipment.
-         */
         viewModelScope.launch {
-            if (freeEquipment.value == false) {
-                // TODO: Prevent purchase if too expensive
-                val newSilver = Math.max(silver.value?.minus(equipment.silver) ?: 0, 0)
-                _silver.value = newSilver
-                setSilver(newSilver)
-            }
-
             var newInvJoin = true
             var saveInvJoin = equipment.getInvJoin()
+            val invName = equipment.name
 
             if (equipment.limitedUses) {
                 // hardcoded inventoryIds from DefaultInventoryList
@@ -119,6 +98,12 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
                     newInvJoin = false
                 }
 
+                // Are we trying to add ammo for a weapon we do not own?
+                if (ownedEquipment == null && (equipment.inventoryId == 87L || equipment.inventoryId == 88L)) {
+                    _addInventoryEvent.value = "No Weapon For Ammo"
+                    return@launch
+                }
+
                 // Add uses
                 val abilityBonus = when (equipment.initialUseDice.ability) {
                     AbilityType.STRENGTH -> character.strength
@@ -130,12 +115,39 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
                 saveInvJoin.uses += equipment.initialUseDice.roll(abilityBonus)
             }
 
+            // Pay for it
+            if (freeEquipment.value == false) {
+                val newSilver = silver.value?.minus(equipment.silver) ?: throw IllegalStateException("Silver not defined yet")
+                if (newSilver >= 0) {
+                    _silver.value = newSilver
+                    setSilver(newSilver)
+                } else {
+                    _addInventoryEvent.value = "No Silver"
+                    return@launch
+                }
+            }
+
             if (newInvJoin) {
                 insertEquipment(saveInvJoin)
             } else {
                 updateEquipment(saveInvJoin)
             }
-            // TODO: Pop toast
+            // Notify FE to pop user feedback snackbar
+            _addInventoryEvent.value = invName
+        }
+    }
+
+    private fun filterInventoryList(query: String): LiveData<List<ExpandableEquipment>>? {
+        val inventoryList = expandableEquipmentList.value
+        if (inventoryList == null) {
+            return null
+        } else {
+            // Create a MutableLiveData to set the value, then reference it in the LiveData that we return
+            val filteredInventoryList = MutableLiveData<List<ExpandableEquipment>>()
+            filteredInventoryList.value = inventoryList.filter { item ->
+                item.name.contains(query)
+            }
+            return filteredInventoryList
         }
     }
 
