@@ -216,8 +216,8 @@
     <string name="bomb_description">$D1 damage</string>
     <string name="elixir_name">Life Elixir</string>
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
-    <string name="arrows_name">20 Arrows</string>
-    <string name="bolts_name">10 Bolts</string>
+    <string name="arrows_name">Arrows</string>
+    <string name="bolts_name">Bolts</string>
     <!-- End inventory -->
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>
