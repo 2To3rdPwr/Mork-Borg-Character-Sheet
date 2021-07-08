@@ -1,17 +1,18 @@
 <!-- TODO: Organize and root out unused strings -->
 <resources>
     <string name="app_name">MÖRK BORG Character Sheet</string>
+    <string name="license">MÖRK BORG Character Sheet is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. <br/> It is published under the MÖRK BORG Third Party License. <br/> MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell.</string>
     <!-- Dummy text string for testing. Does not require translation. -->
     <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
     <string name="unit_length_string">One use = one foot of length.</string>
     <string name="current_silver_string">Current Silver: </string>
+    <string name="silver_string">Silver</string>
     <string name="no_purchase">Free</string>
     <string name="search">Search</string>
     <string name="to_hit_string">To Hit</string>
     <string name="damage_string">Damage</string>
     <string name="power_pres_dr_text">DR 12</string>
     <string name="defence_dialog_blocked_label">Blocked</string>
-    <string name="silver_string">Silver</string>
     <string name="short_rest_string">Short Rest</string>
     <string name="long_rest_string">Long Rest</string>
     <string name="level_up_string">Improve</string>
@@ -32,7 +33,6 @@
     <string name="hit_points">Hit Points</string>
     <string name="character_select_string">Characters</string>
     <string name="inventory">Inventory</string>
-    <string name="liscense">"MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell. "</string>
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="name_required_string">Must set item name</string>
@@ -57,15 +57,15 @@
     <string name="death_title_string">DEAD</string>
     <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
     <!-- 0 HP messages. These are typically combined around a rolled variable. -->
-    <!-- Fall unconscious for X rounds -->
+        <!-- Fall unconscious for X rounds -->
     <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
     <string name="broken_unconscious_string_2">" rounds."</string>
-    <!-- Broken or severed limb. Can't act for X rounds -->
+        <!-- Broken or severed limb. Can't act for X rounds -->
     <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
     <string name="broken_eye_limb_string_2">" rounds."</string>
-    <!-- Lost an eye. Can't act for X rounds -->
+        <!-- Lost an eye. Can't act for X rounds -->
     <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
-    <!-- Bleeding out. Death in X hours. All tests are DR 16 in the first hour and DR 18 in the final hour -->
+        <!-- Bleeding out. Death in X hours. All tests are DR 16 in the first hour and DR 18 in the final hour -->
     <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
     <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
     <!-- Abilities -->
