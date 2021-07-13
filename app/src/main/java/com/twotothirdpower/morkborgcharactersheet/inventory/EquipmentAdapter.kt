@@ -1,5 +1,6 @@
 package com.twotothirdpower.morkborgcharactersheet.inventory
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -23,6 +24,7 @@ class EquipmentAdapter(val clickListener: EquipmentListener): ListAdapter<Expand
     }
 
     class ViewHolder private constructor(val binding: ListItemInventoryBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ClickableViewAccessibility")
         fun bind(clickListener: EquipmentListener, item: ExpandableEquipment) {
             binding.equipment = item
             // Override Recyclerview's touch to allow description scrolling

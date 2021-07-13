@@ -13,7 +13,7 @@ import com.twotothirdpower.morkborgcharactersheet.database.Inventory
  * Equipment objects contain data on individual instances of an inventory item
  * TBH, Should probably have subclassed this into the different inventory types
  */
-open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin) : BaseObservable() {
+open class Equipment(private var inventory: Inventory, private var invJoin: CharacterInventoryJoin) : BaseObservable(), Comparable<Equipment> {
     val joinId = invJoin.characterInventoryJoinId
     val inventoryId = inventory.inventoryId
     val characterId = invJoin.characterId
@@ -148,6 +148,30 @@ open class Equipment(private var inventory: Inventory, private var invJoin: Char
         val d1 = if (type == ItemType.WEAPON) dice2.roll(a1) else dice1.roll(a2)
         val d2 = dice1.roll(a2)
         return description.replace("\$D1", d1.toString()).replace("\$D2", d2.toString())
+    }
+
+    // Default sorting of Equipment objects goes type -> ArmorTier (if armor) -> weaponAbility (if weapon) -> DiceValue 1 (if weapon) -> name
+    override fun compareTo(other: Equipment): Int {
+        val myType = if (this.type == null || this.type == ItemType.OTHER) 6 else this.type!!.ordinal
+        val theirType = if (other.type == null || other.type == ItemType.OTHER) 6 else other.type!!.ordinal
+        var order = myType - theirType
+
+        if (order == 0 && other.type == ItemType.WEAPON) {
+            order = (this.weaponAbility?.id ?: 0) - (other.weaponAbility?.id ?: 0)
+            if (order == 0) {
+                order = this.dice1.diceValue.value - other.dice1.diceValue.value
+            }
+        }
+
+        if (order == 0 && other.type == ItemType.ARMOR) {
+            order = (this.armorTier?.id ?: 0) - (other.armorTier?.id ?: 0)
+        }
+
+        if (order == 0) {
+            order = this.name.compareTo(other.name)
+        }
+
+        return order
     }
 
     override fun equals(other: Any?): Boolean {

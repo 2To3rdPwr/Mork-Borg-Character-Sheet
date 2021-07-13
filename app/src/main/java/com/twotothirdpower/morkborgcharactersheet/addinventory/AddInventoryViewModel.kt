@@ -163,7 +163,8 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
     private suspend fun getDefaultEquipment(): List<ExpandableEquipment> {
         return withContext(Dispatchers.IO) {
             val myData = database.getDefaultInventory()
-            myData.map { equipmentData -> ExpandableEquipment(equipmentData, characterId) }
+            val myEquipment = myData.map { equipmentData -> ExpandableEquipment(equipmentData, characterId) }
+            myEquipment.sorted()
         }
     }
 
@@ -187,7 +188,8 @@ class AddInventoryViewModel (val characterId: Long, dataSource: CharacterDatabas
 
     private suspend fun insertEquipment(equipment: CharacterInventoryJoin) {
         withContext(Dispatchers.IO) {
-            database.insertInventoryJoin(equipment)        }
+            database.insertInventoryJoin(equipment)
+        }
     }
 
     init {
