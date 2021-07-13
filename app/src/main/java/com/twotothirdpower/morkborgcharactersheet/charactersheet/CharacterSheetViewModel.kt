@@ -104,6 +104,14 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val armorRoll: LiveData<Int>
         get() = _armorRoll
 
+    private val _defenceArmorDescription = MutableLiveData<String>("")
+    val defenceArmorDescription: LiveData<String>
+        get() = _defenceArmorDescription
+
+    private val _defenceShieldDescription = MutableLiveData<String>("")
+    val defenceShieldDescription: LiveData<String>
+        get() = _defenceShieldDescription
+
     private var armorToggle = true
 
     // Defence Dialog Damage Roller
@@ -266,6 +274,21 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _defaultEvasionDR.value = if (_armor.value?.armorTier?.ordinal ?: 0 >= 2) 14 else 12
         _evasionRoll.value = abilityRoll(AGILITY)
 
+        val myArmor = armor.value
+        val myShield = shield.value
+        val myCharacter = character.value ?: throw IllegalStateException("No character")
+
+        if (myArmor != null) {
+            _defenceArmorDescription.value = myArmor.rolledDescription(myCharacter)
+        } else {
+            _defenceArmorDescription.value = ""
+        }
+        if (myShield != null) {
+            _defenceShieldDescription.value = myShield.rolledDescription(myCharacter)
+        } else {
+            _defenceShieldDescription.value = ""
+        }
+
         _showDefenceEvent.value = true
     }
 
@@ -278,7 +301,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     fun onDefenceDamageRoll() {
-        var myArmor = armor.value
+        val myArmor = armor.value
         val myShield = shield.value
         armorToggle = true
 

@@ -62,6 +62,12 @@ class DefenceDialogFragment : DialogFragment() {
 
                 if (viewModel.armor.value != null || viewModel.shield.value != null) {
                     binding.defenceDialogArmorGroup.visibility = View.VISIBLE
+                    if (viewModel.armor.value?.description ?: "" != "") {
+                        binding.defenceArmorDescription.visibility = View.VISIBLE
+                    }
+                    if (viewModel.shield.value?.description ?: "" != "") {
+                        binding.defenceShieldDescription.visibility = View.VISIBLE
+                    }
                 } else {
                     binding.defenceDialogArmorGroup.visibility = View.GONE
                 }

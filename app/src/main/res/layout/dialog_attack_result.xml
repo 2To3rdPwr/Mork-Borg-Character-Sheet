@@ -104,6 +104,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="@font/nu_century_gothic"
             android:text="@{viewModel.attackDescription}"
+            android:textAlignment="center"
             android:textColor="@color/mb_pink"
             android:visibility="@{viewModel.attackDescription == `` ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"

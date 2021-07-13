@@ -249,20 +249,48 @@
             android:track="@drawable/dialog_switch_states"
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_armor_icon"
             app:layout_constraintStart_toStartOf="@+id/defence_dialog_armor_icon"
-            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_armor_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_armor_icon"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/defence_armor_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nu_century_gothic"
+            android:text="@{viewModel.defenceArmorDescription}"
+            android:textAlignment="center"
+            android:textColor="@color/mb_pink"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/defence_apply_armor_toggle" />
+
+        <TextView
+            android:id="@+id/defence_shield_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nu_century_gothic"
+            android:text="@{viewModel.defenceShieldDescription}"
+            android:textAlignment="center"
+            android:textColor="@color/mb_pink"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/defence_armor_description" />
 
         <Button
             android:id="@+id/defence_confirm_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/take_it"
+            android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.onDefenceComplete(true, false)}"
+            android:text="@string/take_it"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toStartOf="@+id/defence_use_shield_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_damage_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/defence_shield_description" />
 
         <Button
             android:id="@+id/defence_use_shield_button"
@@ -296,13 +324,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="defence_dialog_damage_icon,defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_dialog_damage_rolled_text,defence_damage_taken_label,defence_apply_armor_toggle,defence_confirm_button,defence_use_shield_button"  />
+            app:constraint_referenced_ids="defence_dialog_damage_icon,defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_dialog_damage_rolled_text,defence_damage_taken_label,defence_apply_armor_toggle,defence_confirm_button,defence_use_shield_button" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/defence_dialog_armor_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_apply_armor_toggle"  />
+            app:constraint_referenced_ids="defence_dialog_armor_icon,defence_dialog_blocked_rolled_text,defence_dialog_blocked_label,defence_apply_armor_toggle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
