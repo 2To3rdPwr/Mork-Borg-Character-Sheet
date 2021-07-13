@@ -224,16 +224,11 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             // Force state change in recyclerview
             var myAttacks = attacks.value!!
             _attacks.value = myAttacks.filterNot {
-                it.inventoryId == attack.inventoryId
+                it.joinId == attack.joinId
             }
         }
 
-        if (attack.hasRandomDescription) {
-            _attackDescription.value = attack.rolledDescription(character.value ?: throw IllegalStateException("No character"))
-        } else {
-            _attackDescription.value = ""
-        }
-
+        _attackDescription.value = attack.rolledDescription(character.value ?: throw IllegalStateException("No character"))
         _attackDamage.value = damage
         _showAttackEvent.value = true
     }

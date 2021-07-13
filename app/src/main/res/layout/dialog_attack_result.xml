@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <import type="com.twotothirdpower.morkborgcharactersheet.util.DataBindingConverter" />
 
         <variable
@@ -97,15 +98,30 @@
             app:layout_constraintStart_toEndOf="@+id/attack_dice_icon" />
 
         <TextView
+            android:id="@+id/attack_extra_description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/nu_century_gothic"
+            android:text="@{viewModel.attackDescription}"
+            android:textColor="@color/mb_pink"
+            android:visibility="@{viewModel.attackDescription == `` ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attack_dice_icon"
+            tools:text="Burns the target for 3 damage." />
+
+        <TextView
             android:id="@+id/attack_dialg_crit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/deadly_killers"
             android:text="@string/attack_crit_string"
             android:textColor="@color/mb_yellow"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attack_dice_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/attack_extra_description_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
