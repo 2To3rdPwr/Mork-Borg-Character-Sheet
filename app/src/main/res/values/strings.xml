@@ -47,6 +47,9 @@
     <string name="uses">Uses</string>
     <string name="item_description_hint">Item description</string>
     <string name="item_name_hint">Item Name</string>
+    <string name="added">added</string>
+    <string name="cant_add_ammo_without_weapon">No weapon using this ammo owned. Add one first.</string>
+    <string name="cant_afford">You can\'t afford this item</string>
     <!-- Crits and Fumbles -->
     <string name="defence_crit_string">CRIT! Free attack on attacker</string>
     <string name="defence_fumble_string">FUMBLE! Double damage and armor reduced by one tier!</string>
@@ -68,6 +71,36 @@
         <!-- Bleeding out. Death in X hours. All tests are DR 16 in the first hour and DR 18 in the final hour -->
     <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
     <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
+    <!-- Power Fumbles -->
+    <string name="fumble">FUMBLE!</string>
+    <string-array name="magic_fumbles">
+        <item>One by one your teeth fall out. Long, brittle fingernails replace them in your gums. Your smile is horrific and you find it hard to eat.</item>
+        <item>You feel fine, yet you pustulate with a magical STD. Those intimate with you will die of plague within D4 days, then rise as woeful weeping zombies who track you down in your dreams before finding you in reality.</item>
+        <item>Your skeleton is possessed by some unearthly force and will do anything to kill you and escape. Drowning or piercing is preferred so the bones are not damaged. Test STRENGTH DR10 in stressful situations or take d4 damage. When you die you become a zombie.</item>
+        <item>The illusion of the celestial sphere is lifted. You nw see what dwells beyond. And it sees you. Gazing upon a clear night sky drives you mad with fear.</item>
+        <item>Around you falls an unending snow of black ash which only you and the mad can perceive. Water sickens you from this day on. Only ash, soot, or burnt remains can quench your thirst.</item>
+        <item>The earth decays around you like wet flesh. You sink 3 feet and cannot climb out without help. Clinging to you, screaming and biting are D4 translucent, crayfish-like children with your face. (3 HP, Bite/Pinch D4)</item>
+        <item>Your skin tatters like paper, your flesh melts like wax, and your intestines bloat like balloons, bursting and falling out until all that is left is a walking, talking skeleton.</item>
+        <item>A gnashing gap-toothed mouth splits open on your neck. It spits out your secrets and inner thoughts and can be silenced to sleep only with blood.</item>
+        <item>The sky warps and stars spin like wheels. Thrown one day into the future, you arrive vomiting Time as evaporating silver bile. A Misery is fulfilled.</item>
+        <item>Light itself despises you. If you gaze upon a candle, lamp, or torch it goes out.</item>
+        <item>Within D4 days a vile cocoon heaves itself from the ground, soon bursting and spawning your exact clone. It is unintelligent and begins to spread mischief and suffering. This happens every couple of days until the ground is cleansed with holy water or fire.</item>
+        <item>Your eyes burn with insufferable agony, bleeding heavily before loosening and falling from their gory pits. You continue to see through them wherever they are.</item>
+        <item>You and a random nearby creature both pass out. When you wake up, your souls have switched. Welcome to your new flesh.</item>
+        <item>Five twisted, skeletal arms burst from your back. The hands are mischievous, violent and terribly cruel.</item>
+        <item>Your skin pales then begins to emit a sickly greenish light. Living things held close to you slowly fall ill. They weaken, their bones become brittle, their teeth and hair fall out.</item>
+        <item>The Power works, but fate or some demonic force perverts its effects to your precise disadvantage.</item>
+        <item>The scroll crumbles to tendrils of fine black powder which reach for your nose and mouth. Make a DR14 TOUGHNESS test or lose D10 HP.</item>
+        <item>The power pierces you like a knife, feeding on your anima. You are permanently gaunt and drawn, insatiably hungry.</item>
+        <item>You fall through Refva into the esoteric dimension of Cube-Violet, a place of mythical obscurity. The walls are smooth, iridescent and cold. Above, an endless inferno.</item>
+        <item>Perhaps it is for the best. HE emerges from the shadows. At least your suffering is short, almost instantaneous, as the two-headed basilisk devours you.</item>
+    </string-array>
+    <string-array name="magic_fumble_cube_escape">
+        <item>To escape, slay riddling Kulvan (strong goblin) who holds three colorless pearls.</item>
+        <item>To escape, poison a close friend with crumbled Sict-Shroom (TOUGHNESS DR16 or -D6 HP and hallucinations). They are found only within the cube.</item>
+        <item>To escape, reach up through the fire to the golden key above. D4 fingers crumble to ash.</item>
+        <item>The cube is perfect and empty. You can only wait in maddening timeless agony until another fool arrives.</item>
+    </string-array>
     <!-- Abilities -->
     <string name="strength_string">Strength</string>
     <string name="agility_string">Agility</string>
@@ -218,9 +251,6 @@
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
     <string name="arrows_name">Arrows</string>
     <string name="bolts_name">Bolts</string>
-    <string name="added">added</string>
-    <string name="cant_add_ammo_without_weapon">No weapon using this ammo owned. Add one first.</string>
-    <string name="cant_afford">You can\'t afford this item</string>
     <!-- End inventory -->
     <string-array name="character_traits_array">
         <item>Endlessly aggravated,</item>

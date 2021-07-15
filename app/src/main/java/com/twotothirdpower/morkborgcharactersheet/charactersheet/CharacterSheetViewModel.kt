@@ -230,7 +230,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                 updateEquipment(attack)
             }
             // Force state change in recyclerview
-            var myAttacks = attacks.value!!
+            val myAttacks = attacks.value!!
             _attacks.value = myAttacks.filterNot {
                 it.joinId == attack.joinId
             }
@@ -241,7 +241,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
         _showAttackEvent.value = true
     }
 
-    fun onPowerClicked(power: Equipment) {
+    fun onPowerClicked(power: Equipment, fumbleString: String, fumbles: Array<String>, cubeEscape: Array<String>) {
         // Ensure this character has enough uses of powers left for the day
         if (character.value!!.powers <= 0) {
             _snackbarText.value = CharacterSheetSnackbarType.NO_POWERS
@@ -253,8 +253,27 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
 
         // Presence test to see if power fires off or fails.
         _powerUseRoll.value = abilityRoll(PRESENCE)
-        _powerDescription.value = power.rolledDescription(character.value ?: throw IllegalStateException("No character"))
 
+        if (fumble.value == true) {
+            val fumbleIndex = Random.nextInt(20)
+
+            var fumbleDescription = fumbles[fumbleIndex]
+            if (fumbleIndex == 18) {
+                // Cube-Violet
+                fumbleDescription += " " + cubeEscape[Random.nextInt(4)]
+            } else if (fumbleIndex == 19) {
+                // HE arrives
+                _character.value!!.currentHP = -1
+            }
+
+            _powerName.value = fumbleString
+            _powerDescription.value = fumbleDescription
+        } else {
+            _powerName.value = power.name
+            _powerDescription.value = power.rolledDescription(
+                character.value ?: throw IllegalStateException("No character")
+            )
+        }
         _showPowerEvent.value = true
     }
 
@@ -481,9 +500,9 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     }
 
     private fun takeDamage(damage: Int) {
-        var currentHp = character.value!!.currentHP - damage
+        var currentHP = character.value!!.currentHP - damage
 
-        if (currentHp == 0) {
+        if (currentHP == 0) {
             var restoredHP = 0
 
             when (Random.nextInt(4)) {
@@ -510,13 +529,13 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
                     _brokenType.value = BrokenEventType.DEAD
                 }
             }
-            _character.value!!.currentHP = min(restoredHP, character.value!!.maxHP)
+            currentHP = min(restoredHP, character.value!!.maxHP)
 
-        } else if (currentHp < 0) {
+        } else if (currentHP < 0) {
             _brokenType.value = BrokenEventType.DEAD
         }
 
-        _character.value!!.currentHP = currentHp
+        _character.value!!.currentHP = currentHP
         // Notify LiveData of changes to character
         _character.value = _character.value
 

@@ -66,7 +66,7 @@ class CharacterSheetFragment : Fragment(){
         })
 
         val powerAdapter = PowerAdapter(PowerListener { power ->
-            characterSheetViewModel.onPowerClicked(power)
+            characterSheetViewModel.onPowerClicked(power, getString(R.string.fumble), resources.getStringArray(R.array.magic_fumbles), resources.getStringArray(R.array.magic_fumble_cube_escape))
         })
         binding.powersList.adapter = powerAdapter
 
@@ -165,10 +165,6 @@ class CharacterSheetFragment : Fragment(){
         })
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {

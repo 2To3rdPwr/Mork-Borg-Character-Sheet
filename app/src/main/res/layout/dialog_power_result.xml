@@ -35,7 +35,7 @@
             android:fontFamily="@font/the_dark"
             android:text="@{viewModel.powerName}"
             tools:text="Fireball"
-            android:textColor="@color/mb_pink"
+            android:textColor="@{viewModel.fumble ? @color/mb_yellow : @color/mb_pink}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
