@@ -4,7 +4,6 @@
     <string name="license">MÖRK BORG Character Sheet is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. <br/> It is published under the MÖRK BORG Third Party License. <br/> MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell.</string>
     <!-- Dummy text string for testing. Does not require translation. -->
     <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
-    <string name="unit_length_string">One use = one foot of length.</string>
     <string name="current_silver_string">Current Silver: </string>
     <string name="silver_string">Silver</string>
     <string name="no_purchase">Free</string>
@@ -16,8 +15,6 @@
     <string name="short_rest_string">Short Rest</string>
     <string name="long_rest_string">Long Rest</string>
     <string name="level_up_string">Improve</string>
-    <string name="rolled_character_button_text">Resign yourself to Fate</string>
-    <string name="manual_character_button_text">Decide for yourself</string>
     <string name="roll_string">Roll</string>
     <string name="limited_uses_string">Limited Uses</string>
     <string name="new_item_2_roll_description_tip">You can embed up to two dice rolls into the description of this item with $D1 and $D2</string>
@@ -59,18 +56,10 @@
     <string name="broken_title_string">BROKEN</string>
     <string name="death_title_string">DEAD</string>
     <string name="broken_dead_string">You have suffered some grizzly fate. Unless you are pulled from the jaws of death by some twisted unnatural power, your story will end here.</string>
-    <!-- 0 HP messages. These are typically combined around a rolled variable. -->
-        <!-- Fall unconscious for X rounds -->
-    <string name="broken_unconscious_string_1">"Fall unconscious for "</string>
-    <string name="broken_unconscious_string_2">" rounds."</string>
-        <!-- Broken or severed limb. Can't act for X rounds -->
-    <string name="broken_limb_string_1">"Broken or severed limb. Can't act for "</string>
-    <string name="broken_eye_limb_string_2">" rounds."</string>
-        <!-- Lost an eye. Can't act for X rounds -->
-    <string name="broken_eye_string_1">"Lost an eye. Can't act for "</string>
-        <!-- Bleeding out. Death in X hours. All tests are DR 16 in the first hour and DR 18 in the final hour -->
-    <string name="broken_bleed_string_1">"Bleeding out. Death in "</string>
-    <string name="broken_bleed_string_2">" hours. All tests are DR 16 in the first hour and DR 18 in the final hour."</string>
+    <string name="broken_unconscious" formatted="true">Fall unconscious for %1$d rounds.</string>
+    <string name="broken_limb" formatted="true">Broken or severed limb. Can\'t act for %1$d rounds.</string>
+    <string name="broken_eye" formatted="true">Lost an eye. Can\'t act for %1$d rounds.</string>
+    <string name="broken_bleed" formatted="true">Bleeding out. Death in %1$d hours. All tests are DR 16 in the first hour and DR 18 in the final hour.</string>
     <!-- Power Fumbles -->
     <string name="fumble">FUMBLE!</string>
     <string-array name="magic_fumbles">
@@ -106,6 +95,13 @@
     <string name="agility_string">Agility</string>
     <string name="presence_string">Presence</string>
     <string name="toughness_string">Toughness</string>
+    <string-array name="abilities_array">
+        <item>None</item>
+        <item>Strength</item>
+        <item>Agility</item>
+        <item>Presence</item>
+        <item>Toughness</item>
+    </string-array>
     <!-- Item types -->
     <string name="type_string">Type</string>
     <string name="attack_string">Attack</string>
@@ -162,7 +158,7 @@
     <string name="heal_scroll_name">Grace of a Dead Saint</string>
     <string name="heal_scroll_description">$D1 creatures regain $D2 HP each.</string>
     <string name="bonus_scroll_name">Grace for a Sinner</string>
-    <string name="bonus_scroll_description">A creature of your choice gats +$D1 on one roll (damage, test, etc.)</string>
+    <string name="bonus_scroll_description">A creature of your choice gets +$D1 on one roll (damage, test, etc.)</string>
     <string name="deadspeak_scroll_name">Whispers Pass the Gate</string>
     <string name="deadspeak_scroll_description">Ask three questions to a deceased creature.</string>
     <string name="temphealth_scroll_name">Aegis of Sorrow</string>
@@ -251,94 +247,95 @@
     <string name="elixir_description">Heal $D1 HP and remove infection.</string>
     <string name="arrows_name">Arrows</string>
     <string name="bolts_name">Bolts</string>
+    <string name="unit_length_string">One use = one foot of length.</string>
     <!-- End inventory -->
     <string-array name="character_traits_array">
-        <item>Endlessly aggravated,</item>
-        <item>Suffering from an inferiority complex,</item>
-        <item>Rebellious,</item>
-        <item>Loud-mouthed,</item>
-        <item>A cruel individual,</item>
-        <item>Egocentric,</item>
-        <item>Nihilistic,</item>
-        <item>Prone to substance abuse,</item>
-        <item>Always conflicted,</item>
-        <item>Shrewd,</item>
-        <item>Vindictive,</item>
-        <item>Cowardly,</item>
-        <item>Lazy,</item>
-        <item>A suspicious individual,</item>
-        <item>A ruthless individual,</item>
-        <item>Always worrying,</item>
-        <item>Always bitter,</item>
-        <item>A deceitful individual,</item>
-        <item>Wasteful,</item>
-        <item>Arrogant,</item>
+        <item>aggravated</item>
+        <item>suffering from an inferiority complex</item>
+        <item>rebellious</item>
+        <item>Loud-mouthed</item>
+        <item>cruel</item>
+        <item>egocentric</item>
+        <item>nihilistic</item>
+        <item>prone to substance abuse</item>
+        <item>conflicted</item>
+        <item>shrewd</item>
+        <item>vindictive</item>
+        <item>cowardly</item>
+        <item>lazy</item>
+        <item>suspicious</item>
+        <item>ruthless</item>
+        <item>worried</item>
+        <item>bitter</item>
+        <item>deceitful</item>
+        <item>wasteful</item>
+        <item>arrogant</item>
     </string-array>
     <!-- $ gets replaced by the character's name -->
     <string-array name="character_quirks_array">
-        <item>$ obsessively collects small sharp stones.</item>
-        <item>$ won\'t use a blade without first testing it on their own flesh. Their arms are knitted with scars.</item>
-        <item>$ can\'t stop drinking once they start.</item>
-        <item>$ is a gambling addict. They must bet every day. If they lose, they always raise and bet again.</item>
-        <item>$ cannot tolerate criticism of any kind, which often results in rage and weeping.</item>
-        <item>$ is unable to get to the point. They have never actually finished a story.</item>
-        <item>$\'s best friend is a skull. They always carry it with them and tell it everything. $ trusts no one more.</item>
-        <item>$ picks their nose so deep it bleeds.</item>
-        <item>$ laughs hysterically at their own jokes, which they always explain in detail.</item>
-        <item>$ insists on telling everyone they meet that they are a nihilist and explaining why.</item>
-        <item>$ is an inveterate bug eater.</item>
-        <item>$\'s stress response is aesthetic display. The worse things get, the fancier they need to be.</item>
-        <item>$ has a permanent phlegm deposit in their throat. They continuously cough, snort, spit, and swallow.</item>
-        <item>$ is a pyromaniac.</item>
-        <item>$ constantly loses important items and forgets vital facts.</item>
-        <item>$ is an insecure shit-stirrer. They will talk about whoever just left the room.</item>
-        <item>$ stutters when lying.</item>
-        <item>$ giggles insanely at the worst possible times.</item>
-        <item>$ whistles while trying to hide. $ denies this.</item>
-        <item>$ makes jewelry from the teeth of the dead.</item>
+        <item>%2$s and %3$s, %1$s obsessively collects small sharp stones.</item>
+        <item>%2$s and %3$s, %1$s  won\'t use a blade without first testing it on their own flesh. Their arms are knitted with scars.</item>
+        <item>%2$s and %3$s, %1$s  can\'t stop drinking once they start.</item>
+        <item>%1$s is %2$s, %3$s, and a gambling addict. They must bet every day. If they lose, they always raise and bet again.</item>
+        <item>%2$s and %3$s, %1$s cannot tolerate criticism of any kind, which often results in rage and weeping.</item>
+        <item>%2$s and %3$s, %1$s  is unable to get to the point. They have never actually finished a story.</item>
+        <item>%2$s and %3$s, %1$s\'s best friend is a skull. They always carry it with them and tell it everything. $ trusts no one more.</item>
+        <item>%2$s and %3$s, %1$s  picks their nose so deep it bleeds.</item>
+        <item>%2$s and %3$s, %1$s  laughs hysterically at their own jokes, which they always explain in detail.</item>
+        <item>%2$s and %3$s, %1$s  insists on telling everyone they meet that they are a nihilist and explaining why.</item>
+        <item>%1$s is %2$s, %3$s, and an inveterate bug eater.</item>
+        <item>%2$s and %3$s, %1$s\'s stress response is aesthetic display. The worse things get, the fancier they need to be.</item>
+        <item>%2$s and %3$s, %1$s has a permanent phlegm deposit in their throat. They continuously cough, snort, spit, and swallow.</item>
+        <item>%1$s is %2$s, %3$s, and a pyromaniac.</item>
+        <item>%2$s and %3$s, %1$s constantly loses important items and forgets vital facts.</item>
+        <item>%2$s and %3$s, %1$s is an insecure shit-stirrer. They will talk about whoever just left the room.</item>
+        <item>%1$s is %2$s, %3$s, and stutters when lying.</item>
+        <item>%2$s and %3$s, %1$s  giggles insanely at the worst possible times.</item>
+        <item>%2$s and %3$s, %1$s  whistles while trying to hide. %1$s denies this.</item>
+        <item>%2$s and %3$s, %1$s  makes jewelry from the teeth of the dead.</item>
     </string-array>
     <string-array name="character_appearance_array">
         <item>They have a staring, manic gaze.</item>
         <item>They are covered in blasphemous tattoos.</item>
-        <item>$ wears a mask to cover their rotting face.</item>
-        <item>$ only has seven toes, causing them to walk with a limp.</item>
+        <item>%1$s wears a mask to cover their rotting face.</item>
+        <item>%1$s only has seven toes, causing them to walk with a limp.</item>
         <item>They look starved, gaunt and pale.</item>
-        <item>$\'s hand is replaced with a rusting iron hook.</item>
+        <item>%1$s\'s hand is replaced with a rusting iron hook.</item>
         <item>Their teeth are decaying.</item>
-        <item>$ is hauntingly beautiful and unnervingly clean.</item>
+        <item>%1$s is hauntingly beautiful and unnervingly clean.</item>
         <item>Their hands are caked with sores.</item>
-        <item>$ has cataracts slowly but surely spreading in both eyes.</item>
-        <item>$ has long, tangled hair, with at least one cockroach in residence.</item>
+        <item>%1$s has cataracts slowly but surely spreading in both eyes.</item>
+        <item>%1$s has long, tangled hair, with at least one cockroach in residence.</item>
         <item>They have broken, crushed ears.</item>
         <item>Their movements are jittery and they talk with a stutter from either nerve damage or stress.</item>
-        <item>$ is corpulent, raving, drooling.</item>
-        <item>One of $\'s hands lacks a thumb and index finger. They grip things like a lobster.</item>
+        <item>%1$s is corpulent, raving, drooling.</item>
+        <item>One of %1$s\'s hands lacks a thumb and index finger. They grip things like a lobster.</item>
         <item>They have a red, swollen, alcoholic\'s nose.</item>
-        <item>Making friends is hard for $, possibly due to their resting maniac face.</item>
-        <item>$ has chronic athletes\' foot, which stinks.</item>
+        <item>Making friends is hard for %1$s, possibly due to their resting maniac face.</item>
+        <item>%1$s has chronic athletes\' foot, which stinks.</item>
         <item>They have a recently slashed and stinking eye covered by an eye-patch.</item>
         <item>Their nails are cracked and black, threatening to fall off.</item>
     </string-array>
     <string-array name="character_backstories_array">
-        <item>$ is pursued for manslaughter. There is a bounty.</item>
-        <item>$ is in massive debt, with the debt being traded to successively more ruthless groups.</item>
-        <item>$ is in possession of a rare, sought after item.</item>
-        <item>One of $\'s wounds is cursed, never healing.</item>
-        <item>$ had an illegal, immoral, and secret affair with a member of the royalty. They hold onto proof of it.</item>
-        <item>Having escaped from a cult, $ is terrified and paranoid. Other cultists are everywhere.</item>
-        <item>$ isn\'t really $, but an identity thief who killed and replaced them.</item>
-        <item>$ can never go home, having been banished and disowned for unspecified deeds.</item>
-        <item>$ became a deserter from the military after witnessing a massacre. Now, with a bounty on their head, they find themself hunted by their former friends.</item>
-        <item>$ recently murdered a close relative. VERY recently.</item>
-        <item>Evil creatures love the scent of $\'s spoor and are drawn to it, bringing disaster in their wake.</item>
-        <item>A battle wound left a shard of metal slowly inching towards $\'s heart. Every day, there is a 2% chance it reaches it.</item>
-        <item>Violence forced $ into the wilderness. $ thinks waving trees are whispering. $ talks to, screams at, and attacks trees.</item>
-        <item>Cursed to share the nightmares of others, $ sleeps far, far away.</item>
-        <item>$ is at permanent war with all corvids. There can be no contact without some violence.</item>
-        <item>After dreaming of an underground temple to a forgotten god, $ understands the songs of insects and worms.</item>
-        <item>$ is being tracked and observed by a golem after agreeing to a contract, the details of which have been wiped from their memory.</item>
-        <item>\"Burn or be burned\" is the fate that $ has accepted.</item>
-        <item>$\'s flesh heals twice as fast, but their companions\' heals twice as slow. $ can see a many-eyed \"guardian angel.\"</item>
+        <item>%1$s is pursued for manslaughter. There is a bounty.</item>
+        <item>%1$s is in massive debt, with the debt being traded to successively more ruthless groups.</item>
+        <item>%1$s is in possession of a rare, sought after item.</item>
+        <item>One of %1$s\'s wounds is cursed, never healing.</item>
+        <item>%1$s had an illegal, immoral, and secret affair with a member of the royalty. They hold onto proof of it.</item>
+        <item>Having escaped from a cult, %1$s is terrified and paranoid. Other cultists are everywhere.</item>
+        <item>%1$s isn\'t really %1$s, but an identity thief who killed and replaced them.</item>
+        <item>%1$s can never go home, having been banished and disowned for unspecified deeds.</item>
+        <item>%1$s became a deserter from the military after witnessing a massacre. Now, with a bounty on their head, they find themself hunted by their former friends.</item>
+        <item>%1$s recently murdered a close relative. VERY recently.</item>
+        <item>Evil creatures love the scent of %1$s\'s spoor and are drawn to it, bringing disaster in their wake.</item>
+        <item>A battle wound left a shard of metal slowly inching towards %1$s\'s heart. Every day, there is a 2% chance it reaches it.</item>
+        <item>Violence forced %1$s into the wilderness. %1$s thinks waving trees are whispering. %1$s talks to, screams at, and attacks trees.</item>
+        <item>Cursed to share the nightmares of others, %1$s sleeps far, far away.</item>
+        <item>%1$s is at permanent war with all corvids. There can be no contact without some violence.</item>
+        <item>After dreaming of an underground temple to a forgotten god, %1$s understands the songs of insects and worms.</item>
+        <item>%1$s is being tracked and observed by a golem after agreeing to a contract, the details of which have been wiped from their memory.</item>
+        <item>\"Burn or be burned\" is the fate that %1$s has accepted.</item>
+        <item>%1$s\'s flesh heals twice as fast, but their companions\' heals twice as slow. %1$s can see a many-eyed \"guardian angel.\"</item>
     </string-array>
     <string-array name="character_names_array">
         <item>Ablabius</item>
@@ -491,13 +488,6 @@
         <item>Zarko</item>
         <item>Zeke</item>
         <item>Zivek</item>
-    </string-array>
-    <string-array name="abilities_array">
-        <item>None</item>
-        <item>Strength</item>
-        <item>Agility</item>
-        <item>Presence</item>
-        <item>Toughness</item>
     </string-array>
     <string-array name="dice_values_array">
         <item>0</item>

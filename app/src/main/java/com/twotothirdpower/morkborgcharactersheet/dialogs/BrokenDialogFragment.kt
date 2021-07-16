@@ -24,10 +24,10 @@ class BrokenDialogFragment : DialogFragment() {
 
         binding.brokenDescriptionText.text = when (viewModel.brokenType.value) {
             BrokenEventType.DEAD -> getString(R.string.broken_dead_string)
-            BrokenEventType.BLEEDING -> getString(R.string.broken_bleed_string_1) + viewModel.brokenRoll.value + getString(R.string.broken_bleed_string_2)
-            BrokenEventType.UNCONSCIOUS -> getString(R.string.broken_unconscious_string_1) + viewModel.brokenRoll.value + getString(R.string.broken_unconscious_string_2)
-            BrokenEventType.LOSE_EYE -> getString(R.string.broken_eye_string_1) + viewModel.brokenRoll.value + getString(R.string.broken_eye_limb_string_2)
-            BrokenEventType.LOSE_LIMB -> getString(R.string.broken_limb_string_1) + viewModel.brokenRoll.value + getString(R.string.broken_eye_limb_string_2)
+            BrokenEventType.BLEEDING -> getString(R.string.broken_bleed, viewModel.brokenRoll.value)
+            BrokenEventType.UNCONSCIOUS -> getString(R.string.broken_unconscious, viewModel.brokenRoll.value)
+            BrokenEventType.LOSE_EYE -> getString(R.string.broken_eye, viewModel.brokenRoll.value)
+            BrokenEventType.LOSE_LIMB -> getString(R.string.broken_limb, viewModel.brokenRoll.value)
             else -> "None"
         }
 

@@ -12,6 +12,7 @@ import com.twotothirdpower.morkborgcharactersheet.models.DiceValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 import kotlin.random.Random
 
 // Not really intro. More intro to new character creation.
@@ -53,12 +54,18 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
     }
 
     fun generateNewCharacter(names: Array<String>, backstories: Array<String>, traits: Array<String>, quirks: Array<String>, appearances: Array<String>) {
-        // Pass arrays of strings up from fragment
-        // resources
-
         val charName = names[Random.nextInt(names.size)]
-        var charDescription = backstories[Random.nextInt(backstories.size)] + "\n" + traits[Random.nextInt(traits.size)] + " " + quirks[Random.nextInt(quirks.size)] + "\n" + appearances[Random.nextInt(appearances.size)]
-        charDescription = charDescription.replace("\$", charName)
+        val trait1 = Random.nextInt(traits.size)
+        var trait2 = trait1
+        while (trait2 == trait1) {
+            trait2 = Random.nextInt(traits.size)
+        }
+
+        val characterQuirk =
+            String.format(quirks[Random.nextInt(quirks.size)], charName, traits[trait1], traits[trait2])
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        val charDescription = String.format(backstories[Random.nextInt(backstories.size)],charName) + "\n" + characterQuirk + "\n" + String.format(appearances[Random.nextInt(appearances.size)], charName)
+
         val str = rollAbilityScore()
         val agl = rollAbilityScore()
         val pres = rollAbilityScore()

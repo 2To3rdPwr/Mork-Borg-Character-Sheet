@@ -10,7 +10,7 @@ android {
         applicationId "com.twotothirdpower.morkborgcharactersheet"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 2
+        versionCode 3
         versionName "0.9"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
