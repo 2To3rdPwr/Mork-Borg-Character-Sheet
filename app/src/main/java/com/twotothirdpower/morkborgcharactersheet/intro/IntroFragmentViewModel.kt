@@ -64,7 +64,7 @@ class IntroFragmentViewModel (dataSource: CharacterDatabaseDAO) : ViewModel() {
         val characterQuirk =
             String.format(quirks[Random.nextInt(quirks.size)], charName, traits[trait1], traits[trait2])
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        val charDescription = String.format(backstories[Random.nextInt(backstories.size)],charName) + "\n" + characterQuirk + "\n" + String.format(appearances[Random.nextInt(appearances.size)], charName)
+        val charDescription = String.format(backstories[Random.nextInt(backstories.size)], charName) + "\n" + characterQuirk + "\n" + String.format(appearances[Random.nextInt(appearances.size)], charName)
 
         val str = rollAbilityScore()
         val agl = rollAbilityScore()

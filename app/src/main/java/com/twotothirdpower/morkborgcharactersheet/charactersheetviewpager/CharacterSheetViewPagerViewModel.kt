@@ -19,8 +19,6 @@ class CharacterSheetViewPagerViewModel(val characterId: Long, dataSource: Charac
     init {
         viewModelScope.launch {
             _characterName.value = getCharacterName()
-            Log.i("Id", characterId.toString())
-            Log.i("name", characterName.value?:"None")
         }
     }
 
