@@ -119,10 +119,19 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     private fun onEquipmentEquipClicked(equipment: ExpandableEquipment) {
         equipment.equipped = !equipment.equipped
         viewModelScope.launch {
-            if (equipment.equipped && (equipment.type == ItemType.ARMOR || equipment.type == ItemType.SHIELD))
+            if (equipment.equipped && (equipment.type == ItemType.ARMOR || equipment.type == ItemType.SHIELD)) {
                 equipSingle(characterId, equipment.joinId, equipment.type!!.id)
-            else
+
+                _expandableEquipmentList.value!!.forEach { listEquipment ->
+                    if (listEquipment.type == equipment.type && listEquipment.joinId != equipment.joinId) {
+                        listEquipment.equipped = false
+                    }
+                }
+                // Trigger update
+                _expandableEquipmentList.value = expandableEquipmentList.value
+            } else {
                 updateEquipment(equipment)
+            }
         }
         _expandableEquipmentList.value!![equipment.position] = equipment
         _expandableEquipmentList.value = expandableEquipmentList.value
