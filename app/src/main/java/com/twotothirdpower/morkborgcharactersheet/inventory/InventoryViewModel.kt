@@ -39,6 +39,13 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
         _editingItem.value = null
     }
 
+    private val _restoredHP = MutableLiveData<Int?>(null)
+    val restoredHP: LiveData<Int?>
+        get() = _restoredHP
+    fun onRestoredHpDone() {
+        _restoredHP.value = null
+    }
+
     private val _usedEquipmentDescription = MutableLiveData<String?>()
     val usedEquipmentDescription: LiveData<String?>
         get() = _usedEquipmentDescription
@@ -64,6 +71,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     fun onShortRestClicked() {
         var newHP = Dice(diceValue = DiceValue.D4).roll()
+        _restoredHP.value = newHP
         newHP = Math.min(character.currentHP + newHP, character.maxHP)
         viewModelScope.launch {
             setHP(newHP)
@@ -72,6 +80,7 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
 
     fun onLongRestClicked() {
         var newHP = Dice(diceValue = DiceValue.D6).roll()
+        _restoredHP.value = newHP
         newHP = Math.min(character.currentHP + newHP, character.maxHP)
 
         val newPowers = Math.max(Dice(diceValue = DiceValue.D4).roll(character.presence), 0)

@@ -34,12 +34,12 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/the_dark"
             android:text="@{viewModel.powerName}"
-            tools:text="Fireball"
             android:textColor="@{viewModel.fumble ? @color/mb_yellow : @color/mb_pink}"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+            app:layout_constraintStart_toEndOf="@+id/dialog_power_dr"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fireball" />
 
         <TextView
             android:id="@+id/power_pres_test_text"
@@ -64,11 +64,13 @@
             android:padding="8dp"
             android:text="@string/power_pres_dr_text"
             android:textColor="@color/mb_pink"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
             app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -89,8 +91,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nu_century_gothic"
                     android:text="@{viewModel.powerDescription}"
-                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo."
-                    android:textColor="@color/mb_pink" />
+                    android:textColor="@color/mb_pink"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo." />
             </LinearLayout>
         </ScrollView>
 

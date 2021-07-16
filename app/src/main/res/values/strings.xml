@@ -47,6 +47,8 @@
     <string name="added">added</string>
     <string name="cant_add_ammo_without_weapon">No weapon using this ammo owned. Add one first.</string>
     <string name="cant_afford">You can\'t afford this item</string>
+    <string name="rest_snackbar" formatted="true">Rested. Restored %1$d HP.</string>
+    <string name="not_crit">(Not Natural)</string>
     <!-- Crits and Fumbles -->
     <string name="defence_crit_string">CRIT! Free attack on attacker</string>
     <string name="defence_fumble_string">FUMBLE! Double damage and armor reduced by one tier!</string>

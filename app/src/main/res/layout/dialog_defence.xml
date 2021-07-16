@@ -45,6 +45,19 @@
             tools:text="19" />
 
         <TextView
+            android:id="@+id/defence_not_natural_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/finished_sympathy"
+            android:text="@string/not_crit"
+            android:textColor="@color/mb_pink"
+            android:textSize="12sp"
+            android:visibility="@{(viewModel.evasionRoll == 20 || viewModel.evasionRoll == 1) &amp;&amp; !(viewModel.crit || viewModel.fumble) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_icon" />
+
+        <TextView
             android:id="@+id/defence_tohit_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +81,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/defence_dialog_tohit_icon"
             app:layout_constraintStart_toStartOf="@+id/defence_dialog_tohit_icon"
-            app:layout_constraintTop_toBottomOf="@+id/defence_dialog_tohit_icon"
+            app:layout_constraintTop_toBottomOf="@+id/defence_not_natural_text"
             tools:text="DR12" />
 
         <TextView

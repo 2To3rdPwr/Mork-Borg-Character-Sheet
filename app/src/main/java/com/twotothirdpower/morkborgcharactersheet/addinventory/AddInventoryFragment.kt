@@ -75,7 +75,7 @@ class AddInventoryFragment : Fragment() {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
                     snackbarText,
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_SHORT
                 ).show()
                 viewModel.onAddInventoryEventDone()
             }

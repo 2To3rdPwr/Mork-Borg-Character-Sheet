@@ -85,6 +85,19 @@
             app:layout_constraintStart_toStartOf="@+id/attack_dice_icon" />
 
         <TextView
+            android:id="@+id/crit_fumble_caveat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/finished_sympathy"
+            android:text="@string/not_crit"
+            android:textColor="@color/mb_pink"
+            android:textSize="12sp"
+            android:visibility="@{(viewModel.attackToHit == 20 || viewModel.attackToHit == 1) &amp;&amp; !(viewModel.crit || viewModel.fumble) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/attack_dice_icon"
+            app:layout_constraintStart_toStartOf="@+id/attack_dice_icon"
+            app:layout_constraintTop_toBottomOf="@+id/attack_dice_icon" />
+
+        <TextView
             android:id="@+id/attack_damage_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,7 +114,6 @@
             android:id="@+id/attack_extra_description_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:fontFamily="@font/nu_century_gothic"
             android:text="@{viewModel.attackDescription}"
             android:textAlignment="center"
@@ -109,7 +121,7 @@
             android:visibility="@{viewModel.attackDescription == `` ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attack_dice_icon"
+            app:layout_constraintTop_toBottomOf="@+id/crit_fumble_caveat_text"
             tools:text="Burns the target for 3 damage." />
 
         <TextView

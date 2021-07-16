@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.twotothirdpower.morkborgcharactersheet.R
 import com.twotothirdpower.morkborgcharactersheet.charactersheetviewpager.CharacterSheetViewPagerFragmentDirections
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabase
@@ -88,6 +89,17 @@ class InventoryFragment : Fragment() {
         inventoryViewModel.usedEquipmentDescription.observe(viewLifecycleOwner, Observer { equipment ->
             if (equipment !== null) {
                 UseEquipmentDialogFragment().show(childFragmentManager, "Use")
+            }
+        })
+
+        inventoryViewModel.restoredHP.observe(viewLifecycleOwner, Observer { hpRestored ->
+            if(hpRestored != null) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.rest_snackbar, hpRestored),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                inventoryViewModel.onRestoredHpDone()
             }
         })
 
