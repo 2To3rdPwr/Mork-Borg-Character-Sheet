@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">MÖRK BORG Character Sheet</string>
-    <string name="license">MÖRK BORG Character Sheet is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. <br/> It is published under the MÖRK BORG Third Party License. <br/> MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell.</string>
+    <string name="app_name">Soothsayer</string>
+    <string name="license">Soothsayer is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. <br/> It is published under the MÖRK BORG Third Party License. <br/> MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell.</string>
     <!-- Dummy text string for testing. Does not require translation. -->
     <string name="laurem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper dui at lorem pharetra, et rhoncus neque consequat. Sed ac nunc in ligula aliquam condimentum sed et tortor. Sed cursus, est sed volutpat interdum, turpis purus lobortis erat, sed volutpat dolor quam eget augue. Morbi ut turpis at tortor efficitur laoreet. Aliquam vitae cursus purus. Vivamus fringilla ipsum in est mollis egestas. Praesent nec molestie urna, ac laoreet lacus. Sed tempor tempor lorem, eget interdum lorem porttitor quis. Proin tellus ipsum, consectetur in hendrerit a, volutpat eget leo.</string>
     <string name="current_silver_string">Current Silver: </string>
