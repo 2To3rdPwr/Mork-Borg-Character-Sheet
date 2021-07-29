@@ -55,6 +55,7 @@ class DefenceDialogFragment : DialogFragment() {
             if (step == 2) {
                 binding.defenceDialogCritText.visibility = View.GONE
                 binding.defenceDialogTohitGroup.visibility = View.GONE
+                binding.defenceNotNaturalText.visibility = View.GONE
                 binding.defenceDialogDamageRollGroup.visibility = View.VISIBLE
             } else if (step == 3) {
                 binding.defenceDialogDamageRollGroup.visibility = View.GONE

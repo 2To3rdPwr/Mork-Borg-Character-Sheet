@@ -21,14 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/deadly_killers"
+            android:fontFamily="@font/the_defiler"
             android:text="@{viewModel.brokenType == BrokenEventType.DEAD ? @string/death_title_string : @string/broken_title_string}"
             android:textColor="@color/mb_yellow"
-            android:textSize="34sp"
+            android:textSize="48sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Broken" />
+            tools:text="Broken!" />
 
         <ImageView
             android:id="@+id/death_image"
@@ -46,7 +46,7 @@
             android:id="@+id/broken_description_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nu_century_gothic"
+            android:fontFamily="@font/metamorphous"
             android:padding="16sp"
             android:textColor="@color/mb_pink"
             android:textSize="16sp"

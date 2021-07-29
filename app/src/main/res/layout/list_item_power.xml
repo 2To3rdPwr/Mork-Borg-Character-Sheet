@@ -25,14 +25,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:fontFamily="@font/enchanted_land"
+            android:fontFamily="@font/virgo_display"
             android:text="@{inventory.name}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/power_icon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Fireball" />
+            tools:text="FireballÖ/ 123!" />
 
         <ImageView
             android:id="@+id/power_icon"

@@ -1,4 +1,3 @@
-<!-- TODO: Organize and root out unused strings -->
 <resources>
     <string name="app_name">MÖRK BORG Character Sheet</string>
     <string name="license">MÖRK BORG Character Sheet is an independent production by Jake Sage and is not affiliated with Ockult Örtmästare Games or Stockholm Kartell. <br/> It is published under the MÖRK BORG Third Party License. <br/> MÖRK BORG is copyright Ockult Örtmastare Games and Stockholm Kartell.</string>
@@ -132,7 +131,7 @@
     <string name="bow_weapon_name">Bow</string>
     <string name="flail_weapon_name">Flail</string>
     <string name="crossbow_weapon_name">Crossbow</string>
-    <string name="zweihander_weapon_name">Zweihander</string>
+    <string name="zweihander_weapon_name">Zweihänder</string>
     <string name="zweihander_weapon_description">A massive two-handed sword. Its unwieldiness prevents the use of scrolls.</string>
     <!-- scrolls -->
     <!-- unclean -->
@@ -273,7 +272,7 @@
         <item>wasteful</item>
         <item>arrogant</item>
     </string-array>
-    <!-- $ gets replaced by the character's name -->
+    <!-- %1$s is the character's name. %2$s and %3$s are traits from above. -->
     <string-array name="character_quirks_array">
         <item>%2$s and %3$s, %1$s obsessively collects small sharp stones.</item>
         <item>%2$s and %3$s, %1$s  won\'t use a blade without first testing it on their own flesh. Their arms are knitted with scars.</item>
@@ -339,6 +338,7 @@
         <item>\"Burn or be burned\" is the fate that %1$s has accepted.</item>
         <item>%1$s\'s flesh heals twice as fast, but their companions\' heals twice as slow. %1$s can see a many-eyed \"guardian angel.\"</item>
     </string-array>
+    <!-- No translations needed past this point -->
     <string-array name="character_names_array">
         <item>Ablabius</item>
         <item>Adolf</item>

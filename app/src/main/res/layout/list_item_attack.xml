@@ -25,15 +25,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/white_on_black"
-            tools:text="The Knife"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/grave_digger"
             android:text="@{inventory.name}"
             android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dice_icon"
             app:layout_constraintStart_toEndOf="@+id/attack_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Knife" />
 
         <ImageView
             android:id="@+id/attack_icon"
@@ -66,13 +67,13 @@
             android:layout_height="wrap_content"
             android:background="@color/design_default_color_background"
             android:fontFamily="@font/white_on_black"
-            tools:text="D6"
             android:text="@{inventory.dice1.toString()}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/dice_icon"
             app:layout_constraintEnd_toEndOf="@+id/dice_icon"
             app:layout_constraintStart_toStartOf="@+id/dice_icon"
-            app:layout_constraintTop_toTopOf="@+id/dice_icon" />
+            app:layout_constraintTop_toTopOf="@+id/dice_icon"
+            tools:text="D6" />
 
         <ImageView
             android:id="@+id/uses_one_icon"

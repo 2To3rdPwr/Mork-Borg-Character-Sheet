@@ -38,7 +38,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/border_test"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/sheet_custom_roll_icon"
@@ -53,14 +53,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/the_dark"
-            android:text="@{characterSheetViewModel.character.characterName.toString()}"
-            android:textSize="30sp"
+            android:fontFamily="@font/celexa"
             android:onClick="@{() -> characterSheetViewModel.onShowDescription()}"
+            android:text="@{characterSheetViewModel.character.characterName.toString()}"
+            android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/character_sheet_edit_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Tommy Swiftfingers" />
+
+        <TextView
+            android:id="@+id/character_sheet_powers_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fontFamily="@font/dharma_punk"
+            android:text="@string/powers_string"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/powers_text"
+            app:layout_constraintEnd_toStartOf="@+id/powers_text" />
 
         <TextView
             android:id="@+id/powers_text"
@@ -68,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:background="@color/white"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.powers)}"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/powers_list"
@@ -80,7 +91,7 @@
             android:layout_width="100dp"
             android:layout_height="@dimen/health_height"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:onClick="@{() -> characterSheetViewModel.onDefenceClicked()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_text"
@@ -115,18 +126,6 @@
             app:layout_constraintStart_toEndOf="@+id/current_hp_text"
             tools:text="5" />
 
-        <TextView
-            android:id="@+id/character_sheet_powers_label_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            android:fontFamily="@font/finished_sympathy"
-            android:text="@string/powers_string"
-            android:textSize="24sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/powers_text"
-            app:layout_constraintEnd_toStartOf="@+id/powers_text" />
-
         <ImageView
             android:id="@+id/character_sheet_edit_icon"
             android:layout_width="@dimen/icon_size"
@@ -142,9 +141,9 @@
             android:id="@+id/sheet_strength_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@string/strength_string"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/sheet_toughness_label"
             app:layout_constraintStart_toStartOf="@+id/sheet_custom_roller" />
 
@@ -152,9 +151,9 @@
             android:id="@+id/sheet_strength_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.strength)}"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/sheet_strength_label"
             app:layout_constraintStart_toEndOf="@+id/sheet_strength_label"
             tools:text="2" />
@@ -163,9 +162,9 @@
             android:id="@+id/sheet_agility_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@string/agility_string"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/sheet_toughness_label"
             app:layout_constraintEnd_toStartOf="@+id/sheet_toughness_value_text"
             app:layout_constraintStart_toEndOf="@+id/sheet_strength_label" />
@@ -174,9 +173,9 @@
             android:id="@+id/sheet_agility_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.agility)}"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/sheet_agility_label"
             app:layout_constraintStart_toEndOf="@+id/sheet_agility_label"
             tools:text="-1" />
@@ -185,9 +184,9 @@
             android:id="@+id/sheet_presence_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@string/presence_string"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/sheet_toughness_label"
             app:layout_constraintEnd_toStartOf="@+id/sheet_toughness_label"
             app:layout_constraintStart_toStartOf="@+id/sheet_strength_label" />
@@ -196,9 +195,9 @@
             android:id="@+id/sheet_presence_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.presence)}"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/sheet_presence_label"
             app:layout_constraintStart_toEndOf="@+id/sheet_presence_label"
             tools:text="0" />
@@ -207,9 +206,10 @@
             android:id="@+id/sheet_toughness_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="@font/joke"
             android:text="@string/toughness_string"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/sheet_toughness_value_text"
             app:layout_constraintEnd_toStartOf="@+id/sheet_toughness_value_text" />
 
@@ -217,9 +217,9 @@
             android:id="@+id/sheet_toughness_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/finished_sympathy"
+            android:fontFamily="@font/joke"
             android:text="@{DataBindingConverter.convertIntToString(characterSheetViewModel.character.toughness)}"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/sheet_custom_roller"
             app:layout_constraintEnd_toEndOf="@+id/sheet_custom_roller"
             tools:text="3" />

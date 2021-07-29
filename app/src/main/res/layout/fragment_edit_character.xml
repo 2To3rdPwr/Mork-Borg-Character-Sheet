@@ -18,15 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/character_portrait"-->
-<!--            android:layout_width="@dimen/portrait_size"-->
-<!--            android:layout_height="@dimen/portrait_size"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            tools:srcCompat="@tools:sample/avatars" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/character_portrait"-->
+        <!--            android:layout_width="@dimen/portrait_size"-->
+        <!--            android:layout_height="@dimen/portrait_size"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            tools:srcCompat="@tools:sample/avatars" />-->
 
         <EditText
             android:id="@+id/character_name_edit_text"
@@ -36,10 +36,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:fontFamily="@font/the_dark"
+            android:fontFamily="@font/grave_digger"
             android:hint="@string/name_string"
             android:inputType="textPersonName|textCapWords"
             android:text="@={viewModel.characterName}"
+            android:textSize="34sp"
             app:layout_constraintEnd_toStartOf="@+id/level_up_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,8 +61,9 @@
             android:id="@+id/level_up_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/white_on_black"
+            android:fontFamily="@font/joke"
             android:text="@string/level_up_string"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/character_name_edit_text"
             app:layout_constraintEnd_toEndOf="@+id/level_up_icon"
             app:layout_constraintHorizontal_bias="0.5"
@@ -76,8 +78,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
+            android:fillViewport="false"
             app:layout_constraintBottom_toTopOf="@+id/edit_strength_edit_text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_min="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/character_name_edit_text">
 
@@ -105,11 +109,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/abandon"
-            android:text="@string/strength_string"
+            android:fontFamily="@font/janji_dilan"
             android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.STRENGTH)}"
+            android:text="@string/strength_string"
+            android:textSize="16sp"
+            android:textStyle="normal"
             app:layout_constraintBottom_toTopOf="@+id/edit_roll_agility_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_character_description_scroll_view"
+            app:layout_constraintVertical_bias="1.0" />
 
         <EditText
             android:id="@+id/edit_strength_edit_text"
@@ -130,9 +138,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/abandon"
-            android:text="@string/agility_string"
+            android:fontFamily="@font/a_charming_font"
             android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.AGILITY)}"
+            android:text="@string/agility_string"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/edit_roll_presence_button"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -154,9 +163,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/abandon"
-            android:text="@string/presence_string"
+            android:fontFamily="@font/celexa"
             android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.PRESENCE)}"
+            android:text="@string/presence_string"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/edit_roll_toughness_button"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -178,9 +188,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/abandon"
-            android:text="@string/toughness_string"
+            android:fontFamily="@font/odinson"
             android:onClick="@{() -> viewModel.onAbilityRolled(AbilityType.TOUGHNESS)}"
+            android:text="@string/toughness_string"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/edit_roll_hp_button"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -202,9 +213,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/abandon"
-            android:text="@string/hit_points"
+            android:fontFamily="@font/grave_digger"
             android:onClick="@{() -> viewModel.onHPRolled()}"
+            android:text="@string/hit_points"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/edit_character_save_button"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -226,9 +238,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/enchanted_land"
+            android:onClick="@{() -> viewModel.onSave()}"
             android:text="@string/save_string"
             android:textSize="18sp"
-            android:onClick="@{() -> viewModel.onSave()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -237,8 +249,8 @@
             android:id="@+id/improvement_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="level_up_icon, level_up_label"
-            android:visibility="@{viewModel.newCharacter ? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{viewModel.newCharacter ? View.GONE : View.VISIBLE}"
+            app:constraint_referenced_ids="level_up_icon, level_up_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

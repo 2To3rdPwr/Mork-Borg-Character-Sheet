@@ -21,25 +21,27 @@
             android:layout_width="@dimen/rolled_dice_icon_size"
             android:layout_height="@dimen/rolled_dice_icon_size"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="1dp"
-            app:tint="@color/mb_pink"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_power_dr"
-            app:srcCompat="@drawable/dice" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_power_name_text"
+            app:srcCompat="@drawable/dice"
+            app:tint="@color/mb_pink" />
 
         <TextView
             android:id="@+id/dialog_power_name_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/the_dark"
+            android:fontFamily="@font/a_charming_font"
             android:text="@{viewModel.powerName}"
+            android:textAlignment="center"
             android:textColor="@{viewModel.fumble ? @color/mb_yellow : @color/mb_pink}"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/scrollView2"
             app:layout_constraintStart_toEndOf="@+id/dialog_power_dr"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Fireball" />
+            tools:text="Fireball"
+            tools:textColor="@color/mb_pink" />
 
         <TextView
             android:id="@+id/power_pres_test_text"
@@ -65,9 +67,9 @@
             android:text="@string/power_pres_dr_text"
             android:textColor="@color/mb_pink"
             android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/dialog_power_name_text"
             app:layout_constraintEnd_toEndOf="@+id/power_dice_icon"
-            app:layout_constraintStart_toStartOf="@+id/power_dice_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/power_dice_icon" />
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -101,11 +103,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/enchanted_land"
+            android:fontFamily="@font/celexa"
             android:onClick="@{() -> viewModel.onPowerComplete()}"
             android:text="@{viewModel.powerUseRoll >= 12 ? @string/success : @string/failure}"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:backgroundTint="@color/mb_pink"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

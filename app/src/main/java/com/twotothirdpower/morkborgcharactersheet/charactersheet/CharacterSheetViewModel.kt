@@ -432,6 +432,8 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
             val myCharacter: Character = getCharacter(characterId)
                     ?: throw IllegalArgumentException("Invalid characterId")
             _character.value = myCharacter
+            // Immediately save loaded character to timestamp it
+            saveCharacter()
 
             val myEquipment = getEquipment()
 

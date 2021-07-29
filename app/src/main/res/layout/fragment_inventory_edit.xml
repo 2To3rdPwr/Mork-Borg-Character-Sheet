@@ -42,7 +42,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:ems="10"
-                android:fontFamily="@font/the_dark"
+                android:fontFamily="@font/cut_the_crap"
                 android:hint="@string/item_name_hint"
                 android:inputType="textPersonName|textCapWords"
                 android:text="@={editInventoryViewModel.equipment.name}"
@@ -56,9 +56,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/dark_college"
+                android:fontFamily="@font/black_night"
                 android:text="@string/type_string"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fragment_item_new_icon" />
 
@@ -68,53 +69,54 @@
                 android:layout_height="wrap_content"
                 android:checkedButton="@={DataBindingConverter.convertItemTypeToRadioButton(editInventoryViewModel.equipment.type)}"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_text"
-                tools:layout_editor_absoluteX="8dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_item_new_type_text">
 
                 <RadioButton
                     android:id="@+id/fragment_item_new_weapon_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/abandon"
+                    android:fontFamily="@font/grave_digger"
                     android:text="@string/attack_string"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/fragment_item_new_power_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/abandon"
+                    android:fontFamily="@font/grave_digger"
                     android:text="@string/power_string"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/fragment_item_new_armor_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/abandon"
+                    android:fontFamily="@font/grave_digger"
                     android:text="@string/armor_string"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/fragment_item_new_shield_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/abandon"
+                    android:fontFamily="@font/grave_digger"
                     android:text="@string/shield_string"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/fragment_item_new_other_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/abandon"
+                    android:fontFamily="@font/grave_digger"
                     android:text="@string/other_string"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </RadioGroup>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,9 +129,10 @@
                     android:id="@+id/fragment_item_new_ability_select_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/dark_college"
+                    android:fontFamily="@font/black_night"
                     android:text="@string/weapon_type_label"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,27 +149,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
+                        android:fontFamily="@font/celexa"
                         android:text="@string/weapon_type_melee"
-                        android:textSize="12sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/fragment_item_new_presence_radio_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
+                        android:fontFamily="@font/celexa"
                         android:text="@string/weapon_type_ranged"
-                        android:textSize="12sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </RadioGroup>
 
                 <TextView
                     android:id="@+id/fragment_item_new_damage_roller_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/the_dark"
+                    android:fontFamily="@font/black_night"
                     android:text="@string/damage_string"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_item_ability_radio_group" />
 
@@ -186,9 +192,10 @@
                     android:id="@+id/fragment_item_new_armor_tier_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/dark_college"
+                    android:fontFamily="@font/black_night"
                     android:text="@string/armor_tier_string"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -205,24 +212,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
-                        android:text="@string/light_armor_string" />
+                        android:fontFamily="@font/celexa"
+                        android:text="@string/light_armor_string"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/fragment_tiem_new_medium_armor_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
-                        android:text="@string/medium_armor_string" />
+                        android:fontFamily="@font/celexa"
+                        android:text="@string/medium_armor_string"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/fragment_item_new_heavy_armor_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/abandon"
-                        android:text="@string/heavy_armor_string" />
+                        android:fontFamily="@font/celexa"
+                        android:text="@string/heavy_armor_string"
+                        android:textStyle="bold"
+                        tools:textSize="16sp" />
                 </RadioGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -325,9 +338,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:checked="@={editInventoryViewModel.equipment.limitedUses}"
-                android:fontFamily="@font/white_on_black"
+                android:fontFamily="@font/joke"
                 android:text="@string/limited_uses_string"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_item_new_description_roller_2"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -338,7 +351,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:ems="2"
-                android:fontFamily="@font/dark_college"
+                android:fontFamily="@font/cut_the_crap"
                 android:inputType="number"
                 android:text="@={DataBindingConverter.convertIntToString(editInventoryViewModel.staticUses)}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/fragment_item_new_limited_uses_toggle"
@@ -361,7 +374,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/the_dark"
+                android:fontFamily="@font/virgo_display"
                 android:onClick="@{() -> editInventoryViewModel.onItemSaved()}"
                 android:text="@string/save_string"
                 android:textSize="24sp"
