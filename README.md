@@ -8,5 +8,7 @@ Soothsayer is an independent production by Jake Sage and is not affiliated with 
 MÖRK BORG is copyright Ockult Örtmästare Games and Stockholm Kartell. 
 
 Fonts found at [DaFont](https://www.dafont.com/)
+
 Icons found at [FlatIcon](https://www.flaticon.com/)
+
 Art by Sarah Clark ([@siraccha](https://twitter.com/siraccha))
