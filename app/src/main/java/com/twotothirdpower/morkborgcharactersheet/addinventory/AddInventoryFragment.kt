@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.twotothirdpower.morkborgcharactersheet.R
-import com.twotothirdpower.morkborgcharactersheet.charactersheet.CharacterSheetViewModel
 import com.twotothirdpower.morkborgcharactersheet.database.CharacterDatabase
 import com.twotothirdpower.morkborgcharactersheet.databinding.FragmentInventoryAddBinding
 import com.twotothirdpower.morkborgcharactersheet.util.EquipmentListener
@@ -25,7 +24,7 @@ class AddInventoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory_add, container, false)
 
         val application = requireNotNull(this.activity).application

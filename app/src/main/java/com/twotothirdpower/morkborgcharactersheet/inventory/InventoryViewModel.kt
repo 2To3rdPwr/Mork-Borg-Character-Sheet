@@ -95,12 +95,12 @@ class InventoryViewModel(val characterId: Long = 1, dataSource: CharacterDatabas
     fun onStop() {
         // Save any currently expanded equipment when stopping
         viewModelScope.launch {
+            setSilver(silver.value?:0)
             _expandableEquipmentList.value!!.forEach { item ->
                 if (item.expanded) {
                     updateEquipment(item)
                 }
             }
-            setSilver(silver.value?:0)
         }
     }
 

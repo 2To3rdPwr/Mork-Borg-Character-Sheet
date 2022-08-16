@@ -10,6 +10,7 @@ import com.twotothirdpower.morkborgcharactersheet.models.AbilityType.*
 import kotlinx.coroutines.*
 import java.lang.IllegalArgumentException
 import java.util.*
+import kotlin.math.max
 import kotlin.random.Random
 import kotlin.math.min
 
@@ -124,7 +125,7 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     val defenceDamage: LiveData<Int>
         get() = _defenceDamage
     val minDefenceDamage: LiveData<Int> = Transformations.map(defenceDamage) {
-        Math.max(it, 0)
+        max(it, 0)
     }
 
     // Broken dialog
@@ -401,6 +402,9 @@ class CharacterSheetViewModel(private val characterId: Long, dataSource: Charact
     private suspend fun saveCharacter() {
         _character.value?.lastUsed = Date()
         withContext(Dispatchers.IO) {
+            // Workaround for weird race condition saving silver on inventory screen
+            val tempSilver = database.getSilver(characterId)?:0
+            character.value!!.silver = tempSilver
             database.updateCharacter(character.value!!)
         }
     }

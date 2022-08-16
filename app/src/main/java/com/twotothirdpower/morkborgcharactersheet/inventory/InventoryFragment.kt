@@ -73,6 +73,7 @@ class InventoryFragment : Fragment() {
         inventoryViewModel.editingItem.observe(viewLifecycleOwner, Observer { item ->
             if (item !== null) {
                 if (item == -1L) {
+                    // Adding new item
                     findNavController().navigate(CharacterSheetViewPagerFragmentDirections.actionCharacterSheetViewPagerFragmentToAddInventoryFragment(inventoryViewModel.characterId))
                 } else {
                     findNavController().navigate(
