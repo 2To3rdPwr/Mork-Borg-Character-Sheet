@@ -8,7 +8,7 @@ import java.lang.IllegalArgumentException
 
 class CharacterSheetViewModelFactory(private val characterId: Long, private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dataSource = CharacterDatabase.getInstance(application).characterDatabaseDAO
 
         if (modelClass.isAssignableFrom(CharacterSheetViewModel::class.java)){

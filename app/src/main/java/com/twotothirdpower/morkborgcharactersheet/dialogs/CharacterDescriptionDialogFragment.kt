@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.twotothirdpower.morkborgcharactersheet.R
-import kotlinx.android.synthetic.main.dialog_character_description.view.*
+import com.twotothirdpower.morkborgcharactersheet.databinding.DialogCharacterDescriptionBinding
 
 class CharacterDescriptionDialogFragment : DialogFragment() {
+    private var _binding: DialogCharacterDescriptionBinding? = null
+    private val binding get() = _binding!!
     companion object {
         const val TAG = "DescriptionDialog"
 
@@ -30,13 +31,14 @@ class CharacterDescriptionDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_character_description, container, false)
+    ): View {
+        _binding = DialogCharacterDescriptionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.description_dialog_name.text = arguments?.getString(KEY_NAME)
-        view.description_dialog_text.text = arguments?.getString(KEY_DESCRIPTION)
+        binding.descriptionDialogName.text = arguments?.getString(KEY_NAME)
+        binding.descriptionDialogText.text = arguments?.getString(KEY_DESCRIPTION)
     }
 }

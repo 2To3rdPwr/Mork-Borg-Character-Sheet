@@ -7,7 +7,7 @@ import java.lang.IllegalArgumentException
 
 class StartViewModelFactory (private val dataSource: CharacterDatabaseDAO) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StartViewModel::class.java)){
             return StartViewModel(dataSource) as T
         }
