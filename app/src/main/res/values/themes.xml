@@ -17,6 +17,8 @@
         <item name="android:textColor">@color/black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="spinnerDropDownItemStyle">@style/SpinnerTextViewStyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerTextViewStyle</item>
     </style>
 
     <style name="Theme.MorkBorgCharacterSheet.DialogBox" parent="Theme.AppCompat.Dialog.Alert">
@@ -30,5 +32,13 @@
     <style name="TabLayoutTextStyle">
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/cut_the_crap</item>
+    </style>
+
+    <style name="SpinnerTextViewStyle">
+        <item name="fontFamily">@font/zombie</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 </resources>

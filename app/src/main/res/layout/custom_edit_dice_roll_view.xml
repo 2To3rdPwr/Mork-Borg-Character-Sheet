@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
-            android:fontFamily="@font/grave_digger"
+            android:fontFamily="@font/zombie"
             android:gravity="right"
             android:inputType="number"
             android:text="@={DataBindingConverter.convertIntToString(diceAmount)}"
@@ -67,9 +67,9 @@
             android:id="@+id/custom_dice_roller_plus_1_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/zombie"
+            android:fontFamily="@font/grave_digger"
             android:text="+"
-            android:textSize="24sp" />
+            android:textSize="32sp" />
 
         <EditText
             android:id="@+id/custom_dice_roller_dice_bonus_edit_text"
@@ -88,7 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="24sp"
+            android:fontFamily="@font/grave_digger"
+            android:textSize="32sp"
             android:visibility="@{hideAbility ? View.GONE : View.VISIBLE}"
             tools:visibility="gone" />
 
